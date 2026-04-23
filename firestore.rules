@@ -3,20 +3,24 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // ============================================================
-    // FUNCIONES HELPER
+    // HELPERS
     // ============================================================
 
-    // Verifica si el usuario está autenticado
     function isAuthenticated() {
       return request.auth != null;
     }
 
-    // Verifica si el usuario tiene un rol específico (via Custom Claim)
-    function hasRole(role) {
-      return isAuthenticated() && request.auth.token.role == role;
+    // Safe role read: never throws if claim is missing.
+    function userRole() {
+      return isAuthenticated()
+        ? (request.auth.token.role is string ? request.auth.token.role : '')
+        : '';
     }
 
-    // Helpers por rol
+    function hasRole(role) {
+      return userRole() == role;
+    }
+
     function isAdmin() {
       return hasRole('ADMIN');
     }
@@ -29,113 +33,115 @@ service cloud.firestore {
       return hasRole('TEACHER') || isCoordinator();
     }
 
-    function isStudent() {
-      return isAuthenticated();
-    }
-
-    // Verifica si el usuario accede a su propio documento
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
     // ============================================================
-    // COLECCIÓN: users
+    // users
     // ============================================================
 
     match /users/{userId} {
-      // Cada usuario puede leer su propio perfil; ADMIN lee todos
-      allow read: if isOwner(userId) || isAdmin();
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
 
-      // Solo ADMIN puede crear/eliminar usuarios via consola
       allow create, delete: if isAdmin();
 
-      // El usuario puede editar su perfil pero NO cambiar su rol
-      allow update: if (isOwner(userId) && !('role' in request.resource.data.diff(resource.data).affectedKeys()))
-                    || isAdmin();
+      // Non-admin users cannot change their role. Compare final vs previous
+      // value directly so that sending the same role unchanged is allowed.
+      allow update: if isAdmin()
+        || (isOwner(userId)
+            && request.resource.data.role == resource.data.role
+            && request.resource.data.uid  == resource.data.uid);
     }
 
     // ============================================================
-    // COLECCIÓN: courses
+    // courses
     // ============================================================
 
     match /courses/{courseId} {
-      // Todos los usuarios autenticados pueden ver el catálogo
       allow read: if isAuthenticated();
-
-      // Solo coordinadores y administradores pueden gestionar cursos
       allow create, update, delete: if isCoordinator();
     }
 
     // ============================================================
-    // COLECCIÓN: teachers
+    // careers
+    // ============================================================
+
+    match /careers/{careerId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ============================================================
+    // teachers
     // ============================================================
 
     match /teachers/{teacherId} {
-      // El docente lee su propio perfil; coordinadores leen todos
-      allow read: if isOwner(teacherId) || isCoordinator();
-
-      // El docente puede actualizar su disponibilidad; coordinadores gestionan todo
+      allow get: if isOwner(teacherId) || isCoordinator();
+      allow list: if isCoordinator();
       allow create, delete: if isCoordinator();
       allow update: if isOwner(teacherId) || isCoordinator();
     }
 
     // ============================================================
-    // COLECCIÓN: classrooms
+    // classrooms
     // ============================================================
 
     match /classrooms/{classroomId} {
-      // Todos los autenticados pueden ver el listado de aulas
       allow read: if isAuthenticated();
-
-      // Solo coordinadores gestionan aulas
       allow create, update, delete: if isCoordinator();
     }
 
     // ============================================================
-    // COLECCIÓN: academic_periods
+    // academic_periods
     // ============================================================
 
     match /academic_periods/{periodId} {
-      // Todos los autenticados pueden ver los períodos
       allow read: if isAuthenticated();
-
-      // Solo ADMIN puede crear/editar períodos académicos
       allow create, update, delete: if isAdmin();
     }
 
     // ============================================================
-    // COLECCIÓN: enrollments
+    // enrollments
     // ============================================================
 
     match /enrollments/{enrollmentId} {
-      // El estudiante lee su propia matrícula; coordinadores leen todas
-      allow read: if (isAuthenticated() && resource.data.studentId == request.auth.uid)
-                  || isCoordinator();
+      allow get: if isCoordinator()
+        || (isAuthenticated() && resource.data.studentId == request.auth.uid);
+      allow list: if isCoordinator();
 
-      // El estudiante puede crear su propia matrícula
+      // A student may create their own enrollment as PENDING with sane totals.
+      // Heavy validation (credits, prerequisites) happens server-side in a
+      // Cloud Function that promotes the enrollment to VALIDATED.
       allow create: if isAuthenticated()
-                    && request.resource.data.studentId == request.auth.uid
-                    && request.resource.data.status == 'PENDING';
+        && request.resource.data.studentId == request.auth.uid
+        && request.resource.data.status == 'PENDING'
+        && request.resource.data.totalCredits is number
+        && request.resource.data.totalCredits >= 0
+        && request.resource.data.totalCredits <= 30
+        && request.resource.data.selectedCourses is list
+        && request.resource.data.selectedCourses.size() > 0
+        && request.resource.data.selectedCourses.size() <= 10;
 
-      // Solo coordinadores pueden validar (cambiar status a VALIDATED/REJECTED)
-      allow update: if isCoordinator();
-
-      // Solo coordinadores pueden eliminar matrículas
-      allow delete: if isCoordinator();
+      allow update, delete: if isCoordinator();
     }
 
     // ============================================================
-    // COLECCIÓN: schedules
+    // schedules (read-only for clients; written by Functions via Admin SDK)
     // ============================================================
 
     match /schedules/{scheduleId} {
-      // Todos los autenticados pueden leer horarios generados
       allow read: if isAuthenticated();
-
-      // Solo Cloud Functions pueden escribir horarios (Admin SDK bypasses rules)
-      // Esta regla previene escritura directa desde el cliente
       allow write: if false;
     }
 
+    // ============================================================
+    // default deny
+    // ============================================================
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
   }
 }
