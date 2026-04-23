@@ -1,0 +1,37 @@
+{
+  "name": "gestion-horarios-universitarios",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Sistema de generación de horarios universitarios con motor CSP sobre Firebase",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "lint": "npm -w frontend run lint && npm -w functions run lint",
+    "typecheck": "npm -w frontend run typecheck && npm -w functions run typecheck",
+    "test": "npm -w frontend run test && npm -w functions run test",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,yml,yaml}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,yml,yaml}\" --ignore-path .gitignore",
+    "rules:test": "npm -C tests/rules test",
+    "emulators": "firebase emulators:start"
+  },
+  "workspaces": [
+    "frontend",
+    "functions",
+    "tests/rules"
+  ],
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
+    "prettier": "^3.4.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

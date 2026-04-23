@@ -1,0 +1,42 @@
+name: CI · Firestore Rules
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "firestore.rules"
+      - "tests/rules/**"
+      - ".github/workflows/ci-rules.yml"
+      - "firebase.json"
+  pull_request:
+    paths:
+      - "firestore.rules"
+      - "tests/rules/**"
+      - ".github/workflows/ci-rules.yml"
+      - "firebase.json"
+
+jobs:
+  rules:
+    name: run @firebase/rules-unit-testing against emulator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Setup Java (required by Firestore emulator)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install (root)
+        run: npm ci --ignore-scripts
+
+      - name: Run rules tests
+        working-directory: tests/rules
+        run: npm test
