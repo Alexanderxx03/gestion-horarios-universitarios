@@ -35,6 +35,16 @@ function horaAMinutos(hora: string): number {
   return (partes[0] ?? 0) * 60 + (partes[1] ?? 0);
 }
 
+// Función de utilidad para barajar (shuffle) arreglos
+function shuffleArray<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j] as T, arr[i] as T];
+  }
+  return arr;
+}
+
 function franjasSeSuperponen(
   a: { diaSemana: number; horaInicio: string; horaFin: string },
   b: { diaSemana: number; horaInicio: string; horaFin: string },
@@ -224,8 +234,12 @@ export function resolverHorario(
       return null;
     }
 
-    for (let idx = 0; idx < dominio.length; idx++) {
-      const valor = dominio[idx]!;
+    // 🔥 Agregamos aleatoriedad aquí: barajamos el dominio para que explore
+    // diferentes ramas primero y entregue un horario diferente cada vez.
+    const dominioBarajado = shuffleArray(dominio);
+
+    for (let idx = 0; idx < dominioBarajado.length; idx++) {
+      const valor = dominioBarajado[idx]!;
 
       const hijoId = `${nodoActual.id}-${idx}`;
       const nodoHijo: NodoArbolCSP = {
