@@ -90,7 +90,16 @@ El corazón del sistema es un motor de **Constraint Satisfaction Problem (CSP)**
 
 ---
 
-## 🏗️ Arquitectura
+## 🏗️ Arquitectura (MERN Serverless)
+
+El proyecto está diseñado bajo una arquitectura **MERN Evolucionada (Serverless MERN)**, utilizando servicios gestionados en la nube para maximizar la escalabilidad y reducir el tiempo de respuesta a <2s.
+
+| Capa MERN clásica | Equivalencia Serverless implementada | Función en el Proyecto                                          |
+| ----------------- | ------------------------------------ | --------------------------------------------------------------- |
+| **M**ongoDB       | **Firestore (NoSQL)**                | Almacenamiento ágil de colecciones (Cursos, Aulas, Logs CSP).   |
+| **E**xpress       | **Cloud Functions (HTTP Triggers)**  | Enrutamiento de peticiones seguras desde el cliente.            |
+| **R**eact         | **React 19 + Vite**                  | SPA rápida, asíncrona y con estado global manejado por Zustand. |
+| **N**ode.js       | **Node.js 20 (Runtime)**             | Ejecución del motor CSP pesado (Backtracking) en el backend.    |
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -132,18 +141,17 @@ El corazón del sistema es un motor de **Constraint Satisfaction Problem (CSP)**
 
 ## 🛠️ Stack Tecnológico
 
-| Componente        | Tecnología                     | Versión             |
-| ----------------- | ------------------------------ | ------------------- |
-| **Frontend**      | React + Vite                   | React 19 / Vite 6   |
-| **Lenguaje**      | TypeScript                     | 5.x                 |
-| **Estilos**       | Vanilla CSS + CSS Variables    | —                   |
-| **Estado Global** | Zustand                        | 5.x                 |
-| **Base de Datos** | Firebase Firestore             | v10                 |
-| **Autenticación** | Firebase Authentication        | v10                 |
-| **Backend / API** | Firebase Cloud Functions       | Node.js 20          |
-| **Hosting**       | Firebase Hosting               | —                   |
-| **Motor CSP**     | Backtracking + MRV (TS nativo) | —                   |
-| **Metodología**   | Scrum                          | Sprints 1–2 semanas |
+| Componente               | Tecnología                                                     | Versión           |
+| ------------------------ | -------------------------------------------------------------- | ----------------- |
+| **Frontend**             | React + Vite                                                   | React 19 / Vite 6 |
+| **Lenguaje**             | TypeScript                                                     | 5.x               |
+| **Estilos**              | Vanilla CSS + CSS Variables                                    | —                 |
+| **Estado Global**        | Zustand                                                        | 5.x               |
+| **Base de Datos (M)**    | Firestore (Equivalente MongoDB)                                | v10               |
+| **Backend / API (E, N)** | Cloud Functions Node.js (Equivalente Express/Node)             | Node.js 20        |
+| **Hosting**              | Firebase Hosting                                               | —                 |
+| **Motor CSP**            | Backtracking + MRV (TS nativo)                                 | —                 |
+| **Metodología**          | Spec-Driven Development (Soportado por **Google Antigravity**) | TDD y Sprints     |
 
 ---
 
