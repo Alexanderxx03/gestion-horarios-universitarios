@@ -62,6 +62,14 @@ FRANJAS_SISTEMA.push(
   { diaSemana: 6, horaInicio: '10:00', horaFin: '12:00' },
 );
 
+export interface NodoArbolCSP {
+  id: string;
+  variable: string;
+  valorAsignado: string;
+  estado: 'explorando' | 'exito' | 'fallo' | 'podado';
+  hijos: NodoArbolCSP[];
+}
+
 export interface ResultadoResolvedor {
   exito: boolean;
   asignaciones: AsignacionHorario[];
@@ -70,6 +78,7 @@ export interface ResultadoResolvedor {
     nodosExplorados: number;
     retrocesos: number;
   };
+  arbolDeBusqueda?: NodoArbolCSP;
 }
 
 export function resolverHorario(
@@ -171,13 +180,28 @@ export function resolverHorario(
     return nuevosDominios;
   }
 
+  const nodoRaiz: NodoArbolCSP = {
+    id: 'root',
+    variable: 'Inicio del Motor CSP',
+    valorAsignado: '-',
+    estado: 'explorando',
+    hijos: [],
+  };
+
   function resolver(
     asignacionesActuales: AsignacionInternaCSP[],
     sinAsignar: VariableCSP[],
     doms: MapaDominios,
+    nodoActual: NodoArbolCSP,
   ): AsignacionInternaCSP[] | null {
-    if (Date.now() - inicio > 30_000) return null;
-    if (sinAsignar.length === 0) return asignacionesActuales;
+    if (Date.now() - inicio > 30_000) {
+      nodoActual.estado = 'fallo';
+      return null;
+    }
+    if (sinAsignar.length === 0) {
+      nodoActual.estado = 'exito';
+      return asignacionesActuales;
+    }
 
     nodosExplorados++;
 
@@ -194,8 +218,30 @@ export function resolverHorario(
     const mejor = sinAsignar[mejorIndice]!;
 
     const dominio = doms.get(mejor.cursoId) ?? [];
-    for (const valor of dominio) {
-      if (!esConsistente(valor, asignacionesActuales)) continue;
+
+    if (dominio.length === 0) {
+      nodoActual.estado = 'podado';
+      return null;
+    }
+
+    for (let idx = 0; idx < dominio.length; idx++) {
+      const valor = dominio[idx]!;
+
+      const hijoId = `${nodoActual.id}-${idx}`;
+      const nodoHijo: NodoArbolCSP = {
+        id: hijoId,
+        variable: mejor.cursoNombre,
+        valorAsignado: `${valor.docenteNombre} | ${valor.aulaNombre} | Día ${valor.diaSemana} (${valor.horaInicio}-${valor.horaFin})`,
+        estado: 'explorando',
+        hijos: [],
+      };
+      // Limitar el número de hijos renderizados para no saturar la BD si el árbol es masivo
+      if (idx < 50) nodoActual.hijos.push(nodoHijo);
+
+      if (!esConsistente(valor, asignacionesActuales)) {
+        nodoHijo.estado = 'fallo';
+        continue;
+      }
 
       const nuevasAsignaciones: AsignacionInternaCSP[] = [
         ...asignacionesActuales,
@@ -205,22 +251,36 @@ export function resolverHorario(
       const podado = verificacionAdelante(valor, restantes, doms, nuevasAsignaciones);
 
       if (podado !== null) {
-        const resultado = resolver(nuevasAsignaciones, restantes, podado);
-        if (resultado !== null) return resultado;
+        const resultado = resolver(nuevasAsignaciones, restantes, podado, nodoHijo);
+        if (resultado !== null) {
+          nodoHijo.estado = 'exito';
+          return resultado;
+        }
+      } else {
+        nodoHijo.estado = 'podado';
+      }
+
+      if (nodoHijo.estado === 'explorando') {
+        nodoHijo.estado = 'fallo';
       }
       retrocesos++;
     }
+
+    nodoActual.estado = 'fallo';
     return null;
   }
 
-  const solucion = resolver([], variables, dominios);
+  const solucion = resolver([], variables, dominios, nodoRaiz);
   const tiempoTotalMs = Date.now() - inicio;
+
+  if (solucion) nodoRaiz.estado = 'exito';
 
   if (!solucion) {
     return {
       exito: false,
       asignaciones: [],
       estadisticas: { tiempoTotalMs, nodosExplorados, retrocesos },
+      arbolDeBusqueda: nodoRaiz,
     };
   }
 
@@ -241,5 +301,6 @@ export function resolverHorario(
     exito: true,
     asignaciones,
     estadisticas: { tiempoTotalMs, nodosExplorados, retrocesos },
+    arbolDeBusqueda: nodoRaiz,
   };
 }

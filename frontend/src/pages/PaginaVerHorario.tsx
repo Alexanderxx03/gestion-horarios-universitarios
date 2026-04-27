@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useHorarioStore } from '@/stores/horario.store';
 import { GrillaHorario } from '@/components/GrillaHorario';
 
@@ -19,9 +20,9 @@ export function PaginaVerHorario() {
           <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
             Ve a la sección &quot;Generar Horario&quot; para crear una asignación óptima.
           </p>
-          <a href="/dashboard/generar" className="btn btn-primary">
+          <Link to="/dashboard/generar" className="btn btn-primary">
             🧠 Ir a Generar Horario
-          </a>
+          </Link>
         </div>
       </div>
     );

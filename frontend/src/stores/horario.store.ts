@@ -16,6 +16,7 @@ interface EstadoHorarioStore {
   nodosExplorados: number;
   retrocesos: number;
   mensajeError: string | null;
+  cspTreeId: string | null;
 
   /* Acciones */
   generarHorario: () => void;
@@ -39,14 +40,21 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
   nodosExplorados: 0,
   retrocesos: 0,
   mensajeError: null,
+  cspTreeId: null,
 
-  generarHorario: () => {
+  generarHorario: async () => {
     set({ estado: 'generando', mensajeError: null });
 
     // Ejecutar en un setTimeout para permitir que la UI muestre el estado "generando"
-    setTimeout(() => {
+    setTimeout(async () => {
       const { cursos, docentes, aulas } = get();
       const resultado = resolverHorario(cursos, docentes, aulas);
+
+      let treeId = null;
+      if (resultado.arbolDeBusqueda) {
+        const { guardarArbolCspEnFirebase } = await import('@/lib/cspLogger');
+        treeId = await guardarArbolCspEnFirebase(resultado.arbolDeBusqueda, resultado.estadisticas);
+      }
 
       if (resultado.exito) {
         set({
@@ -56,6 +64,7 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
           nodosExplorados: resultado.estadisticas.nodosExplorados,
           retrocesos: resultado.estadisticas.retrocesos,
           mensajeError: null,
+          cspTreeId: treeId,
         });
       } else {
         set({
@@ -64,6 +73,7 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
           tiempoGeneracionMs: resultado.estadisticas.tiempoTotalMs,
           nodosExplorados: resultado.estadisticas.nodosExplorados,
           retrocesos: resultado.estadisticas.retrocesos,
+          cspTreeId: treeId,
           mensajeError:
             'No se encontró una asignación de horario válida con las restricciones actuales.',
         });
@@ -79,6 +89,7 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
       nodosExplorados: 0,
       retrocesos: 0,
       mensajeError: null,
+      cspTreeId: null,
     });
   },
 

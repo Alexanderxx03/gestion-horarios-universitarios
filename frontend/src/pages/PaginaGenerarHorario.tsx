@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useHorarioStore } from '@/stores/horario.store';
 
 export function PaginaGenerarHorario() {
@@ -10,6 +11,7 @@ export function PaginaGenerarHorario() {
     nodosExplorados,
     retrocesos,
     mensajeError,
+    cspTreeId,
     generarHorario,
     reiniciarHorario,
     asignaciones,
@@ -157,13 +159,34 @@ export function PaginaGenerarHorario() {
             </div>
 
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-              <a href="/dashboard/horario" className="btn btn-primary">
+              <Link to="/dashboard/horario" className="btn btn-primary">
                 📅 Ver Grilla de Horarios
-              </a>
+              </Link>
               <button className="btn btn-secondary" onClick={reiniciarHorario}>
                 🔄 Regenerar
               </button>
             </div>
+
+            {cspTreeId && (
+              <div
+                style={{
+                  marginTop: '1.5rem',
+                  padding: '1rem',
+                  background: 'rgba(255, 171, 0, 0.1)',
+                  border: '1px solid var(--accent)',
+                  borderRadius: '12px',
+                  display: 'inline-block',
+                }}
+              >
+                <span style={{ fontSize: '1.2rem', marginRight: '0.5rem' }}>🔥</span>
+                <span style={{ fontWeight: 600, color: 'var(--accent)' }}>Árbol CSP Guardado</span>
+                <div
+                  style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}
+                >
+                  ID: {cspTreeId}
+                </div>
+              </div>
+            )}
           </>
         )}
 
