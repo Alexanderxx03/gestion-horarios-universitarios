@@ -49,6 +49,8 @@ function makeDeps(overrides: {
 
   const coursesPort: CourseRepoPort = {
     findByIds: async (ids) => courses.filter((c) => ids.includes(c.id)),
+    findAll: async () => courses,
+    findByPeriod: async () => courses,
   };
   const periodsPort: AcademicPeriodRepoPort = {
     findById: async (id) => (id === period.id ? period : null),
@@ -92,10 +94,7 @@ describe('validateEnrollment', () => {
 
   it('rejects when total credits exceed the period maximum', async () => {
     const deps = makeDeps({
-      courses: [
-        makeCourse({ id: 'c1', credits: 12 }),
-        makeCourse({ id: 'c2', credits: 12 }),
-      ],
+      courses: [makeCourse({ id: 'c1', credits: 12 }), makeCourse({ id: 'c2', credits: 12 })],
     });
     await expect(
       validateEnrollment(
