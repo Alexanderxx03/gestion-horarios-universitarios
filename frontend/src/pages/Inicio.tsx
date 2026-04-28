@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
@@ -20,6 +21,7 @@ export function Inicio() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [resetMsg, setResetMsg] = useState({ type: '', text: '' });
   const [isLoading, setIsLoading] = useState(false);
 
   // Refs for animation
@@ -175,6 +177,32 @@ export function Inicio() {
       console.error('Google Auth Error:', err);
       if (err.code !== 'auth/popup-closed-by-user') {
         setErrorMsg('Error al iniciar con Google');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePasswordReset = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+    setResetMsg({ type: '', text: '' });
+
+    if (!email) {
+      setResetMsg({ type: 'error', text: 'Por favor ingresa tu correo primero.' });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetMsg({ type: 'success', text: 'Enlace enviado. Revisa tu correo.' });
+    } catch (err: any) {
+      console.error('Reset Error:', err);
+      if (err.code === 'auth/user-not-found') {
+        setResetMsg({ type: 'error', text: 'No hay usuario registrado con este correo.' });
+      } else {
+        setResetMsg({ type: 'error', text: 'Error al enviar enlace.' });
       }
     } finally {
       setIsLoading(false);
@@ -398,6 +426,26 @@ export function Inicio() {
               </div>
             )}
 
+            {resetMsg.text && (
+              <div
+                className="form-stagger"
+                style={{
+                  textAlign: 'center',
+                  marginBottom: '1rem',
+                  background:
+                    resetMsg.type === 'success'
+                      ? 'var(--success-subtle, #d4edda)'
+                      : 'var(--danger-subtle)',
+                  color: resetMsg.type === 'success' ? 'var(--success, #155724)' : 'var(--danger)',
+                  padding: '0.5rem',
+                  borderRadius: '8px',
+                  fontSize: '0.875rem',
+                }}
+              >
+                {resetMsg.text}
+              </div>
+            )}
+
             <form onSubmit={handleEmailAuth}>
               <div className="form-group form-stagger" style={{ marginBottom: '1.25rem' }}>
                 <label className="form-label">Correo electrónico</label>
@@ -418,7 +466,11 @@ export function Inicio() {
                 >
                   <label className="form-label">Contraseña</label>
                   {mode === 'login' && (
-                    <a href="#" style={{ fontSize: '0.8rem', color: 'var(--accent)' }}>
+                    <a
+                      href="#"
+                      onClick={handlePasswordReset}
+                      style={{ fontSize: '0.8rem', color: 'var(--accent)', textDecoration: 'none' }}
+                    >
                       ¿Olvidaste tu contraseña?
                     </a>
                   )}
