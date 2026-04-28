@@ -1,3 +1,7 @@
+| Nombre |DNI|
+|--------|--------|
+| Jheyson Paul Paytan Huaman   | 72503013
+| Jack Alexander Rojas Lara  | 75888144
 <div align="center">
 
 # 🎓 Sistema de Gestión de Horarios Universitarios
