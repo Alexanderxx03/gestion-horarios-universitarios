@@ -116,16 +116,16 @@ El proyecto está diseñado bajo una arquitectura **MERN Evolucionada (Serverles
        │ Firestore SDK (directo)              │ HTTPS (callable)
        ▼                                      ▼
 ┌─────────────────────┐          ┌────────────────────────────┐
-│   FIREBASE AUTH     │          │   FIREBASE CLOUD FUNCTIONS │
-│  Google OAuth2      │          │        (Node.js)           │
-│  Email/Password     │          │  ┌─────────────────────┐   │
+│   AUTH (JWT)        │          │   BACKEND (NODE/EXPRESS)   │
+│  Generación Tokens  │          │                            │
+│  Validación         │          │  ┌─────────────────────┐   │
 └─────────────────────┘          │  │ Motor CSP           │   │
                                  │  │ (Backtracking+MRV)  │   │
        ┌─────────────────────────┤  ├─────────────────────┤   │
        │                         │  │ Validación Créditos │   │
        ▼                         │  ├─────────────────────┤   │
 ┌───────────────────────┐        │  │ Validación Prereqs  │   │
-│   FIREBASE FIRESTORE  │◄───────┤  └─────────────────────┘   │
+│       MONGODB         │◄───────┤  └─────────────────────┘   │
 │                       │        └────────────────────────────┘
 │  users                │
 │  courses              │
@@ -139,15 +139,15 @@ El proyecto está diseñado bajo una arquitectura **MERN Evolucionada (Serverles
 
 ---
 
-## 🔥 Stack Resumido
+## 🔥 Stack Resumido (MERN)
 
 | Capa          | Tecnología                             |
 | ------------- | -------------------------------------- |
 | Frontend      | React + Vite + TypeScript              |
-| Base de Datos | Firebase Firestore                     |
-| Autenticación | Firebase Authentication                |
-| Backend       | Firebase Cloud Functions (Node.js 20)  |
-| Hosting       | Firebase Hosting                       |
+| Base de Datos | MongoDB                                |
+| Autenticación | JSON Web Tokens (JWT)                  |
+| Backend       | Node.js + Express                      |
+| Hosting       | Vercel / Render                        |
 | Motor CSP     | Backtracking + MRV (TypeScript nativo) |
 
 ---

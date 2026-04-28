@@ -19,8 +19,7 @@ Para facilitar la evaluación y comprensión del proyecto, hemos dividido la doc
 
 El proyecto implementa una arquitectura **MERN evolucionada (Serverless MERN)** que garantiza máxima escalabilidad y tiempos de respuesta ultrarrápidos (< 2s).
 
-- **M (MongoDB) -> Firestore (NoSQL):** Almacenamiento de colecciones ágil e indexado.
-- **E (Express) -> Cloud Functions (HTTP Triggers):** Enrutamiento seguro y lógica de negocio.
-- **R (React) -> React 19 + Vite:** SPA rápida con estado global atómico (Zustand) y UI Glassmorphism (Tailwind + GSAP).
-- **N (Node.js) -> Node 20 (Runtime):** Entorno de ejecución en backend para el Motor CSP y validaciones de seguridad.
-- **Infraestructura:** Firebase Hosting (Web), Github Actions (CI/CD propuesto).
+- **Frontend:** React 19, TypeScript, Zustand, GSAP (Animaciones), Vite, TailwindCSS (Glassmorphism UI).
+- **Backend:** Node.js 20, Express.js, TypeScript, Arquitectura Hexagonal.
+- **Base de Datos & Auth:** MongoDB (Mongoose), JSON Web Tokens (JWT).
+- **Infraestructura:** Vercel (Frontend), Render (Backend API), Github Actions (CI/CD propuesto).
