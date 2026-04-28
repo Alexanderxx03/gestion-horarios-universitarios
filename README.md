@@ -307,26 +307,23 @@ firebase deploy --only firestore:rules
 
 ## 📚 Documentación Completa
 
-La documentación técnica completa ha sido generada siguiendo especificaciones TDD y CSP, y está disponible en la **Wiki del Repositorio**. Se han creado los siguientes documentos en la carpeta `wiki/`:
+La documentación técnica completa está disponible en la **[Wiki oficial del repositorio](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki)**:
 
-| Sección                                                                    | Descripción                                                 |
-| -------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| [🏠 Home](wiki/Home.md)                                                    | Portada, índice y tecnología base.                          |
-| [📋 Especificación de Requisitos](wiki/1.-Especificacion-de-Requisitos.md) | Casos de uso y reglas duras/blandas (Spec-Driven).          |
-| [🧠 Arquitectura y Motor CSP](wiki/2.-Arquitectura-y-Motor-CSP.md)         | Detalle del algoritmo Backtracking, MRV y Forward Checking. |
-| [🧪 Evidencia TDD y Pruebas](wiki/3.-Evidencia-TDD-y-Pruebas.md)           | Pruebas unitarias, validaciones Zod y Firebase Rules.       |
-
-### Documentación del Sprint 0 (`/docs`)
-
-| Documento                                                            | Descripción                           |
-| -------------------------------------------------------------------- | ------------------------------------- |
-| [Enfoque del Proyecto](docs/1_Enfoque_del_Proyecto.md)               | Metodología Scrum y stack tecnológico |
-| [Visión del Proyecto](docs/2_Vision_del_Proyecto.md)                 | Declaración de visión                 |
-| [Project Charter](docs/3_Project_Charter.md)                         | Acta de constitución                  |
-| [Supuestos y Restricciones](docs/4_Supuestos_y_Restricciones.md)     | Assumptions y constraints             |
-| [Equipo del Proyecto](docs/5_Equipo_del_Proyecto.md)                 | Roles y responsabilidades             |
-| [Análisis del Problema](docs/6_Analisis_del_Problema.md)             | Modelado CSP del problema             |
-| [Requerimientos Preliminares](docs/7_Requerimientos_Preliminares.md) | RF y RNF del sistema                  |
+| Sección                                                                                                                                | Descripción                                   |
+| -------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| [🏠 Home](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki)                                                       | Portada, índice y stack MERN.                 |
+| [📌 Visión y Descripción](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/01-Vision-y-Descripcion)               | Propósito, alcance y stakeholders.            |
+| [🏗️ Arquitectura del Sistema](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/02-Arquitectura-del-Sistema)       | Diagrama MERN, componentes y flujo principal. |
+| [🔥 Stack Tecnológico](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/03-Stack-Tecnologico)                     | MongoDB, Express, React, Node.js detallado.   |
+| [🗄️ Modelo de Datos](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/04-Modelo-de-Datos-Firestore)               | Esquemas Mongoose y colecciones MongoDB.      |
+| [🧠 Motor CSP](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/05-Motor-CSP)                                     | Backtracking, MRV, Forward Checking.          |
+| [👥 Roles y Funcionalidades](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/06-Roles-y-Funcionalidades)         | Permisos por rol del sistema.                 |
+| [📋 Requerimientos](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/07-Requerimientos)                           | RF y RNF del sistema.                         |
+| [⚙️ Instalación y Configuración](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/08-Instalacion-y-Configuracion) | Guía de instalación local con MongoDB.        |
+| [🚀 Despliegue](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/09-Despliegue-Firebase)                          | Deploy en Vercel + Render + MongoDB Atlas.    |
+| [✅ Estándares de Calidad](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/10-Estandares-Calidad)                | ISO 25010, OWASP, WCAG 2.1.                   |
+| [👨‍💻 Equipo](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/11-Equipo-del-Proyecto)                              | Roles y responsabilidades del equipo.         |
+| [📅 Historial de Sprints](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/12-Historial-Sprints)                  | Progreso por sprint.                          |
 
 ---
 
