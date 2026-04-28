@@ -42,4 +42,15 @@ export class FirestoreCourseRepo implements CourseRepoPort {
       .filter((snap) => snap.exists)
       .map((snap) => hydrate(snap.id, snap.data() as CourseDoc));
   }
+
+  async findAll(): Promise<Course[]> {
+    const db = adminDb();
+    const snapshot = await db.collection('courses').get();
+    return snapshot.docs.map((doc) => hydrate(doc.id, doc.data() as CourseDoc));
+  }
+
+  async findByPeriod(_periodId: string): Promise<Course[]> {
+    // En la versión actual todos los cursos activos aplican a todos los períodos
+    return this.findAll();
+  }
 }

@@ -46,13 +46,13 @@ La planificación manual de horarios académicos universitarios es un proceso **
 
 Este sistema automatiza completamente la generación de horarios mediante algoritmos de **Backtracking con heurísticas MRV (Minimum Remaining Values)** y **Forward Checking**, garantizando:
 
-| Garantía | Descripción |
-|---|---|
-| ✅ **Cero solapamientos** | Ningún docente, aula o estudiante ocupa dos espacios al mismo tiempo |
-| ✅ **Prerrequisitos validados** | La matrícula verifica automáticamente la cadena de cursos aprobados |
-| ✅ **Créditos controlados** | Límite de 20–22 créditos por período académico por estudiante |
+| Garantía                        | Descripción                                                          |
+| ------------------------------- | -------------------------------------------------------------------- |
+| ✅ **Cero solapamientos**       | Ningún docente, aula o estudiante ocupa dos espacios al mismo tiempo |
+| ✅ **Prerrequisitos validados** | La matrícula verifica automáticamente la cadena de cursos aprobados  |
+| ✅ **Créditos controlados**     | Límite de 20–22 créditos por período académico por estudiante        |
 | ✅ **Disponibilidad respetada** | Los docentes solo son asignados en sus ventanas horarias registradas |
-| ✅ **Capacidad de aula** | Ningún grupo supera el aforo del espacio asignado |
+| ✅ **Capacidad de aula**        | Ningún grupo supera el aforo del espacio asignado                    |
 
 ---
 
@@ -77,18 +77,29 @@ El corazón del sistema es un motor de **Constraint Satisfaction Problem (CSP)**
 ### Restricciones
 
 **Duras (no negociables):**
+
 - Un docente no puede dictar dos clases simultáneamente
 - Un aula no puede ser usada por dos cursos a la vez
 - Un estudiante no puede tener dos materias en el mismo horario
 - Máximo 20–22 créditos por estudiante por período
 
 **Blandas (optimización):**
+
 - Distribución coherente de carga horaria a lo largo de la semana
 - Equidad de carga entre docentes
 
 ---
 
-## 🏗️ Arquitectura
+## 🏗️ Arquitectura (MERN Serverless)
+
+El proyecto está diseñado bajo una arquitectura **MERN Evolucionada (Serverless MERN)**, utilizando servicios gestionados en la nube para maximizar la escalabilidad y reducir el tiempo de respuesta a <2s.
+
+| Capa MERN clásica | Equivalencia Serverless implementada | Función en el Proyecto                                          |
+| ----------------- | ------------------------------------ | --------------------------------------------------------------- |
+| **M**ongoDB       | **Firestore (NoSQL)**                | Almacenamiento ágil de colecciones (Cursos, Aulas, Logs CSP).   |
+| **E**xpress       | **Cloud Functions (HTTP Triggers)**  | Enrutamiento de peticiones seguras desde el cliente.            |
+| **R**eact         | **React 19 + Vite**                  | SPA rápida, asíncrona y con estado global manejado por Zustand. |
+| **N**ode.js       | **Node.js 20 (Runtime)**             | Ejecución del motor CSP pesado (Backtracking) en el backend.    |
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -105,16 +116,16 @@ El corazón del sistema es un motor de **Constraint Satisfaction Problem (CSP)**
        │ Firestore SDK (directo)              │ HTTPS (callable)
        ▼                                      ▼
 ┌─────────────────────┐          ┌────────────────────────────┐
-│   FIREBASE AUTH     │          │   FIREBASE CLOUD FUNCTIONS │
-│  Google OAuth2      │          │        (Node.js)           │
-│  Email/Password     │          │  ┌─────────────────────┐   │
+│   AUTH (JWT)        │          │   BACKEND (NODE/EXPRESS)   │
+│  Generación Tokens  │          │                            │
+│  Validación         │          │  ┌─────────────────────┐   │
 └─────────────────────┘          │  │ Motor CSP           │   │
                                  │  │ (Backtracking+MRV)  │   │
        ┌─────────────────────────┤  ├─────────────────────┤   │
        │                         │  │ Validación Créditos │   │
        ▼                         │  ├─────────────────────┤   │
 ┌───────────────────────┐        │  │ Validación Prereqs  │   │
-│   FIREBASE FIRESTORE  │◄───────┤  └─────────────────────┘   │
+│       MONGODB         │◄───────┤  └─────────────────────┘   │
 │                       │        └────────────────────────────┘
 │  users                │
 │  courses              │
@@ -128,20 +139,16 @@ El corazón del sistema es un motor de **Constraint Satisfaction Problem (CSP)**
 
 ---
 
-## 🛠️ Stack Tecnológico
+## 🔥 Stack Resumido (MERN)
 
-| Componente | Tecnología | Versión |
-|---|---|---|
-| **Frontend** | React + Vite | React 19 / Vite 6 |
-| **Lenguaje** | TypeScript | 5.x |
-| **Estilos** | Vanilla CSS + CSS Variables | — |
-| **Estado Global** | Zustand | 5.x |
-| **Base de Datos** | Firebase Firestore | v10 |
-| **Autenticación** | Firebase Authentication | v10 |
-| **Backend / API** | Firebase Cloud Functions | Node.js 20 |
-| **Hosting** | Firebase Hosting | — |
-| **Motor CSP** | Backtracking + MRV (TS nativo) | — |
-| **Metodología** | Scrum | Sprints 1–2 semanas |
+| Capa          | Tecnología                             |
+| ------------- | -------------------------------------- |
+| Frontend      | React + Vite + TypeScript              |
+| Base de Datos | MongoDB                                |
+| Autenticación | JSON Web Tokens (JWT)                  |
+| Backend       | Node.js + Express                      |
+| Hosting       | Vercel / Render                        |
+| Motor CSP     | Backtracking + MRV (TypeScript nativo) |
 
 ---
 
@@ -279,64 +286,60 @@ firebase deploy --only firestore:rules
 
 ### URLs del Proyecto
 
-| Servicio | URL |
-|---|---|
-| **Hosting** | `https://tu-proyecto.web.app` |
-| **Firestore Console** | [console.firebase.google.com](https://console.firebase.google.com/) |
-| **Functions Logs** | `firebase functions:log` |
+| Servicio                 | URL                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| **Hosting (Producción)** | [https://gestion-unihorarios.web.app/](https://gestion-unihorarios.web.app/) |
+| **Firestore Console**    | [console.firebase.google.com](https://console.firebase.google.com/)          |
+| **Functions Logs**       | `firebase functions:log`                                                     |
 
 ---
 
 ## 👥 Roles del Sistema
 
-| Rol | Permisos |
-|---|---|
-| **ADMIN** | Gestión completa: usuarios, períodos, configuración global |
+| Rol             | Permisos                                                        |
+| --------------- | --------------------------------------------------------------- |
+| **ADMIN**       | Gestión completa: usuarios, períodos, configuración global      |
 | **COORDINATOR** | CRUD de cursos, docentes, aulas; activar generación de horarios |
-| **TEACHER** | Ver su horario asignado, registrar disponibilidad |
-| **STUDENT** | Matrícula de cursos, visualizar horario personal generado |
+| **TEACHER**     | Ver su horario asignado, registrar disponibilidad               |
+| **STUDENT**     | Matrícula de cursos, visualizar horario personal generado       |
 
 ---
 
 ## 📚 Documentación Completa
 
-La documentación técnica completa está disponible en el **[Wiki del Repositorio](../../wiki)**:
+La documentación técnica completa ha sido generada siguiendo especificaciones TDD y CSP, y está disponible en la **Wiki del Repositorio**. Se han creado los siguientes documentos en la carpeta `wiki/`:
 
-| Sección | Descripción |
-|---|---|
-| [🏠 Home](../../wiki/Home) | Portada y guía rápida |
-| [🔭 Visión y Descripción](../../wiki/01-Vision-y-Descripcion) | Propósito, problema y stakeholders |
-| [🏗️ Arquitectura](../../wiki/02-Arquitectura-del-Sistema) | Diagrama de componentes Firebase |
-| [🔥 Modelo de Datos](../../wiki/04-Modelo-de-Datos-Firestore) | Colecciones Firestore con esquemas |
-| [🧠 Motor CSP](../../wiki/05-Motor-CSP) | Algoritmo, variables y restricciones |
-| [⚙️ Instalación](../../wiki/08-Instalacion-y-Configuracion) | Setup paso a paso |
-| [🚀 Despliegue](../../wiki/09-Despliegue-Firebase) | Firebase deploy completo |
-| [📋 Sprint 0](../../wiki/12-Historial-Sprints) | Documentos de inicio del proyecto |
+| Sección                                                                    | Descripción                                                 |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| [🏠 Home](wiki/Home.md)                                                    | Portada, índice y tecnología base.                          |
+| [📋 Especificación de Requisitos](wiki/1.-Especificacion-de-Requisitos.md) | Casos de uso y reglas duras/blandas (Spec-Driven).          |
+| [🧠 Arquitectura y Motor CSP](wiki/2.-Arquitectura-y-Motor-CSP.md)         | Detalle del algoritmo Backtracking, MRV y Forward Checking. |
+| [🧪 Evidencia TDD y Pruebas](wiki/3.-Evidencia-TDD-y-Pruebas.md)           | Pruebas unitarias, validaciones Zod y Firebase Rules.       |
 
 ### Documentación del Sprint 0 (`/docs`)
 
-| Documento | Descripción |
-|---|---|
-| [Enfoque del Proyecto](docs/1_Enfoque_del_Proyecto.md) | Metodología Scrum y stack tecnológico |
-| [Visión del Proyecto](docs/2_Vision_del_Proyecto.md) | Declaración de visión |
-| [Project Charter](docs/3_Project_Charter.md) | Acta de constitución |
-| [Supuestos y Restricciones](docs/4_Supuestos_y_Restricciones.md) | Assumptions y constraints |
-| [Equipo del Proyecto](docs/5_Equipo_del_Proyecto.md) | Roles y responsabilidades |
-| [Análisis del Problema](docs/6_Analisis_del_Problema.md) | Modelado CSP del problema |
-| [Requerimientos Preliminares](docs/7_Requerimientos_Preliminares.md) | RF y RNF del sistema |
+| Documento                                                            | Descripción                           |
+| -------------------------------------------------------------------- | ------------------------------------- |
+| [Enfoque del Proyecto](docs/1_Enfoque_del_Proyecto.md)               | Metodología Scrum y stack tecnológico |
+| [Visión del Proyecto](docs/2_Vision_del_Proyecto.md)                 | Declaración de visión                 |
+| [Project Charter](docs/3_Project_Charter.md)                         | Acta de constitución                  |
+| [Supuestos y Restricciones](docs/4_Supuestos_y_Restricciones.md)     | Assumptions y constraints             |
+| [Equipo del Proyecto](docs/5_Equipo_del_Proyecto.md)                 | Roles y responsabilidades             |
+| [Análisis del Problema](docs/6_Analisis_del_Problema.md)             | Modelado CSP del problema             |
+| [Requerimientos Preliminares](docs/7_Requerimientos_Preliminares.md) | RF y RNF del sistema                  |
 
 ---
 
 ## 👨‍💻 Equipo
 
-| Rol | Responsabilidad |
-|---|---|
-| **Scrum Master / Analista** | Metodología ágil, documentación, GitHub |
-| **Product Owner / Arquitecto** | Visión del producto, decisiones técnicas, Backlog |
-| **Full-Stack Developer** | Frontend React + Firebase Functions + UI Premium |
-| **Algoritmos Engineer** | Diseño e implementación del motor CSP (Backtracking + MRV) |
+| Rol                            | Responsabilidad                                            |
+| ------------------------------ | ---------------------------------------------------------- |
+| **Scrum Master / Analista**    | Metodología ágil, documentación, GitHub                    |
+| **Product Owner / Arquitecto** | Visión del producto, decisiones técnicas, Backlog          |
+| **Full-Stack Developer**       | Frontend React + Firebase Functions + UI Premium           |
+| **Algoritmos Engineer**        | Diseño e implementación del motor CSP (Backtracking + MRV) |
 
-> *Proyecto académico — Taller de Proyectos 2, 2026*
+> _Proyecto académico — Taller de Proyectos 2, 2026_
 
 ---
 
