@@ -139,17 +139,16 @@ El proyecto está diseñado bajo una arquitectura **MERN Evolucionada (Serverles
 
 ---
 
-## 🛠️ Stack Tecnológico
+## 🔥 Stack Resumido
 
-| Capa (MERN)                  | Tecnología Implementada                          |
-| ---------------------------- | ------------------------------------------------ |
-| **Frontend (React)**         | React 19 + Vite + TypeScript                     |
-| **Base de Datos (MongoDB)**  | Firebase Firestore (NoSQL)                       |
-| **Autenticación**            | Firebase Authentication                          |
-| **Backend (Express & Node)** | Firebase Cloud Functions (Node.js 20)            |
-| **Hosting**                  | Firebase Hosting                                 |
-| **Motor CSP**                | Backtracking + MRV (TypeScript nativo)           |
-| **Metodología**              | Spec-Driven Development (con Google Antigravity) |
+| Capa          | Tecnología                             |
+| ------------- | -------------------------------------- |
+| Frontend      | React + Vite + TypeScript              |
+| Base de Datos | Firebase Firestore                     |
+| Autenticación | Firebase Authentication                |
+| Backend       | Firebase Cloud Functions (Node.js 20)  |
+| Hosting       | Firebase Hosting                       |
+| Motor CSP     | Backtracking + MRV (TypeScript nativo) |
 
 ---
 
