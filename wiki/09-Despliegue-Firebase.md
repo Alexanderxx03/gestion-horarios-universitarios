@@ -1,122 +1,92 @@
-# 09 · Despliegue en Firebase
+# 09 · Despliegue (MERN en la Nube)
 
-## Requisitos Previos
+## Arquitectura de Despliegue
 
-- Firebase CLI instalada y sesión activa (`firebase login`)
-- Proyecto Firebase creado y vinculado localmente (`.firebaserc`)
-- Build del frontend generado (`npm run build` en `/frontend`)
+| Capa                        | Plataforma    | URL                                            |
+| --------------------------- | ------------- | ---------------------------------------------- |
+| **Frontend (React)**        | Vercel        | `https://gestion-unihorarios.vercel.app`       |
+| **Backend (Node/Express)**  | Render        | `https://gestion-unihorarios-api.onrender.com` |
+| **Base de Datos (MongoDB)** | MongoDB Atlas | Cluster M0 (gratuito)                          |
 
 ---
 
-## Despliegue Completo (Recomendado)
+## Despliegue del Frontend en Vercel
 
 ```bash
-# 1. Generar el build de producción del frontend
+# 1. Generar el build de producción
 cd frontend
 npm run build
-cd ..
 
-# 2. Desplegar todo: hosting + reglas + índices
-firebase deploy
+# 2. Instalar CLI de Vercel (si no la tienes)
+npm install -g vercel
+
+# 3. Desplegar
+vercel --prod
+```
+
+O conectar directamente el repositorio de GitHub en [vercel.com](https://vercel.com) y Vercel hará el deploy automático en cada push a `main`.
+
+### Variables de Entorno en Vercel
+
+Configurar en el panel de Vercel → Settings → Environment Variables:
+
+```
+VITE_API_BASE_URL=https://gestion-unihorarios-api.onrender.com/api
+VITE_APP_NAME=UniHorarios
 ```
 
 ---
 
-## Despliegues Individuales
+## Despliegue del Backend en Render
 
 ```bash
-# Solo el frontend estático
-firebase deploy --only hosting
+# El deploy es automático desde GitHub
+# Solo se necesita configurar Render con el repositorio
+```
 
-# Solo las Cloud Functions
-firebase deploy --only functions
+Configurar en [render.com](https://render.com):
 
-# Solo las reglas de Firestore
-firebase deploy --only firestore:rules
+1. Crear nuevo **Web Service**
+2. Conectar repositorio GitHub
+3. **Root Directory:** `functions`
+4. **Build Command:** `npm install && npm run build`
+5. **Start Command:** `npm start`
 
-# Solo los índices de Firestore
-firebase deploy --only firestore:indexes
+### Variables de Entorno en Render
 
-# Hosting + Functions (sin reglas)
-firebase deploy --only hosting,functions
+```
+PORT=3001
+MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/gestion-horarios
+JWT_SECRET=clave_secreta_muy_larga_y_segura
+JWT_EXPIRES_IN=7d
+NODE_ENV=production
 ```
 
 ---
 
-## Verificar el Despliegue
+## Base de Datos: MongoDB Atlas
 
-```bash
-# Ver el estado del hosting
-firebase hosting:channel:list
-
-# Abrir la URL del sitio en el navegador
-firebase open hosting:site
-
-# Ver logs de Cloud Functions en tiempo real
-firebase functions:log --follow
-```
+1. Ir a [cloud.mongodb.com](https://cloud.mongodb.com)
+2. Crear proyecto y cluster **M0 (gratuito)**
+3. Crear usuario de base de datos con permisos de lectura/escritura
+4. Obtener la **Connection String** y usarla como `MONGODB_URI`
+5. Agregar la IP de Render a la **IP Allowlist** (o usar `0.0.0.0/0` para permitir todas)
 
 ---
 
-## URLs del Proyecto Desplegado
+## CI/CD con GitHub Actions
 
-| Recurso | URL |
-|---|---|
-| **Aplicación Web** | `https://gestion-horarios-uni.web.app` |
-| **Firebase Console** | [console.firebase.google.com/project/gestion-horarios-uni](https://console.firebase.google.com/) |
-| **Firestore Database** | Sección Firestore en la Console |
-| **Functions Logs** | Sección Functions → Logs en la Console |
-
----
-
-## Configuración de Seguridad para Producción
-
-### Dominio Autorizado en Firebase Auth
-
-Antes de hacer deploy, agregar el dominio de Firebase Hosting como dominio autorizado:
-
-1. Ir a Firebase Console → Authentication → Settings → Domains autorizados
-2. Agregar `gestion-horarios-uni.web.app`
-3. Agregar `gestion-horarios-uni.firebaseapp.com`
-
-### Reglas de Firestore en Producción
-
-Las reglas de producción están en `firestore.rules`. Verificarlas antes del deploy:
-
-```bash
-# Probar las reglas sin desplegaer
-firebase firestore:rules:get
-```
-
----
-
-## Preview Channels (Deploy de Vista Previa)
-
-Firebase Hosting permite crear canales de preview para probar cambios sin afectar producción:
-
-```bash
-# Crear un canal de preview temporal (expira en 7 días)
-firebase hosting:channel:deploy sprint-1-preview --expires 7d
-
-# Ver la URL del canal
-# → https://gestion-horarios-uni--sprint-1-preview-abc123.web.app
-```
-
----
-
-## CI/CD con GitHub Actions (Opcional)
-
-Archivo `.github/workflows/firebase-deploy.yml`:
+Archivo `.github/workflows/deploy.yml`:
 
 ```yaml
-name: Deploy to Firebase Hosting
+name: Deploy MERN App
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build_and_deploy:
+  deploy_frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -125,36 +95,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
 
-      - name: Install frontend dependencies
-        run: cd frontend && npm ci
-
-      - name: Build frontend
-        run: cd frontend && npm run build
+      - name: Install & Build Frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
         env:
-          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
-          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
 
-      - name: Deploy to Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          channelId: live
-          projectId: gestion-horarios-uni
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
 ```
-
-### Configurar Secrets en GitHub
-
-1. Ir al repositorio → Settings → Secrets and variables → Actions
-2. Agregar cada variable `VITE_FIREBASE_*` como secret
-3. Generar y agregar `FIREBASE_SERVICE_ACCOUNT` desde Firebase Console → Service Accounts
 
 ---
 
@@ -162,18 +119,18 @@ jobs:
 
 ### Pre-deploy
 
-- [ ] Variables de entorno del frontend correctas (`.env.local` no se sube a Git)
-- [ ] `npm run build` sin errores
-- [ ] Reglas de Firestore revisadas
-- [ ] `firebase.json` configurado con el directorio `frontend/dist`
-- [ ] Dominio autorizado en Firebase Auth
+- [ ] Variables de entorno configuradas en Vercel y Render
+- [ ] `npm run build` sin errores en frontend
+- [ ] `npm run build` sin errores en functions (TypeScript)
+- [ ] MongoDB Atlas: usuario y IP configurados
+- [ ] `JWT_SECRET` configurado en Render
 
 ### Post-deploy
 
-- [ ] La URL de producción carga correctamente
-- [ ] Login con Google funciona en producción
-- [ ] Las Cloud Functions responden correctamente
-- [ ] Las reglas de Firestore bloquean accesos no autorizados
+- [ ] La URL de producción del frontend carga correctamente
+- [ ] Login funciona en producción
+- [ ] El backend responde en `/api/health`
+- [ ] La generación de horario funciona end-to-end
 
 ---
 

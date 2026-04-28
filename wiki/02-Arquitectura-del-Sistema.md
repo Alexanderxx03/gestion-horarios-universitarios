@@ -2,7 +2,7 @@
 
 ## Visión General
 
-El sistema adopta una arquitectura **100% serverless basada en Firebase**, eliminando la necesidad de servidores propios. El frontend es una **SPA estática** desplegada en Firebase Hosting, y toda la lógica de negocio pesada (incluyendo el motor CSP) se ejecuta en **Firebase Cloud Functions**.
+El sistema adopta una arquitectura **MERN** (MongoDB, Express, React, Node.js), eliminando la necesidad de servidores propios mediante el uso de servicios cloud. El frontend es una **SPA estática** desplegada en Vercel, y toda la lógica de negocio pesada (incluyendo el motor CSP) se ejecuta en un backend **Node.js + Express** desplegado en Render.
 
 ---
 
@@ -19,42 +19,41 @@ El sistema adopta una arquitectura **100% serverless basada en Firebase**, elimi
 │  │   Router)   │  │   Cards, UI) │  │                       │   │
 │  └─────────────┘  └──────────────┘  └───────────────────────┘   │
 └───────────────────────────┬───────────────────────────────────────┘
-                            │ HTTPS / Firebase SDK v10
+                            │ HTTPS / REST API
                             │
           ┌─────────────────┼────────────────────────┐
           │                 │                        │
           ▼                 ▼                        ▼
 ┌─────────────────┐ ┌────────────────┐ ┌─────────────────────────┐
-│ FIREBASE HOSTING│ │ FIREBASE AUTH  │ │  FIREBASE CLOUD         │
-│                 │ │                │ │  FUNCTIONS (Node.js 20) │
-│ Sirve la SPA    │ │ Google OAuth2  │ │                         │
-│ estática con    │ │ Email/Password │ │ ┌─────────────────────┐ │
-│ CDN global y    │ │                │ │ │ generateSchedule()  │ │
-│ SSL automático  │ │ JWT Tokens     │ │ │ Motor CSP           │ │
-│                 │ │ gestionados    │ │ │ Backtracking + MRV  │ │
-│ Routing SPA via │ │ por Firebase   │ │ ├─────────────────────┤ │
-│ firebase.json   │ │                │ │ │ validateEnrollment()│ │
-└─────────────────┘ └────────────────┘ │ │ Verificar prereqs   │ │
+│  VERCEL HOSTING │ │   AUTH (JWT)   │ │   BACKEND NODE.JS       │
+│                 │ │                │ │   (Express REST API)    │
+│ Sirve la SPA    │ │ Tokens JWT     │ │                         │
+│ estática con    │ │ firmados con   │ │ ┌─────────────────────┐ │
+│ CDN global y    │ │ secret propio  │ │ │ generateSchedule()  │ │
+│ SSL automático  │ │                │ │ │ Motor CSP           │ │
+│                 │ │ bcrypt para    │ │ │ Backtracking + MRV  │ │
+│                 │ │ hash passwords │ │ ├─────────────────────┤ │
+└─────────────────┘ └────────────────┘ │ │ validateEnrollment()│ │
+                                       │ │ Verificar prereqs   │ │
                                        │ │ y límite créditos   │ │
                                        │ ├─────────────────────┤ │
-                                       │ │ Triggers Auth       │ │
-                                       │ │ onCreate → crea doc  │ │
-                                       │ │ en /users           │ │
+                                       │ │ Middleware Auth JWT │ │
+                                       │ │ Protege todas las   │ │
+                                       │ │ rutas privadas      │ │
                                        │ └─────────────────────┘ │
                                        └──────────┬──────────────┘
-                                                  │ Admin SDK
+                                                  │ Mongoose ODM
                                                   ▼
                             ┌─────────────────────────────────────┐
-                            │        FIREBASE FIRESTORE           │
+                            │           MONGODB ATLAS             │
                             │                                     │
-                            │  /users          /courses           │
-                            │  /teachers       /classrooms        │
-                            │  /enrollments    /schedules         │
-                            │  /academic_periods                  │
+                            │  users          courses             │
+                            │  teachers       classrooms          │
+                            │  enrollments    schedules           │
+                            │  academic_periods                   │
                             │                                     │
-                            │  Reglas de seguridad granulares     │
-                            │  por rol (ADMIN, COORDINATOR,       │
-                            │  TEACHER, STUDENT)                  │
+                            │  Índices compuestos para            │
+                            │  búsquedas de horarios              │
                             └─────────────────────────────────────┘
 ```
 
@@ -64,15 +63,16 @@ El sistema adopta una arquitectura **100% serverless basada en Firebase**, elimi
 
 ### 1. Frontend — React + Vite SPA
 
-| Componente | Descripción | Tecnología |
-|---|---|---|
-| **App Shell** | Layout principal con sidebar y navegación | React Router v7 |
-| **Páginas** | Login, Dashboard, Cursos, Docentes, Aulas, Horarios | React |
-| **Grilla Horaria** | Visualización semana × horas del horario | CSS Grid + React |
-| **Estado Global** | Auth state, filtros, horario actual | Zustand |
-| **Servicios Firebase** | Wrappers sobre SDK Firestore + Functions | TypeScript |
+| Componente         | Descripción                                         | Tecnología       |
+| ------------------ | --------------------------------------------------- | ---------------- |
+| **App Shell**      | Layout principal con sidebar y navegación           | React Router v7  |
+| **Páginas**        | Login, Dashboard, Cursos, Docentes, Aulas, Horarios | React            |
+| **Grilla Horaria** | Visualización semana × horas del horario            | CSS Grid + React |
+| **Estado Global**  | Auth state, filtros, horario actual                 | Zustand          |
+| **Servicios API**  | Wrappers sobre REST API Express                     | TypeScript       |
 
 **Páginas por Rol:**
+
 ```
 /login                    → Pública
 /dashboard                → Todos los roles autenticados
@@ -83,39 +83,40 @@ El sistema adopta una arquitectura **100% serverless basada en Firebase**, elimi
 /student/schedule         → STUDENT
 ```
 
-### 2. Firebase Cloud Functions — Backend Serverless
+### 2. Backend Node.js + Express — API REST
 
-| Función | Tipo | Descripción |
-|---|---|---|
-| `generateSchedule` | Callable HTTPS | Dispara el motor CSP y guarda el resultado en Firestore |
-| `validateEnrollment` | Callable HTTPS | Verifica prerrequisitos y límite de créditos antes de matricular |
-| `onUserCreated` | Auth Trigger | Crea automáticamente el documento en `/users` al registrarse |
-| `exportSchedulePDF` | Callable HTTPS | Genera y devuelve el horario en formato PDF |
-| `exportScheduleExcel` | Callable HTTPS | Genera y devuelve el horario en formato Excel |
+| Endpoint                        | Método | Descripción                                         |
+| ------------------------------- | ------ | --------------------------------------------------- |
+| `POST /api/schedule/generate`   | POST   | Ejecuta el motor CSP y guarda el horario en MongoDB |
+| `POST /api/enrollment/validate` | POST   | Verifica prerrequisitos y límite de créditos        |
+| `POST /api/auth/register`       | POST   | Crea usuario y genera JWT                           |
+| `POST /api/export/pdf`          | POST   | Genera y devuelve el horario en formato PDF         |
+| `POST /api/export/excel`        | POST   | Genera y devuelve el horario en formato Excel       |
 
-### 3. Firebase Firestore — Base de Datos
+### 3. MongoDB — Base de Datos NoSQL
 
-Base de datos NoSQL en tiempo real. Las reglas de seguridad garantizan que:
+Base de datos basada en documentos (BSON). Los permisos de acceso se validan en el backend mediante middleware Express y tokens JWT:
+
 - **ADMIN** puede leer/escribir todo
 - **COORDINATOR** gestiona el catálogo académico
 - **TEACHER** solo lee su propia disponibilidad e horario
 - **STUDENT** solo lee su matrícula y horario personal
 
-Ver detalles del modelo en: [Modelo de Datos – Firestore →](04-Modelo-de-Datos-Firestore)
+Ver detalles del modelo en: [Modelo de Datos – MongoDB →](04-Modelo-de-Datos-Firestore)
 
-### 4. Firebase Authentication
+### 4. Autenticación JWT
 
-- **Google OAuth2:** Login con cuenta institucional Google
-- **Email/Password:** Para usuarios sin Google Workspace
-- **JWT Tokens:** Gestionados automáticamente por Firebase SDK
-- **Custom Claims:** El rol del usuario (ADMIN, COORDINATOR, etc.) se almacena como Custom Claim para ser verificado en las reglas de Firestore y en Functions
+- **Email/Password:** Autenticación con bcrypt para hash de contraseñas
+- **JWT Tokens:** Firmados con secret propio y validados en cada request
+- **Middleware Express:** Protege todas las rutas privadas (`/api/*`)
+- **Roles:** El rol del usuario se incluye en el payload del JWT y se verifica en el backend
 
 ---
 
 ## Flujo Principal: Generación de Horario
 
 ```
-Coordinator                Frontend              Cloud Function          Firestore
+Coordinator                Frontend              Backend Express         MongoDB
      │                        │                       │                      │
      │──── Click "Generar" ───►│                       │                      │
      │                        │──── Token JWT ────────►│                      │
@@ -128,25 +129,25 @@ Coordinator                Frontend              Cloud Function          Firesto
      │                        │                       │ (≤30 segundos)       │
      │                        │                       │                      │
      │                        │                       │──── Guardar ─────────►│
-     │                        │                       │     /schedules/{id}  │
+     │                        │                       │     schedules         │
      │                        │◄─── { scheduleId } ───│                      │
      │                        │                       │                      │
      │◄── Vista grilla ───────│                       │                      │
-     │    generada en tiempo  │◄──── onSnapshot() ────┤◄─── Realtime ────────│
-     │    real                │                       │                      │
+     │    generada            │◄──── GET schedule ────┤◄─── REST Response ───│
+     │                        │                       │                      │
 ```
 
 ---
 
 ## Seguridad
 
-| Capa | Mecanismo |
-|---|---|
-| **Autenticación** | Firebase Auth (JWT verificado en cada request) |
-| **Autorización** | Custom Claims + Firestore Security Rules |
-| **API Rules** | Functions verifican el token antes de ejecutar lógica |
-| **HTTPS** | Firebase Hosting fuerza HTTPS en todos los endpoints |
-| **OWASP** | Validación de inputs en Functions, sin SQL injection posible (NoSQL) |
+| Capa              | Mecanismo                                                               |
+| ----------------- | ----------------------------------------------------------------------- |
+| **Autenticación** | JWT (JSON Web Tokens) firmados con secret propio                        |
+| **Autorización**  | Middleware Express que verifica el payload del JWT                      |
+| **API Rules**     | Cada endpoint valida el token y el rol antes de ejecutar lógica         |
+| **HTTPS**         | Vercel y Render fuerzan HTTPS en todos los endpoints                    |
+| **OWASP**         | Validación de inputs con Zod, sin SQL injection posible (NoSQL MongoDB) |
 
 ---
 

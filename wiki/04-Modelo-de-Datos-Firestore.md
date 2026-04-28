@@ -1,53 +1,52 @@
-# 04 · Modelo de Datos – Firebase Firestore
+# 04 · Modelo de Datos – MongoDB
 
 ## Diseño NoSQL
 
-Firestore organiza los datos en **colecciones de documentos**. El modelo fue diseñado a partir del esquema SQL del proyecto de referencia, adaptado a la naturaleza NoSQL con énfasis en:
+MongoDB almacena los datos en **colecciones de documentos (BSON)**. El modelo fue diseñado a partir del esquema del proyecto de referencia, adaptado a la naturaleza NoSQL con énfasis en:
 
 - **Desnormalización selectiva:** Duplicar datos frecuentemente leídos juntos
-- **Subcolecciones:** Para datos con relación 1:N fuerte
-- **Referencias:** Para relaciones entre documentos de distintas colecciones
+- **Referencias entre documentos:** Para relaciones entre colecciones
+- **Índices compuestos:** Para consultas de horarios con múltiples filtros
 
 ---
 
 ## Mapa de Colecciones
 
 ```
-Firestore Database
+MongoDB Database
 │
-├── /users/{userId}                    ← Todos los usuarios del sistema
-├── /courses/{courseId}                ← Catálogo de cursos/asignaturas
-├── /teachers/{teacherId}              ← Perfil docente (extensión de user)
-├── /classrooms/{classroomId}          ← Aulas y laboratorios
-├── /academic_periods/{periodId}       ← Semestres / períodos académicos
-├── /enrollments/{enrollmentId}        ← Matrículas de estudiantes
-└── /schedules/{scheduleId}            ← Horarios generados por el motor CSP
+├── users                    ← Todos los usuarios del sistema
+├── courses                  ← Catálogo de cursos/asignaturas
+├── teachers                 ← Perfil docente (extensión de user)
+├── classrooms               ← Aulas y laboratorios
+├── academic_periods         ← Semestres / períodos académicos
+├── enrollments              ← Matrículas de estudiantes
+└── schedules                ← Horarios generados por el motor CSP
 ```
 
 ---
 
-## Esquemas Detallados
+## Esquemas Detallados (Mongoose)
 
-### `/users/{userId}`
+### `users`
 
-El `userId` es el mismo UID de Firebase Authentication.
-
-```json
+```js
 {
-  "uid": "firebase-auth-uid-abc123",
-  "email": "estudiante@universidad.edu",
-  "fullName": "Ana García López",
-  "role": "STUDENT",
-  "isActive": true,
-  "avatarUrl": "https://lh3.googleusercontent.com/...",
-  "profile": {
-    "dni": "1234567890",
-    "phone": "+593987654321",
-    "sex": "FEMALE",
-    "age": 21
+  _id: ObjectId,
+  email: "estudiante@universidad.edu",
+  passwordHash: "$2b$10$...",          // bcrypt hash
+  fullName: "Ana García López",
+  role: "STUDENT",                      // ADMIN | COORDINATOR | TEACHER | STUDENT
+  isActive: true,
+  avatarUrl: "https://...",
+  profile: {
+    dni: "1234567890",
+    phone: "+51987654321",
+    sex: "FEMALE",
+    age: 21
   },
-  "createdAt": "2026-01-15T08:00:00Z",
-  "updatedAt": "2026-04-10T10:30:00Z"
+  createdAt: ISODate("2026-01-15T08:00:00Z"),
+  updatedAt: ISODate("2026-04-10T10:30:00Z")
 }
 ```
 
@@ -55,64 +54,51 @@ El `userId` es el mismo UID de Firebase Authentication.
 
 ---
 
-### `/courses/{courseId}`
+### `courses`
 
-```json
+```js
 {
-  "id": "course-alg2-001",
-  "code": "ALG-201",
-  "name": "Algoritmos II",
-  "credits": 4,
-  "weeklyHours": 4,
-  "requiresLab": false,
-  "prerequisites": ["course-alg1-001", "course-ds-001"],
-  "maxCapacity": 30,
-  "isActive": true,
-  "careerId": "career-sistemas-001",
-  "semester": 3,
-  "createdAt": "2026-01-01T00:00:00Z"
+  _id: ObjectId,
+  code: "ALG-201",
+  name: "Algoritmos II",
+  credits: 4,
+  weeklyHours: 4,
+  requiresLab: false,
+  prerequisites: [ObjectId("..."), ObjectId("...")],   // refs a otros cursos
+  maxCapacity: 30,
+  isActive: true,
+  careerId: ObjectId("..."),
+  semester: 3,
+  createdAt: ISODate("2026-01-01T00:00:00Z")
 }
 ```
 
-| Campo | Tipo | Descripción |
-|---|---|---|
-| `code` | string | Código único de la asignatura |
-| `credits` | number | Créditos académicos (1–6 típico) |
-| `weeklyHours` | number | Horas de clase semanales |
-| `requiresLab` | boolean | Si necesita aula tipo laboratorio |
-| `prerequisites` | string[] | IDs de cursos que deben estar aprobados |
+| Campo           | Tipo       | Descripción                             |
+| --------------- | ---------- | --------------------------------------- |
+| `code`          | string     | Código único de la asignatura           |
+| `credits`       | number     | Créditos académicos (1–6 típico)        |
+| `weeklyHours`   | number     | Horas de clase semanales                |
+| `requiresLab`   | boolean    | Si necesita aula tipo laboratorio       |
+| `prerequisites` | ObjectId[] | Refs a cursos que deben estar aprobados |
 
 ---
 
-### `/teachers/{teacherId}`
+### `teachers`
 
-El `teacherId` es el mismo `userId` del docente en `/users`.
-
-```json
+```js
 {
-  "userId": "firebase-auth-uid-docente",
-  "employeeCode": "DOC-0042",
-  "department": "Ciencias de la Computación",
-  "maxHoursPerWeek": 20,
-  "availability": [
-    {
-      "dayOfWeek": 1,
-      "startTime": "08:00",
-      "endTime": "12:00"
-    },
-    {
-      "dayOfWeek": 1,
-      "startTime": "14:00",
-      "endTime": "18:00"
-    },
-    {
-      "dayOfWeek": 3,
-      "startTime": "08:00",
-      "endTime": "18:00"
-    }
+  _id: ObjectId,
+  userId: ObjectId("..."),             // ref a users
+  employeeCode: "DOC-0042",
+  department: "Ciencias de la Computación",
+  maxHoursPerWeek: 20,
+  availability: [
+    { dayOfWeek: 1, startTime: "08:00", endTime: "12:00" },
+    { dayOfWeek: 1, startTime: "14:00", endTime: "18:00" },
+    { dayOfWeek: 3, startTime: "08:00", endTime: "18:00" }
   ],
-  "qualifiedCourses": ["course-alg2-001", "course-bd-001"],
-  "updatedAt": "2026-04-01T00:00:00Z"
+  qualifiedCourses: [ObjectId("..."), ObjectId("...")],
+  updatedAt: ISODate("2026-04-01T00:00:00Z")
 }
 ```
 
@@ -120,63 +106,55 @@ El `teacherId` es el mismo `userId` del docente en `/users`.
 
 ---
 
-### `/classrooms/{classroomId}`
+### `classrooms`
 
-```json
+```js
 {
-  "id": "classroom-lab301",
-  "name": "Laboratorio 301",
-  "building": "Bloque C",
-  "floor": 3,
-  "capacity": 30,
-  "isLab": true,
-  "hasProjector": true,
-  "isActive": true
+  _id: ObjectId,
+  name: "Laboratorio 301",
+  building: "Bloque C",
+  floor: 3,
+  capacity: 30,
+  isLab: true,
+  hasProjector: true,
+  isActive: true
 }
 ```
 
 ---
 
-### `/academic_periods/{periodId}`
+### `academic_periods`
 
-```json
+```js
 {
-  "id": "period-2026-I",
-  "name": "2026-I",
-  "displayName": "Primer Semestre 2026",
-  "startDate": "2026-03-01T00:00:00Z",
-  "endDate": "2026-07-31T00:00:00Z",
-  "isActive": true,
-  "maxCredits": 22,
-  "minCredits": 12
+  _id: ObjectId,
+  name: "2026-I",
+  displayName: "Primer Semestre 2026",
+  startDate: ISODate("2026-03-01T00:00:00Z"),
+  endDate: ISODate("2026-07-31T00:00:00Z"),
+  isActive: true,
+  maxCredits: 22,
+  minCredits: 12
 }
 ```
 
 ---
 
-### `/enrollments/{enrollmentId}`
+### `enrollments`
 
-```json
+```js
 {
-  "id": "enroll-ana-2026I",
-  "studentId": "firebase-auth-uid-abc123",
-  "periodId": "period-2026-I",
-  "status": "VALIDATED",
-  "selectedCourses": [
-    {
-      "courseId": "course-alg2-001",
-      "courseName": "Algoritmos II",
-      "credits": 4
-    },
-    {
-      "courseId": "course-bd-001",
-      "courseName": "Bases de Datos",
-      "credits": 4
-    }
+  _id: ObjectId,
+  studentId: ObjectId("..."),           // ref a users
+  periodId: ObjectId("..."),            // ref a academic_periods
+  status: "VALIDATED",                  // PENDING | VALIDATED | REJECTED
+  selectedCourses: [
+    { courseId: ObjectId("..."), courseName: "Algoritmos II", credits: 4 },
+    { courseId: ObjectId("..."), courseName: "Bases de Datos", credits: 4 }
   ],
-  "totalCredits": 8,
-  "validatedAt": "2026-02-15T10:00:00Z",
-  "createdAt": "2026-02-10T08:00:00Z"
+  totalCredits: 8,
+  validatedAt: ISODate("2026-02-15T10:00:00Z"),
+  createdAt: ISODate("2026-02-10T08:00:00Z")
 }
 ```
 
@@ -184,144 +162,61 @@ El `teacherId` es el mismo `userId` del docente en `/users`.
 
 ---
 
-### `/schedules/{scheduleId}`
+### `schedules`
 
 Resultado del motor CSP. Cada asignación mapea un curso con un docente, aula y franja horaria.
 
-```json
+```js
 {
-  "id": "schedule-2026-I-v1",
-  "periodId": "period-2026-I",
-  "status": "GENERATED",
-  "generatedAt": "2026-02-20T15:30:00Z",
-  "generationTimeMs": 12450,
-  "conflictsFound": 0,
-  "assignments": [
+  _id: ObjectId,
+  periodId: ObjectId("..."),
+  status: "GENERATED",                  // PENDING | IN_PROGRESS | GENERATED | FAILED
+  generatedAt: ISODate("2026-02-20T15:30:00Z"),
+  generationTimeMs: 12450,
+  conflictsFound: 0,
+  assignments: [
     {
-      "courseId": "course-alg2-001",
-      "courseName": "Algoritmos II",
-      "teacherId": "firebase-auth-uid-docente",
-      "teacherName": "Dr. Carlos Mendoza",
-      "classroomId": "classroom-lab301",
-      "classroomName": "Laboratorio 301",
-      "dayOfWeek": 1,
-      "startTime": "08:00",
-      "endTime": "10:00",
-      "groupSize": 25
-    },
-    {
-      "courseId": "course-bd-001",
-      "courseName": "Bases de Datos",
-      "teacherId": "firebase-auth-uid-docente2",
-      "teacherName": "Ing. María Torres",
-      "classroomId": "classroom-aula201",
-      "classroomName": "Aula 201",
-      "dayOfWeek": 2,
-      "startTime": "10:00",
-      "endTime": "12:00",
-      "groupSize": 28
+      courseId: ObjectId("..."),
+      courseName: "Algoritmos II",
+      teacherId: ObjectId("..."),
+      teacherName: "Dr. Carlos Mendoza",
+      classroomId: ObjectId("..."),
+      classroomName: "Laboratorio 301",
+      dayOfWeek: 1,
+      startTime: "08:00",
+      endTime: "10:00",
+      groupSize: 25
     }
   ]
 }
 ```
 
-**`status`:** `PENDING` | `IN_PROGRESS` | `GENERATED` | `FAILED`
-
 ---
 
-## Reglas de Seguridad (Firestore Rules)
+## Índices Compuestos (Mongoose)
 
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
+```js
+// En enrollmentSchema
+enrollmentSchema.index({ studentId: 1, periodId: 1 });
 
-    // Función helper para verificar rol
-    function hasRole(role) {
-      return request.auth != null && request.auth.token.role == role;
-    }
+// En scheduleSchema
+scheduleSchema.index({ periodId: 1, status: 1 });
 
-    function isAdmin() { return hasRole('ADMIN'); }
-    function isCoordinator() { return hasRole('COORDINATOR') || isAdmin(); }
-    function isAuthenticated() { return request.auth != null; }
-
-    // /users: cada usuario lee su propio doc; ADMIN lee todos
-    match /users/{userId} {
-      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      allow write: if isAdmin();
-      allow update: if request.auth.uid == userId &&
-                       !('role' in request.resource.data);
-    }
-
-    // /courses: lectura pública autenticada; escritura solo COORDINATOR+
-    match /courses/{courseId} {
-      allow read: if isAuthenticated();
-      allow write: if isCoordinator();
-    }
-
-    // /teachers: el docente lee su propio perfil; COORDINATOR gestiona
-    match /teachers/{teacherId} {
-      allow read: if isAuthenticated() &&
-                     (request.auth.uid == teacherId || isCoordinator());
-      allow write: if isCoordinator() ||
-                      request.auth.uid == teacherId;
-    }
-
-    // /classrooms: lectura autenticada; escritura COORDINATOR+
-    match /classrooms/{classroomId} {
-      allow read: if isAuthenticated();
-      allow write: if isCoordinator();
-    }
-
-    // /academic_periods: lectura pública; escritura solo ADMIN
-    match /academic_periods/{periodId} {
-      allow read: if isAuthenticated();
-      allow write: if isAdmin();
-    }
-
-    // /enrollments: estudiante gestiona la suya; COORDINATOR lee todas
-    match /enrollments/{enrollmentId} {
-      allow read: if isAuthenticated() &&
-                     (resource.data.studentId == request.auth.uid || isCoordinator());
-      allow create: if isAuthenticated() &&
-                       request.resource.data.studentId == request.auth.uid;
-      allow update: if isCoordinator();
-    }
-
-    // /schedules: lectura autenticada; escritura solo via Cloud Functions
-    match /schedules/{scheduleId} {
-      allow read: if isAuthenticated();
-      allow write: if false; // Solo Cloud Functions pueden escribir
-    }
-  }
-}
+// En teacherSchema
+teacherSchema.index({ userId: 1 }, { unique: true });
 ```
 
 ---
 
-## Índices Compuestos
+## Middleware de Autorización (Express)
 
-```json
-{
-  "indexes": [
-    {
-      "collectionGroup": "enrollments",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "studentId", "order": "ASCENDING" },
-        { "fieldPath": "periodId", "order": "ASCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "schedules",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "periodId", "order": "ASCENDING" },
-        { "fieldPath": "status", "order": "ASCENDING" }
-      ]
-    }
-  ]
-}
+El acceso a los datos se controla mediante middleware en el servidor Express:
+
+```ts
+// Middleware de autenticación
+app.use('/api', verifyJWT); // Requiere token válido
+app.use('/api/admin', requireRole('ADMIN')); // Solo ADMIN
+app.use('/api/coordinator', requireRole(['ADMIN', 'COORDINATOR'])); // ADMIN + COORDINATOR
 ```
 
 ---
