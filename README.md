@@ -141,17 +141,15 @@ El proyecto está diseñado bajo una arquitectura **MERN Evolucionada (Serverles
 
 ## 🛠️ Stack Tecnológico
 
-| Componente               | Tecnología                                                     | Versión           |
-| ------------------------ | -------------------------------------------------------------- | ----------------- |
-| **Frontend**             | React + Vite                                                   | React 19 / Vite 6 |
-| **Lenguaje**             | TypeScript                                                     | 5.x               |
-| **Estilos**              | Vanilla CSS + CSS Variables                                    | —                 |
-| **Estado Global**        | Zustand                                                        | 5.x               |
-| **Base de Datos (M)**    | Firestore (Equivalente MongoDB)                                | v10               |
-| **Backend / API (E, N)** | Cloud Functions Node.js (Equivalente Express/Node)             | Node.js 20        |
-| **Hosting**              | Firebase Hosting                                               | —                 |
-| **Motor CSP**            | Backtracking + MRV (TS nativo)                                 | —                 |
-| **Metodología**          | Spec-Driven Development (Soportado por **Google Antigravity**) | TDD y Sprints     |
+| Capa (MERN)                  | Tecnología Implementada                          |
+| ---------------------------- | ------------------------------------------------ |
+| **Frontend (React)**         | React 19 + Vite + TypeScript                     |
+| **Base de Datos (MongoDB)**  | Firebase Firestore (NoSQL)                       |
+| **Autenticación**            | Firebase Authentication                          |
+| **Backend (Express & Node)** | Firebase Cloud Functions (Node.js 20)            |
+| **Hosting**                  | Firebase Hosting                                 |
+| **Motor CSP**                | Backtracking + MRV (TypeScript nativo)           |
+| **Metodología**              | Spec-Driven Development (con Google Antigravity) |
 
 ---
 
