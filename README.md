@@ -1,15 +1,18 @@
-| Nombre |DNI|
-|--------|--------|
-| Jheyson Paul Paytan Huaman   | 72503013
-| Jack Alexander Rojas Lara  | 75888144
+| Nombre                     | DNI      |
+| -------------------------- | -------- |
+| Jheyson Paul Paytan Huaman | 72503013 |
+| Jack Alexander Rojas Lara  | 75888144 |
+
 <div align="center">
 
 # 🎓 Sistema de Gestión de Horarios Universitarios
 
 **Plataforma web inteligente que genera automáticamente horarios académicos óptimos mediante un motor de Satisfacción de Restricciones (CSP), garantizando cero conflictos entre docentes, aulas y estudiantes.**
 
-[![Firebase](https://img.shields.io/badge/Firebase-Firestore_%7C_Hosting_%7C_Functions-FF6F00?style=for-the-badge&logo=firebase&logoColor=white)](https://firebase.google.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)](https://expressjs.com/)
 [![React](https://img.shields.io/badge/React_+_Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://vitejs.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Scrum](https://img.shields.io/badge/Metodología-Scrum-6DB33F?style=for-the-badge)](https://scrum.org/)
 [![License](https://img.shields.io/badge/Licencia-MIT-yellow?style=for-the-badge)](LICENSE)
