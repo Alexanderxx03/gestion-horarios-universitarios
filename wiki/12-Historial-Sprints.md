@@ -4,11 +4,11 @@
 
 | Sprint       | Período              | Objetivo                                   | Story Points | Estado         |
 | ------------ | -------------------- | ------------------------------------------ | :----------: | -------------- |
-| **Sprint 0** | 07 Abr – 18 Abr 2026 | Documentación formal y planificación       |      —       | ✅ Completado  |
-| **Sprint 1** | 21 Abr – 02 May 2026 | Autenticación, CRUDs base, Firestore Rules |   22 → 19    | ✅ Completado  |
-| **Sprint 2** | 05 May – 16 May 2026 | Motor CSP y Matrícula                      |   29 → 26    | ✅ Completado  |
-| **Sprint 3** | 19 May – 30 May 2026 | UI Premium, Grilla visual, Exportación     |   21 → 21    | ✅ Completado  |
-| **Sprint 4** | 02 Jun – 13 Jun 2026 | Testing, Optimización, Presentación        |   12 → 12    | 🔄 En progreso |
+| **Sprint 0** | 27 Mar – 10 Abr 2026 | Documentación formal y planificación       |      —       | ✅ Completado  |
+| **Sprint 1** | 13 Abr – 24 Abr 2026 | Autenticación, CRUDs base, Firestore Rules |   22 → 19    | ✅ Completado  |
+| **Sprint 2** | 27 Abr – 08 May 2026 | Motor CSP y Matrícula                      |   29 → 26    | ✅ Completado  |
+| **Sprint 3** | 11 May – 29 May 2026 | UI Premium, Grilla visual, Exportación     |   21 → 21    | ✅ Completado  |
+| **Sprint 4** | 01 Jun – 12 Jun 2026 | Testing, Optimización, Presentación        |   12 → 12    | 🔄 En progreso |
 
 ### Dependencias y Ruta Crítica
 
@@ -32,7 +32,7 @@ Si el Motor CSP se retrasa, todos los sprints posteriores se ven afectados.
 
 ## Sprint 0 — Documentación Inicial y Planificación
 
-**Período:** 07 Abr – 18 Abr 2026  
+**Período:** 27 Mar – 10 Abr 2026  
 **Objetivo:** Establecer las bases formales del proyecto: documentación de inicio, arquitectura, backlog inicial y repositorio configurado.  
 **Estado:** ✅ Completado
 
@@ -90,7 +90,7 @@ Si el Motor CSP se retrasa, todos los sprints posteriores se ven afectados.
 
 ## Sprint 1 — Configuración Firebase y Autenticación Base
 
-**Período:** 21 Abr – 02 May 2026  
+**Período:** 13 Abr – 24 Abr 2026  
 **Objetivo:** Configurar el proyecto Firebase, implementar autenticación y CRUD base.  
 **Estado:** ✅ Completado | **Velocidad:** 19/22 SP (86%)
 
@@ -127,7 +127,7 @@ Si el Motor CSP se retrasa, todos los sprints posteriores se ven afectados.
 
 ## Sprint 2 — Motor CSP y Matrícula
 
-**Período:** 05 May – 16 May 2026  
+**Período:** 27 Abr – 08 May 2026  
 **Objetivo:** Implementar el motor de generación CSP y el módulo de matrícula.  
 **Estado:** ✅ Completado | **Velocidad:** 26/29 SP (90%)
 
@@ -163,7 +163,7 @@ Si el Motor CSP se retrasa, todos los sprints posteriores se ven afectados.
 
 ## Sprint 3 — UI Completa y Exportación
 
-**Período:** 19 May – 30 May 2026  
+**Período:** 11 May – 29 May 2026  
 **Objetivo:** Finalizar interfaz premium, grilla visual y exportación.  
 **Estado:** ✅ Completado | **Velocidad:** 21/21 SP (100%)
 
@@ -188,7 +188,7 @@ Si el Motor CSP se retrasa, todos los sprints posteriores se ven afectados.
 
 ## Sprint 4 — Pruebas, Validaciones y Presentación Final
 
-**Período:** 02 Jun – 13 Jun 2026  
+**Período:** 01 Jun – 12 Jun 2026  
 **Objetivo:** Testing completo, optimización de rendimiento y preparación de la presentación final.  
 **Estado:** 🔄 En progreso | **Velocidad:** 12/12 SP (target)
 
