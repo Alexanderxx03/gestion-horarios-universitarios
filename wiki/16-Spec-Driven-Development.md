@@ -45,12 +45,12 @@ Los siguientes principios son invariables y tienen prioridad sobre cualquier dec
 Las siguientes reglas nunca pueden ser violadas. Si lo son, el resultado es matemáticamente inválido:
 
 | ID      | Nombre                        | Definición Formal                                                                            |
-| ------- | ----------------------------- | -------------------------------------------------------------------------------------------- | ------------ | ----------------- |
+| ------- | ----------------------------- | -------------------------------------------------------------------------------------------- |
 | **HC1** | No solapamiento de docente    | ∀ asignaciones a₁, a₂ ∈ S: si a₁.teacherId = a₂.teacherId → NO overlap(a₁.slot, a₂.slot)     |
 | **HC2** | No solapamiento de aula       | ∀ asignaciones a₁, a₂ ∈ S: si a₁.classroomId = a₂.classroomId → NO overlap(a₁.slot, a₂.slot) |
 | **HC3** | No solapamiento de estudiante | ∀ estudiante e, cursos c₁, c₂ matriculados por e: NO overlap(slot(c₁), slot(c₂))             |
 | **HC4** | Disponibilidad del docente    | slot(asignación) ⊆ disponibilidad(docente)                                                   |
-| **HC5** | Capacidad del aula            |                                                                                              | grupo(curso) | ≤ capacidad(aula) |
+| **HC5** | Capacidad del aula            | grupo(curso) ≤ capacidad(aula)                                                               |
 | **HC6** | Tipo de aula                  | si curso.requiresLab = true → aula.isLab = true                                              |
 | **HC7** | Límite de créditos            | ∑créditos(matrículaEstudiante) ∈ [minCredits, maxCredits] del período activo                 |
 | **HC8** | Prerrequisitos                | ∀ curso c en matrícula: ∀ prereq p de c: p ∈ cursosAprobados(estudiante)                     |
