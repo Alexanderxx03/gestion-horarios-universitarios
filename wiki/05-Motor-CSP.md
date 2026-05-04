@@ -15,6 +15,7 @@ C = Conjunto de Restricciones → ¿Qué combinaciones son válidas?
 ```
 
 La generación de horarios académicos es un CSP porque:
+
 - Cada curso necesita ser asignado a un **docente + aula + franja horaria**
 - Existen restricciones duras que nunca deben violarse
 - El espacio de búsqueda es combinatoriamente explosivo
@@ -51,24 +52,24 @@ D(X_i) = { (d, a, día, h_ini, h_fin) :
 
 #### Restricciones Duras (Hard Constraints) — nunca se violan
 
-| ID | Restricción | Descripción |
-|---|---|---|
-| **HC1** | No solapamiento de docente | Un docente no puede dar 2 clases simultáneamente |
-| **HC2** | No solapamiento de aula | Un aula no puede tener 2 cursos a la vez |
+| ID      | Restricción                   | Descripción                                                 |
+| ------- | ----------------------------- | ----------------------------------------------------------- |
+| **HC1** | No solapamiento de docente    | Un docente no puede dar 2 clases simultáneamente            |
+| **HC2** | No solapamiento de aula       | Un aula no puede tener 2 cursos a la vez                    |
 | **HC3** | No solapamiento de estudiante | Un estudiante no puede tener 2 materias en el mismo horario |
-| **HC4** | Disponibilidad del docente | El docente debe estar disponible en el horario asignado |
-| **HC5** | Capacidad del aula | El grupo no supera el aforo del espacio |
-| **HC6** | Tipo de aula | Cursos con laboratorio deben estar en un lab |
-| **HC7** | Límite de créditos | Máximo 20–22 créditos por estudiante por período |
-| **HC8** | Prerrequisitos | Solo se matricula si cursos previos están aprobados |
+| **HC4** | Disponibilidad del docente    | El docente debe estar disponible en el horario asignado     |
+| **HC5** | Capacidad del aula            | El grupo no supera el aforo del espacio                     |
+| **HC6** | Tipo de aula                  | Cursos con laboratorio deben estar en un lab                |
+| **HC7** | Límite de créditos            | Máximo 20–22 créditos por estudiante por período            |
+| **HC8** | Prerrequisitos                | Solo se matricula si cursos previos están aprobados         |
 
 #### Restricciones Blandas (Soft Constraints) — se optimizan
 
-| ID | Restricción | Objetivo |
-|---|---|---|
+| ID      | Restricción           | Objetivo                                                        |
+| ------- | --------------------- | --------------------------------------------------------------- |
 | **SC1** | Distribución de carga | Clases distribuidas a lo largo de la semana, no todas en un día |
-| **SC2** | Equidad docente | Carga horaria balanceada entre todos los docentes |
-| **SC3** | Minimizar huecos | Reducir horas vacías consecutivas para estudiantes |
+| **SC2** | Equidad docente       | Carga horaria balanceada entre todos los docentes               |
+| **SC3** | Minimizar huecos      | Reducir horas vacías consecutivas para estudiantes              |
 
 ---
 
@@ -78,58 +79,50 @@ D(X_i) = { (d, a, día, h_ini, h_fin) :
 
 ```typescript
 function generateSchedule(courses: Course[], period: Period): Schedule | null {
-
   // 1. Inicializar asignación vacía
-  const assignment: Assignment = {}
+  const assignment: Assignment = {};
 
   // 2. Llamar al algoritmo recursivo
-  return backtrack(assignment, courses, period)
+  return backtrack(assignment, courses, period);
 }
 
-function backtrack(
-  assignment: Assignment,
-  unassigned: Course[],
-  period: Period
-): Schedule | null {
-
+function backtrack(assignment: Assignment, unassigned: Course[], period: Period): Schedule | null {
   // Caso base: todas las variables asignadas → solución encontrada
   if (unassigned.length === 0) {
-    return buildSchedule(assignment)
+    return buildSchedule(assignment);
   }
 
   // 3. Seleccionar próxima variable usando heurística MRV
-  const course = selectMRV(unassigned, assignment, period)
+  const course = selectMRV(unassigned, assignment, period);
 
   // 4. Obtener valores ordenados (heurística Least Constraining Value)
-  const values = getDomainValues(course, assignment, period)
+  const values = getDomainValues(course, assignment, period);
 
   for (const value of values) {
-
     // 5. Verificar consistencia con restricciones duras
     if (isConsistent(course, value, assignment)) {
-
       // 6. Asignar
-      assignment[course.id] = value
+      assignment[course.id] = value;
 
       // 7. Forward Checking: reducir dominios de variables vecinas
-      const { reduced, domains } = forwardCheck(course, value, unassigned, assignment)
+      const { reduced, domains } = forwardCheck(course, value, unassigned, assignment);
 
-      if (!reduced.some(d => d.size === 0)) {
+      if (!reduced.some((d) => d.size === 0)) {
         // 8. Recurrir
         const result = backtrack(
           assignment,
-          unassigned.filter(c => c.id !== course.id),
-          period
-        )
-        if (result !== null) return result  // ← Solución encontrada
+          unassigned.filter((c) => c.id !== course.id),
+          period,
+        );
+        if (result !== null) return result; // ← Solución encontrada
       }
 
       // 9. Backtrack: deshacer asignación
-      delete assignment[course.id]
+      delete assignment[course.id];
     }
   }
 
-  return null  // ← No hay solución posible desde aquí
+  return null; // ← No hay solución posible desde aquí
 }
 ```
 
@@ -138,16 +131,12 @@ function backtrack(
 Selecciona la variable (curso) con **menos valores posibles** en su dominio. Esto ataca primero las partes más restringidas del problema, encontrando conflictos más rápido y ahorrando tiempo.
 
 ```typescript
-function selectMRV(
-  unassigned: Course[],
-  assignment: Assignment,
-  period: Period
-): Course {
+function selectMRV(unassigned: Course[], assignment: Assignment, period: Period): Course {
   return unassigned.reduce((mostConstrained, course) => {
-    const currentDomainSize = getDomainSize(course, assignment, period)
-    const bestDomainSize = getDomainSize(mostConstrained, assignment, period)
-    return currentDomainSize < bestDomainSize ? course : mostConstrained
-  })
+    const currentDomainSize = getDomainSize(course, assignment, period);
+    const bestDomainSize = getDomainSize(mostConstrained, assignment, period);
+    return currentDomainSize < bestDomainSize ? course : mostConstrained;
+  });
 }
 ```
 
@@ -160,22 +149,20 @@ function forwardCheck(
   assigned: Course,
   value: Slot,
   remaining: Course[],
-  assignment: Assignment
-): { reduced: Set<Slot>[], domains: Map<string, Set<Slot>> } {
-  const domains = new Map<string, Set<Slot>>()
-  const reduced: Set<Slot>[] = []
+  assignment: Assignment,
+): { reduced: Set<Slot>[]; domains: Map<string, Set<Slot>> } {
+  const domains = new Map<string, Set<Slot>>();
+  const reduced: Set<Slot>[] = [];
 
   for (const course of remaining) {
-    const domain = getDomainValues(course, assignment)
+    const domain = getDomainValues(course, assignment);
     // Eliminar valores que violarían HC1/HC2/HC3 con el valor recién asignado
-    const filtered = new Set(
-      [...domain].filter(slot => !conflictsWith(slot, value))
-    )
-    domains.set(course.id, filtered)
-    reduced.push(filtered)
+    const filtered = new Set([...domain].filter((slot) => !conflictsWith(slot, value)));
+    domains.set(course.id, filtered);
+    reduced.push(filtered);
   }
 
-  return { reduced, domains }
+  return { reduced, domains };
 }
 ```
 
@@ -184,6 +171,7 @@ function forwardCheck(
 ## Implementación en Cloud Functions
 
 El motor CSP se ejecuta en **Firebase Cloud Functions** para:
+
 1. No bloquear el navegador del usuario
 2. Acceder directamente a Firestore con permisos de Admin
 3. Poder registrar el progreso en tiempo real
@@ -192,54 +180,107 @@ El motor CSP se ejecuta en **Firebase Cloud Functions** para:
 export const generateSchedule = onCall(async (request) => {
   // Verificar autenticación y rol COORDINATOR+
   if (!request.auth || request.auth.token.role !== 'COORDINATOR') {
-    throw new HttpsError('permission-denied', 'Solo coordinadores pueden generar horarios')
+    throw new HttpsError('permission-denied', 'Solo coordinadores pueden generar horarios');
   }
 
-  const { periodId } = request.data
+  const { periodId } = request.data;
 
   // 1. Cargar datos de Firestore
   const [courses, teachers, classrooms, enrollments] = await Promise.all([
     getCourses(periodId),
     getTeachers(),
     getClassrooms(),
-    getEnrollments(periodId)
-  ])
+    getEnrollments(periodId),
+  ]);
 
   // 2. Construir el problem state
-  const problem = buildCSPProblem(courses, teachers, classrooms, enrollments)
+  const problem = buildCSPProblem(courses, teachers, classrooms, enrollments);
 
   // 3. Ejecutar el motor CSP
-  const solution = backtrack({}, problem.courses, problem)
+  const solution = backtrack({}, problem.courses, problem);
 
   if (!solution) {
-    throw new HttpsError('not-found', 'No se encontró una asignación válida')
+    throw new HttpsError('not-found', 'No se encontró una asignación válida');
   }
 
   // 4. Guardar resultado en Firestore
-  const scheduleRef = db.collection('schedules').doc()
+  const scheduleRef = db.collection('schedules').doc();
   await scheduleRef.set({
     periodId,
     status: 'GENERATED',
     generatedAt: FieldValue.serverTimestamp(),
     assignments: solution.assignments,
-    conflictsFound: 0
-  })
+    conflictsFound: 0,
+  });
 
-  return { scheduleId: scheduleRef.id }
-})
+  return { scheduleId: scheduleRef.id };
+});
 ```
+
+---
+
+## Análisis de Complejidad Computacional
+
+### Complejidad en el Peor Caso
+
+El Backtracking sin heurísticas tiene complejidad **O(d^n)**, donde:
+
+- `n` = número de cursos (variables)
+- `d` = tamaño del dominio (combinaciones posibles de docente × aula × franja horaria)
+
+Para el escenario base (30 cursos, 20 docentes, 20 aulas, 50 franjas horarias):
+
+```
+d = 20 × 20 × 50 = 20,000 combinaciones por variable
+d^n = 20,000^30 ≈ 10^127 (astronomicamente grande)
+```
+
+### Impacto de las Heurísticas
+
+| Técnica                | Reducción del Espacio de Búsqueda    | Fundamento                               |
+| ---------------------- | ------------------------------------ | ---------------------------------------- |
+| **Sin heurísticas**    | O(d^n) = ~10^127                     | Exploración ciega                        |
+| **+ MRV**              | Factor de reducción: ~10x por nivel  | Falla antes, poda más ramas              |
+| **+ Forward Checking** | Factor de reducción adicional: ~100x | Elimina valores inválidos proactivamente |
+| **Resultado práctico** | ≤30s para n≤50, d efectivo ≤100      | Viable para el dominio universitario     |
+
+> **Insight clave:** La efectividad del motor depende de la **conectividad de las restricciones**. Un problema con muchas restricciones activas (docentes muy ocupados, pocas aulas) reduce el dominio efectivo dramáticamente, haciendo MRV+FC más eficaces. Un problema con pocas restricciones activas puede requerir más tiempo de búsqueda.
+
+### Complejidad Temporal de las Funciones Clave
+
+| Función             | Complejidad     | Descripción                                               |
+| ------------------- | --------------- | --------------------------------------------------------- |
+| `selectMRV()`       | O(n × d)        | Calcula el tamaño de dominio de cada variable sin asignar |
+| `isConsistent()`    | O(1) amortizado | Verifica contra índices pre-construidos                   |
+| `forwardCheck()`    | O(n × d)        | Filtra dominios de variables vecinas                      |
+| `buildCSPProblem()` | O(n × m)        | n=cursos, m=matrículas. Construye índice studentCourseMap |
 
 ---
 
 ## Rendimiento Esperado
 
-| Escenario | Tiempo Estimado |
-|---|---|
-| ≤10 cursos, ≤10 docentes, ≤10 aulas | < 1 segundo |
-| ≤30 cursos, ≤20 docentes, ≤20 aulas | < 10 segundos |
-| ≤50 cursos, ≤30 docentes, ≤30 aulas | ≤ 30 segundos |
+| Escenario        | Cursos | Docentes | Aulas | Tiempo Estimado  |
+| ---------------- | :----: | :------: | :---: | ---------------- |
+| Básico           |  ≤10   |   ≤10    |  ≤10  | < 1 segundo      |
+| Intermedio       |  ≤30   |   ≤20    |  ≤20  | < 10 segundos    |
+| Objetivo del PFA |  ≤50   |   ≤30    |  ≤30  | ≤ 30 segundos    |
+| Límite teórico   |  >50   |   >30    |  >30  | Timeout (FAILED) |
 
-> ⚠️ El motor incluye un **timeout de 540 segundos** (límite de Cloud Functions). Si supera ese tiempo, se reporta el estado `FAILED` y se sugiere reducir el alcance del período.
+> ⚠️ El motor incluye un **timeout interno de 30 segundos** antes del límite de Cloud Functions. Si supera ese tiempo, se reporta el estado `FAILED` con la lista de cursos no asignados, para que el coordinador pueda ajustar el alcance del período.
+
+---
+
+## Roadmap de Optimizaciones Futuras
+
+El motor actual es funcional para el escenario del PFA. Las siguientes extensiones mejorarían significativamente el rendimiento y la calidad del horario generado:
+
+| Extensión                          | Beneficio                                                                                          | Complejidad de Implementación |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------- |
+| **Arc Consistency (AC-3)**         | Propaga restricciones más agresivamente antes del backtracking; reduce el dominio efectivo en ~50% | Media                         |
+| **Constraint Learning (CDCL)**     | Aprende de los backtrack para no repetir el mismo error; usado en SAT solvers modernos             | Alta                          |
+| **Búsqueda Local (Min-Conflicts)** | Para instancias grandes: parte de una asignación aleatoria y repara conflictos iterativamente      | Media                         |
+| **Paralelización**                 | Ejecutar múltiples búsquedas en paralelo con seeds distintos (Cloud Functions concurrentes)        | Alta                          |
+| **Optimización de SC1–SC3**        | Una vez encontrada la solución HC, refinarla localmente para maximizar restricciones blandas       | Media                         |
 
 ---
 
