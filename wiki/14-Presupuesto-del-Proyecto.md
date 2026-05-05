@@ -10,25 +10,23 @@ Este documento presenta el análisis económico integral del proyecto **Gestión
 
 ### 1.1 Recursos Humanos (RRHH)
 
-El equipo está compuesto por 4 roles con dedicación parcial (académica). La tarifa referencial se basa en el mercado de desarrollo de software junior/semi-senior en Perú (2026), proyectada a horas efectivas de trabajo académico.
+El equipo está compuesto por 2 integrantes con dedicación parcial (académica), asumiendo roles cruzados. La tarifa referencial se basa en el mercado de desarrollo de software junior/semi-senior en Perú (2026), proyectada a horas efectivas de trabajo académico.
 
-| Rol                        | Integrantes | Tarifa/hora (PEN) | Horas/Sprint | Sprints Activos |  Costo Total  |
-| -------------------------- | :---------: | :---------------: | :----------: | :-------------: | :-----------: |
-| Scrum Master / Analista    |      1      |      S/ 45/h      |     20h      |        4        | **S/ 3,600**  |
-| Product Owner / Arquitecto |      1      |      S/ 55/h      |     18h      |        4        | **S/ 3,960**  |
-| Full-Stack Developer       |      1      |      S/ 50/h      |     25h      |        4        | **S/ 5,000**  |
-| Algorithms Engineer (CSP)  |      1      |      S/ 60/h      |     22h      |        4        | **S/ 5,280**  |
-| **TOTAL RRHH**             |    **4**    |                   |              |                 | **S/ 17,840** |
+| Integrante               | Roles Asumidos                  | Tarifa Promedio | Horas/Sprint | Sprints Activos |  Costo Total  |
+| :----------------------- | :------------------------------ | :-------------: | :----------: | :-------------: | :-----------: |
+| **Jheyson Paul Paytan**  | Scrum Master, Product Owner     |   S/ 49.70/h    |     38h      |        4        | **S/ 7,560**  |
+| **Jack Alexander Rojas** | Full-Stack Dev, Algorithms Eng. |   S/ 54.70/h    |     47h      |        4        | **S/ 10,280** |
+| **TOTAL RRHH**           |                                 |                 |   **85h**    |                 | **S/ 17,840** |
 
 > **Nota:** Las horas incluyen ceremonias Scrum (Planning, Daily, Review, Retro), desarrollo, testing y documentación. No incluyen horas del Sprint 0 (documentación inicial sin desarrollo).
 
 **Sprint 0 adicional (documentación):**
 
-| Actividad                                     | Horas Totales | Costo Promedio |
-| --------------------------------------------- | :-----------: | :------------: |
-| Documentación técnica (7 docs + Wiki inicial) |      32h      |    S/ 1,600    |
-| Configuración repositorio y herramientas      |      8h       |     S/ 400     |
-| **Subtotal Sprint 0**                         |    **40h**    |  **S/ 2,000**  |
+| Actividad                                      | Horas Totales | Costo Promedio |
+| :--------------------------------------------- | :-----------: | :------------: |
+| Documentación técnica y arquitectura (Jheyson) |      20h      |    S/ 1,000    |
+| Configuración de repositorio y entorno (Jack)  |      20h      |    S/ 1,000    |
+| **Subtotal Sprint 0**                          |    **40h**    |  **S/ 2,000**  |
 
 **Total RRHH del proyecto:** S/ 17,840 + S/ 2,000 = **S/ 19,840**
 
@@ -65,11 +63,11 @@ El proyecto utiliza el stack **MERN (MongoDB, Express, React, Node.js)** despleg
 
 | Concepto                     | Detalle                                        | Costo Estimado  |
 | ---------------------------- | ---------------------------------------------- | :-------------: |
-| **Conectividad a Internet**  | 4 integrantes × S/ 100/mes × 5 meses           |    S/ 2,000     |
-| **Amortización de hardware** | 4 laptops × valor amortizado por 5 meses       |     S/ 800      |
-| **Electricidad**             | Costo estimado por uso de equipos              |     S/ 200      |
+| **Conectividad a Internet**  | 2 integrantes × S/ 100/mes × 5 meses           |    S/ 1,000     |
+| **Amortización de hardware** | 2 laptops × valor amortizado por 5 meses       |     S/ 400      |
+| **Electricidad**             | Costo estimado por uso de equipos (2 PCs)      |     S/ 100      |
 | **Espacio de trabajo**       | Uso de instalaciones universitarias (valorado) | S/ 0 (incluido) |
-| **Total Costos Indirectos**  |                                                |  **S/ 3,000**   |
+| **Total Costos Indirectos**  |                                                |  **S/ 1,500**   |
 
 ---
 
@@ -77,11 +75,11 @@ El proyecto utiliza el stack **MERN (MongoDB, Express, React, Node.js)** despleg
 
 | Categoría                   |  Monto (PEN)  | % del Total |
 | --------------------------- | :-----------: | :---------: |
-| Recursos Humanos (RRHH)     |   S/ 19,840   |  **83.2%**  |
+| Recursos Humanos (RRHH)     |   S/ 19,840   |  **88.8%**  |
 | Infraestructura Tecnológica |     S/ 0      |  **0.0%**   |
-| Costos Indirectos           |   S/ 3,000    |  **12.6%**  |
-| Imprevistos (5% de RRHH)    |    S/ 992     |  **4.2%**   |
-| **TOTAL PROYECTO**          | **S/ 23,832** |  **100%**   |
+| Costos Indirectos           |   S/ 1,500    |  **6.7%**   |
+| Imprevistos (5% de RRHH)    |    S/ 992     |  **4.5%**   |
+| **TOTAL PROYECTO**          | **S/ 22,332** |  **100%**   |
 
 ---
 
@@ -91,42 +89,41 @@ El proyecto utiliza el stack **MERN (MongoDB, Express, React, Node.js)** despleg
 
 | Sprint        | Período       |     RRHH      |  Infra   |  Indirecto   | Total Sprint  |
 | ------------- | ------------- | :-----------: | :------: | :----------: | :-----------: |
-| Sprint 0      | Abr 07–18     |   S/ 2,000    |   S/ 0   |    S/ 600    | **S/ 2,600**  |
-| Sprint 1      | Abr 21–May 02 |   S/ 4,460    |   S/ 0   |    S/ 600    | **S/ 5,060**  |
-| Sprint 2      | May 05–16     |   S/ 4,460    |   S/ 0   |    S/ 600    | **S/ 5,060**  |
-| Sprint 3      | May 19–30     |   S/ 4,460    |   S/ 0   |    S/ 600    | **S/ 5,060**  |
-| Sprint 4      | Jun 02–13     |   S/ 4,460    |   S/ 0   |    S/ 600    | **S/ 5,060**  |
+| Sprint 0      | Abr 07–18     |   S/ 2,000    |   S/ 0   |    S/ 300    | **S/ 2,300**  |
+| Sprint 1      | Abr 21–May 02 |   S/ 4,460    |   S/ 0   |    S/ 300    | **S/ 4,760**  |
+| Sprint 2      | May 05–16     |   S/ 4,460    |   S/ 0   |    S/ 300    | **S/ 4,760**  |
+| Sprint 3      | May 19–30     |   S/ 4,460    |   S/ 0   |    S/ 300    | **S/ 4,760**  |
+| Sprint 4      | Jun 02–13     |   S/ 4,460    |   S/ 0   |    S/ 300    | **S/ 4,760**  |
 | Cierre/Buffer | Jun 14–20     |    S/ 992     |   S/ 0   |     S/ 0     |  **S/ 992**   |
-| **TOTAL**     |               | **S/ 19,832** | **S/ 0** | **S/ 3,000** | **S/ 23,832** |
+| **TOTAL**     |               | **S/ 19,832** | **S/ 0** | **S/ 1,500** | **S/ 22,332** |
 
 ### 3.2 Costo Acumulado del Proyecto
 
 ```
 Costo Acumulado (PEN)
 │
-S/ 24,000 ┤
-S/ 23,832 ┤─────────────────────────────────────────●
+S/ 23,000 ┤
+S/ 22,332 ┤─────────────────────────────────────────●
 S/ 20,000 ┤
-S/ 17,780 ┤                                  ●
-S/ 16,000 ┤
-S/ 12,720 ┤                          ●
-S/ 12,000 ┤
-S/ 8,000  ┤
-S/ 7,660  ┤                    ●
-S/ 4,000  ┤
-S/ 2,600  ┤             ●
+S/ 16,580 ┤                                  ●
+S/ 15,000 ┤
+S/ 11,820 ┤                          ●
+S/ 10,000 ┤
+S/ 7,060  ┤                    ●
+S/ 5,000  ┤
+S/ 2,300  ┤             ●
 S/ 0      └──────────────────────────────────────────►
            S0    S1    S2    S3    S4   Cierre
 ```
 
 | Hito     | Costo Acumulado | Valor Entregado                                   |
 | -------- | :-------------: | ------------------------------------------------- |
-| Sprint 0 |    S/ 2,600     | Documentación completa, repositorio, arquitectura |
-| Sprint 1 |    S/ 7,660     | Backend Node.js funcional, CRUD base en React     |
-| Sprint 2 |    S/ 12,720    | Motor CSP operativo, módulo de matrícula          |
-| Sprint 3 |    S/ 17,780    | UI completa, exportación PDF/Excel, grilla visual |
-| Sprint 4 |    S/ 22,840    | Sistema auditado, testado, listo para producción  |
-| Cierre   |    S/ 23,832    | Documentación final, video presentación           |
+| Sprint 0 |    S/ 2,300     | Documentación completa, repositorio, arquitectura |
+| Sprint 1 |    S/ 7,060     | Backend Node.js funcional, CRUD base en React     |
+| Sprint 2 |    S/ 11,820    | Motor CSP operativo, módulo de matrícula          |
+| Sprint 3 |    S/ 16,580    | UI completa, exportación PDF/Excel, grilla visual |
+| Sprint 4 |    S/ 21,340    | Sistema auditado, testado, listo para producción  |
+| Cierre   |    S/ 22,332    | Documentación final, video presentación           |
 
 ---
 
