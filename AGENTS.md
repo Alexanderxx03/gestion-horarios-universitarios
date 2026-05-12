@@ -12,44 +12,38 @@ Este archivo aplica a todo el monorepo. Si tocas código dentro de `frontend/` o
 
 ### Stack base
 
-| Capa | Tecnología |
-|---|---|
-| Frontend | React 19 · Vite 6 · TypeScript strict · npm workspaces |
-| Backend | Firebase Cloud Functions (Node.js 20) · TypeScript |
-| Base de datos | Cloud Firestore |
-| Auth | Firebase Authentication · Custom Claims (`role`) |
-| Estado FE | Zustand · React Hook Form · Zod |
-| Infra | Firebase Hosting · Firebase Functions · Firebase Emulators |
-| Solver CSP | TypeScript nativo en `functions/src/application/usecases` |
+| Capa          | Tecnología                                                 |
+| ------------- | ---------------------------------------------------------- |
+| Frontend      | React 19 · Vite 6 · TypeScript strict · npm workspaces     |
+| Backend       | Node.js 20 · Express · TypeScript                          |
+| Base de datos | MongoDB · Mongoose                                         |
+| Auth          | JWT (JSON Web Tokens) en Backend MERN                      |
+| Estado FE     | Zustand · React Hook Form · Zod                            |
+| Infra         | Docker · Docker Compose · Firebase Hosting (solo Frontend) |
+| Solver CSP    | TypeScript nativo en `backend/src/application/usecases`    |
 
 ## Reglas absolutas
 
-- **Firestore Rules** son la primera línea de defensa; toda operación debe pasar por `firestore.rules`.
-- **Cloud Functions** nunca confían en el cliente: validan `request.auth`, el rol y el payload con Zod antes de tocar Firestore.
-- **Custom Claims** (`role`) se setean **solo** desde una Cloud Function protegida por `ADMIN`, jamás desde el cliente.
-- Lógica crítica (créditos, prerrequisitos, generar horario) va **solo en Functions**, nunca en el cliente.
+- **Backend MERN** nunca confía en el cliente: se valida JWT, rol y el payload con Zod antes de tocar MongoDB.
+- Lógica crítica (créditos, prerrequisitos, generar horario) va **solo en Backend**, nunca en el cliente.
 - En TypeScript **prohibido `any`**. Usa `unknown` o tipos explícitos.
-- Una sola instancia de Firebase en `frontend/src/lib/firebase.ts`. Nada de `initializeApp` repartido.
-- Nunca commitees secrets, `service-account*.json`, tokens, ni `.env` reales. Usa `.env.example` para documentar variables.
-- Secretos de Functions: `defineSecret` de `firebase-functions/params` + Firebase Secret Manager.
-- En Cloud Functions HTTP (`onRequest`), CORS siempre con allowlist. Nunca `*`.
-- Arquitectura hexagonal en `functions/src/`: `domain -> application -> infrastructure`. `domain` no importa nada de Firebase.
-- Los handlers (`onCall`, `onRequest`) son delgados: parsean input, autorizan, delegan al use case.
-- Índices Firestore declarados en `firestore.indexes.json`. Toda query nueva con filtros compuestos requiere su índice.
+- Nunca commitees secrets ni `.env` reales. Usa `.env.example` para documentar variables.
+- Arquitectura hexagonal en `backend/src/`: `domain -> application -> infrastructure`. `domain` no importa nada de Express o MongoDB.
+- Los handlers (controladores REST) son delgados: parsean input, autorizan, delegan al use case.
 
-## Arquitectura backend (Cloud Functions)
+## Arquitectura backend (Node.js MERN)
 
 ```
-functions/src/
+backend/src/
 ├── domain/
 │   ├── model/          # Tipos puros (Course, Teacher, Schedule, ...)
 │   ├── errors/         # Errores de dominio tipados
 │   └── ports/          # Interfaces para adapters
 ├── application/
-│   └── usecases/       # Orquestación sin dependencias de Firebase
+│   └── usecases/       # Orquestación sin dependencias de Express o MongoDB
 ├── infrastructure/
-│   ├── firestore/      # Adapters concretos
-│   └── http/           # Handlers onCall / onRequest
+│   ├── database/       # Conexión Mongoose y Modelos (MongoDB)
+│   └── http/           # Rutas y Handlers REST
 └── shared/
     ├── schemas/        # Zod schemas compartidos
     ├── authz.ts        # Helpers de autorización
@@ -71,15 +65,12 @@ npm -w frontend run dev
 npm -w frontend run build
 npm -w frontend run test
 
-# Functions
-npm -w functions run build
-npm -w functions run test
+# Backend
+npm -w backend run dev
+npm -w backend run build
 
-# Firestore Rules tests
-npm run rules:test
-
-# Emuladores Firebase (Auth, Firestore, Functions, Hosting)
-npm run emulators
+# Docker (MERN)
+docker-compose up -d        # levanta MongoDB (y opcionalmente backend)
 ```
 
 ## Git y commits

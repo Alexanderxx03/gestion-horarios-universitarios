@@ -7,6 +7,7 @@ import { PaginaDocentes } from '@/pages/PaginaDocentes';
 import { PaginaAulas } from '@/pages/PaginaAulas';
 import { PaginaGenerarHorario } from '@/pages/PaginaGenerarHorario';
 import { PaginaVerHorario } from '@/pages/PaginaVerHorario';
+import { PaginaMatriculas } from '@/pages/PaginaMatriculas';
 
 export function App() {
   return (
@@ -18,6 +19,7 @@ export function App() {
           <Route path="cursos" element={<PaginaCursos />} />
           <Route path="docentes" element={<PaginaDocentes />} />
           <Route path="aulas" element={<PaginaAulas />} />
+          <Route path="matriculas" element={<PaginaMatriculas />} />
           <Route path="generar" element={<PaginaGenerarHorario />} />
           <Route path="horario" element={<PaginaVerHorario />} />
         </Route>

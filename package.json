@@ -8,18 +8,15 @@
   },
   "scripts": {
     "prepare": "husky",
-    "lint": "npm -w frontend run lint && npm -w functions run lint",
-    "typecheck": "npm -w frontend run typecheck && npm -w functions run typecheck",
-    "test": "npm -w frontend run test && npm -w functions run test",
+    "lint": "npm -w frontend run lint && npm -w backend run lint",
+    "typecheck": "npm -w frontend run typecheck && npm -w backend run build",
+    "test": "npm -w frontend run test",
     "format": "prettier --write \"**/*.{ts,tsx,json,md,yml,yaml}\" --ignore-path .gitignore",
-    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,yml,yaml}\" --ignore-path .gitignore",
-    "rules:test": "npm -C tests/rules test",
-    "emulators": "firebase emulators:start"
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,yml,yaml}\" --ignore-path .gitignore"
   },
   "workspaces": [
     "frontend",
-    "functions",
-    "tests/rules"
+    "backend"
   ],
   "devDependencies": {
     "husky": "^9.1.7",

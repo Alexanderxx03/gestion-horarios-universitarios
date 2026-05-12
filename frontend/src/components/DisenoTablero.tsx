@@ -5,6 +5,7 @@ const ELEMENTOS_NAV = [
   { etiqueta: 'Cursos', ruta: '/dashboard/cursos', icono: '📚' },
   { etiqueta: 'Docentes', ruta: '/dashboard/docentes', icono: '👨‍🏫' },
   { etiqueta: 'Aulas', ruta: '/dashboard/aulas', icono: '🏫' },
+  { etiqueta: 'Matrículas', ruta: '/dashboard/matriculas', icono: '📝' },
   { etiqueta: 'Generar Horario', ruta: '/dashboard/generar', icono: '🧠' },
   { etiqueta: 'Ver Horario', ruta: '/dashboard/horario', icono: '📅' },
 ];

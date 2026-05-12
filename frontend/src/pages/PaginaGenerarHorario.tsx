@@ -71,9 +71,22 @@ export function PaginaGenerarHorario() {
               El motor CSP analizará {cursosActivos.length} cursos, {docentes.length} docentes y{' '}
               {aulasActivas.length} aulas para encontrar una asignación sin conflictos.
             </p>
-            <button className="btn btn-primary btn-lg" onClick={generarHorario} id="btn-generar">
-              ⚡ Generar Horario Óptimo
-            </button>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+              <button className="btn btn-primary btn-lg" onClick={generarHorario} id="btn-generar">
+                ⚡ Generar (Local CSP)
+              </button>
+              <button
+                className="btn btn-secondary btn-lg"
+                onClick={() => {
+                  alert(
+                    '🚀 Simulando envío al Backend MERN remoto...\n\n(En un entorno real, esto llamaría a POST /api/schedules/generate con el body { periodId: "2026-1" })',
+                  );
+                  generarHorario();
+                }}
+              >
+                🌐 Generar en Servidor MERN
+              </button>
+            </div>
           </>
         )}
 

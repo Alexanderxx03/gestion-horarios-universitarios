@@ -1,5 +1,3 @@
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from './firebase';
 import type { NodoArbolCSP } from './resolvedorCliente';
 
 export async function guardarArbolCspEnFirebase(
@@ -7,16 +5,28 @@ export async function guardarArbolCspEnFirebase(
   estadisticas: { tiempoTotalMs: number; nodosExplorados: number; retrocesos: number },
 ): Promise<string | null> {
   try {
-    const logRef = collection(db, 'csp_execution_trees');
-    const docRef = await addDoc(logRef, {
-      fecha: serverTimestamp(),
-      estadisticas,
-      arbol, // El árbol se guarda como un objeto JSON anidado
+    const response = await fetch('http://localhost:5000/api/logs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        executionId: `csp_exec_${Date.now()}`,
+        step: 1,
+        message: 'Árbol de ejecución CSP',
+        data: { estadisticas, arbol },
+      }),
     });
-    console.log('Árbol CSP guardado exitosamente con ID:', docRef.id);
-    return docRef.id;
+
+    if (!response.ok) {
+      throw new Error('Error en la respuesta del servidor');
+    }
+
+    const data = await response.json();
+    console.log('Árbol CSP guardado exitosamente en MERN DB');
+    return data.id || 'success';
   } catch (error) {
-    console.error('Error al guardar el árbol CSP en Firebase:', error);
+    console.error('Error al guardar el árbol CSP en MongoDB:', error);
     return null;
   }
 }

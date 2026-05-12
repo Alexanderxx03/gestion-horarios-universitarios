@@ -1,8 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import scheduleRoutes from './infrastructure/http/routes/schedule.routes';
+import courseRoutes from './infrastructure/http/routes/course.routes';
+import enrollmentRoutes from './infrastructure/http/routes/enrollment.routes';
+import authRoutes from './infrastructure/http/routes/auth.routes';
+import logRoutes from './infrastructure/http/routes/log.routes';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -14,7 +18,11 @@ app.use(cors());
 app.use(express.json());
 
 // Rutas
+app.use('/api/auth', authRoutes);
 app.use('/api/schedules', scheduleRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/enrollments', enrollmentRoutes);
+app.use('/api/logs', logRoutes);
 
 // Conexión a MongoDB
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/gestion-horarios';

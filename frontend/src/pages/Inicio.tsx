@@ -2,14 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  sendPasswordResetEmail,
-} from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+// Imports removed for MERN migration
 
 gsap.registerPlugin(useGSAP);
 
@@ -148,39 +141,30 @@ export function Inicio() {
 
     try {
       if (mode === 'login') {
-        await signInWithEmailAndPassword(auth, email, password);
+        const res = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Error de autenticación');
+
+        localStorage.setItem('token', data.token);
       } else {
-        await createUserWithEmailAndPassword(auth, email, password);
+        throw new Error('Registro no implementado en mock temporal.');
       }
       navigate('/dashboard');
     } catch (err: any) {
       console.error('Auth Error:', err);
-      if (err.code === 'auth/invalid-credential') setErrorMsg('Credenciales incorrectas');
-      else if (err.code === 'auth/email-already-in-use')
-        setErrorMsg('Este correo ya está registrado');
-      else if (err.code === 'auth/weak-password')
-        setErrorMsg('La contraseña debe tener al menos 6 caracteres');
-      else setErrorMsg('Error de autenticación: ' + err.message);
+      setErrorMsg(err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
-    setErrorMsg('');
-    setIsLoading(true);
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate('/dashboard');
-    } catch (err: any) {
-      console.error('Google Auth Error:', err);
-      if (err.code !== 'auth/popup-closed-by-user') {
-        setErrorMsg('Error al iniciar con Google');
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    setErrorMsg('Google login not supported in MERN demo.');
   };
 
   const handlePasswordReset = async (e: React.MouseEvent) => {
@@ -193,20 +177,7 @@ export function Inicio() {
       return;
     }
 
-    setIsLoading(true);
-    try {
-      await sendPasswordResetEmail(auth, email);
-      setResetMsg({ type: 'success', text: 'Enlace enviado. Revisa tu correo.' });
-    } catch (err: any) {
-      console.error('Reset Error:', err);
-      if (err.code === 'auth/user-not-found') {
-        setResetMsg({ type: 'error', text: 'No hay usuario registrado con este correo.' });
-      } else {
-        setResetMsg({ type: 'error', text: 'Error al enviar enlace.' });
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    setResetMsg({ type: 'success', text: 'Función no implementada en el MERN demo.' });
   };
 
   return (

@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
-import { onAuthStateChanged, type User } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
 
 export type UserRole = 'ADMIN' | 'COORDINATOR' | 'TEACHER' | 'STUDENT';
+
+export interface User {
+  uid: string;
+  email: string;
+  role?: UserRole;
+}
 
 export interface AuthState {
   user: User | null;
@@ -20,16 +24,35 @@ export function useAuth(): AuthState {
   const [state, setState] = useState<AuthState>({ user: null, role: null, loading: true });
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
         setState({ user: null, role: null, loading: false });
         return;
       }
-      const token = await user.getIdTokenResult();
-      const role = isValidRole(token.claims.role) ? token.claims.role : null;
-      setState({ user, role, loading: false });
-    });
-    return unsub;
+
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const role = isValidRole(data.user.role) ? data.user.role : null;
+          setState({ user: data.user, role, loading: false });
+        } else {
+          localStorage.removeItem('token');
+          setState({ user: null, role: null, loading: false });
+        }
+      } catch (error) {
+        console.error('Error fetching auth data:', error);
+        setState({ user: null, role: null, loading: false });
+      }
+    };
+
+    checkAuth();
   }, []);
 
   return state;

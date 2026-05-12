@@ -46,3 +46,12 @@ coverage/
 # Vite
 .vite/
 *.tsbuildinfo
+
+# Unnecessary for production/git
+.agents/
+wiki/
+wiki-repo/
+tests/
+new/
+scripts/
+skills-lock.json

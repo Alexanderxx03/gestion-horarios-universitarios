@@ -97,50 +97,44 @@ El corazón del sistema es un motor de **Constraint Satisfaction Problem (CSP)**
 
 ---
 
-## 🏗️ Arquitectura (MERN Serverless)
+## 🏗️ Arquitectura (MERN)
 
-El proyecto está diseñado bajo una arquitectura **MERN Evolucionada (Serverless MERN)**, utilizando servicios gestionados en la nube para maximizar la escalabilidad y reducir el tiempo de respuesta a <2s.
+El proyecto está diseñado bajo una arquitectura **MERN (MongoDB, Express, React, Node.js)**, utilizando contenedores Docker para maximizar la escalabilidad.
 
-| Capa MERN clásica | Equivalencia Serverless implementada | Función en el Proyecto                                          |
-| ----------------- | ------------------------------------ | --------------------------------------------------------------- |
-| **M**ongoDB       | **Firestore (NoSQL)**                | Almacenamiento ágil de colecciones (Cursos, Aulas, Logs CSP).   |
-| **E**xpress       | **Cloud Functions (HTTP Triggers)**  | Enrutamiento de peticiones seguras desde el cliente.            |
-| **R**eact         | **React 19 + Vite**                  | SPA rápida, asíncrona y con estado global manejado por Zustand. |
-| **N**ode.js       | **Node.js 20 (Runtime)**             | Ejecución del motor CSP pesado (Backtracking) en el backend.    |
+| Capa MERN   | Implementación           | Función en el Proyecto                                          |
+| ----------- | ------------------------ | --------------------------------------------------------------- |
+| **M**ongoDB | **MongoDB + Mongoose**   | Almacenamiento ágil de colecciones (Cursos, Aulas, Logs CSP).   |
+| **E**xpress | **Express.js API REST**  | Enrutamiento de peticiones seguras desde el cliente con JWT.    |
+| **R**eact   | **React 19 + Vite**      | SPA rápida, asíncrona y con estado global manejado por Zustand. |
+| **N**ode.js | **Node.js 20 (Runtime)** | Ejecución del motor CSP pesado (Backtracking) en el backend.    |
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                   CLIENTE (Navegador Web)                    │
 │              React + Vite SPA — TypeScript                   │
 └───────────────────────────┬──────────────────────────────────┘
-                            │ HTTPS
+                            │ REST API (JSON)
                             ▼
 ┌──────────────────────────────────────────────────────────────┐
-│                    FIREBASE HOSTING                          │
-│         Servicio de archivos estáticos con CDN global        │
-│              SPA routing via firebase.json                   │
-└──────┬──────────────────────────────────────┬────────────────┘
-       │ Firestore SDK (directo)              │ HTTPS (callable)
-       ▼                                      ▼
-┌─────────────────────┐          ┌────────────────────────────┐
-│   AUTH (JWT)        │          │   BACKEND (NODE/EXPRESS)   │
-│  Generación Tokens  │          │                            │
-│  Validación         │          │  ┌─────────────────────┐   │
-└─────────────────────┘          │  │ Motor CSP           │   │
-                                 │  │ (Backtracking+MRV)  │   │
-       ┌─────────────────────────┤  ├─────────────────────┤   │
-       │                         │  │ Validación Créditos │   │
-       ▼                         │  ├─────────────────────┤   │
-┌───────────────────────┐        │  │ Validación Prereqs  │   │
-│       MONGODB         │◄───────┤  └─────────────────────┘   │
-│                       │        └────────────────────────────┘
+│                   BACKEND (Node.js + Express)                │
+│                                                              │
+│  ┌─────────────────────┐      ┌───────────────────────────┐  │
+│  │ AUTH (JWT)          │      │ Motor CSP                 │  │
+│  │ Middlewares         │      │ (Backtracking+MRV)        │  │
+│  └─────────────────────┘      └───────────────────────────┘  │
+└──────┬───────────────────────────────────────────────────────┘
+       │ Mongoose Driver
+       ▼
+┌───────────────────────┐
+│       MONGODB         │
+│                       │
 │  users                │
 │  courses              │
 │  teachers             │
 │  classrooms           │
 │  enrollments          │
 │  schedules            │
-│  academic_periods     │
+│  logs                 │
 └───────────────────────┘
 ```
 
@@ -181,12 +175,14 @@ gestion-horarios-universitarios/
 │       ├── 📂 stores/            # Zustand stores
 │       └── 📂 lib/               # firebase.ts, csp.ts, utils.ts
 │
-├── 📂 functions/                 # Cloud Functions Node.js
+├── 📂 backend/                  # Backend Node.js Express MERN
+│   ├── 📄 package.json
+│   ├── 📄 Dockerfile
 │   └── 📂 src/
-│       ├── 📂 auth/              # onCreate user trigger
-│       ├── 📂 schedules/         # generateSchedule(), validateSchedule()
-│       ├── 📂 enrollments/       # validateEnrollment(), checkCredits()
-│       └── 📂 shared/            # Tipos, constantes, helpers
+│       ├── 📂 domain/            # Modelos, puertos y errores
+│       ├── 📂 application/       # Motor CSP (Backtracking)
+│       ├── 📂 infrastructure/    # Rutas HTTP y BD Mongoose
+│       └── 📂 shared/            # Zod schemas y utils
 │
 └── 📂 docs/                      # Documentación Sprint 0
     ├── 1_Enfoque_del_Proyecto.md
@@ -215,55 +211,29 @@ git clone https://github.com/Alexanderxx03/gestion-horarios-universitarios.git
 cd gestion-horarios-universitarios
 ```
 
-### 2. Configurar Firebase
+### 2. Instalar dependencias (Monorepo)
 
 ```bash
-# Iniciar sesión en Firebase
-firebase login
-
-# Vincular al proyecto Firebase
-firebase use --add
-```
-
-### 3. Instalar dependencias del Frontend
-
-```bash
-cd frontend
 npm install
 ```
 
-### 4. Instalar dependencias de Cloud Functions
+### 3. Ejecutar backend y MongoDB con Docker
 
 ```bash
-cd ../functions
-npm install
+docker-compose up -d
 ```
 
-### 5. Configurar variables de entorno del Frontend
+### 4. Configurar variables de entorno del Frontend
 
 ```bash
 # Crear archivo de variables de entorno
 cp frontend/.env.example frontend/.env.local
-# Completar con los datos de tu proyecto Firebase
 ```
 
-```env
-VITE_FIREBASE_API_KEY=tu_api_key
-VITE_FIREBASE_AUTH_DOMAIN=tu_proyecto.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=tu_proyecto_id
-VITE_FIREBASE_STORAGE_BUCKET=tu_proyecto.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=tu_sender_id
-VITE_FIREBASE_APP_ID=tu_app_id
-```
-
-### 6. Ejecutar en modo desarrollo
+### 5. Ejecutar Frontend en modo desarrollo
 
 ```bash
-# Terminal 1 – Frontend
 cd frontend && npm run dev
-
-# Terminal 2 – Emuladores Firebase (Firestore + Functions + Auth)
-firebase emulators:start
 ```
 
 Acceder en: [http://localhost:5173](http://localhost:5173)
@@ -272,23 +242,14 @@ Acceder en: [http://localhost:5173](http://localhost:5173)
 
 ## 🔥 Despliegue en Firebase
 
-### Build y Deploy Completo
+### Build y Deploy Frontend
 
 ```bash
 # Build del frontend
 cd frontend && npm run build
 
-# Deploy de todo (hosting + functions + rules)
-cd .. && firebase deploy
-
-# Deploy solo del frontend
-firebase deploy --only hosting
-
-# Deploy solo de functions
-firebase deploy --only functions
-
-# Deploy solo de reglas Firestore
-firebase deploy --only firestore:rules
+# Deploy del frontend a Firebase Hosting
+cd .. && firebase deploy --only hosting
 ```
 
 ### URLs del Proyecto
@@ -296,8 +257,7 @@ firebase deploy --only firestore:rules
 | Servicio                 | URL                                                                          |
 | ------------------------ | ---------------------------------------------------------------------------- |
 | **Hosting (Producción)** | [https://gestion-unihorarios.web.app/](https://gestion-unihorarios.web.app/) |
-| **Firestore Console**    | [console.firebase.google.com](https://console.firebase.google.com/)          |
-| **Functions Logs**       | `firebase functions:log`                                                     |
+| **Backend API (MERN)**   | `http://localhost:5000/api`                                                  |
 
 ---
 
