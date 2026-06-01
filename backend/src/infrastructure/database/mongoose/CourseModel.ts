@@ -1,24 +1,34 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface ICourse extends Document {
-  code: string;
-  name: string;
-  credits: number;
-  weeklyHours: number;
-  requiresLab: boolean;
-  maxCapacity: number;
+export interface ICurso extends Document {
+  codigo: string;
+  nombre: string;
+  creditos: number;
+  horasSemanales: number;
+  requiereLaboratorio: boolean;
+  capacidadMaxima: number;
+  prerrequisitos: mongoose.Types.ObjectId[];
+  carreraId: mongoose.Types.ObjectId;
+  semestre: number;
+  activo: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const CourseSchema: Schema = new Schema(
+const CursoSchema: Schema = new Schema(
   {
-    code: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    credits: { type: Number, required: true },
-    weeklyHours: { type: Number, required: true },
-    requiresLab: { type: Boolean, default: false },
-    maxCapacity: { type: Number, required: true },
+    codigo: { type: String, required: true, unique: true },
+    nombre: { type: String, required: true },
+    creditos: { type: Number, required: true },
+    horasSemanales: { type: Number, required: true },
+    requiereLaboratorio: { type: Boolean, default: false },
+    capacidadMaxima: { type: Number, required: true },
+    prerrequisitos: [{ type: Schema.Types.ObjectId, ref: 'cursos' }],
+    carreraId: { type: Schema.Types.ObjectId, ref: 'carreras', required: true, index: true },
+    semestre: { type: Number, required: true },
+    activo: { type: Boolean, default: true, index: true },
   },
   { timestamps: true },
 );
 
-export const CourseModel = mongoose.model<ICourse>('Course', CourseSchema);
+export const CourseModel = mongoose.model<ICurso>('cursos', CursoSchema);

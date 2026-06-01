@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, FormEvent, MouseEvent } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 // Imports removed for MERN migration
@@ -13,6 +13,7 @@ export function Inicio() {
   const [mode, setMode] = useState<AuthMode>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nombreCompleto, setNombreCompleto] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [resetMsg, setResetMsg] = useState({ type: '', text: '' });
   const [isLoading, setIsLoading] = useState(false);
@@ -118,6 +119,7 @@ export function Inicio() {
     setErrorMsg('');
     setEmail('');
     setPassword('');
+    setNombreCompleto('');
 
     gsap.to(formWrapper.current, {
       opacity: 0,
@@ -134,7 +136,7 @@ export function Inicio() {
     });
   };
 
-  const handleEmailAuth = async (e: React.FormEvent) => {
+  const handleEmailAuth = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
     setIsLoading(true);
@@ -152,12 +154,21 @@ export function Inicio() {
 
         localStorage.setItem('token', data.token);
       } else {
-        throw new Error('Registro no implementado en mock temporal.');
+        const res = await fetch('http://localhost:5000/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, nombreCompleto, role: 'ADMIN' }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Error en el registro');
+
+        localStorage.setItem('token', data.token);
       }
       navigate('/dashboard');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Auth Error:', err);
-      setErrorMsg(err.message);
+      setErrorMsg(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
       setIsLoading(false);
     }
@@ -167,7 +178,7 @@ export function Inicio() {
     setErrorMsg('Google login not supported in MERN demo.');
   };
 
-  const handlePasswordReset = async (e: React.MouseEvent) => {
+  const handlePasswordReset = async (e: MouseEvent) => {
     e.preventDefault();
     setErrorMsg('');
     setResetMsg({ type: '', text: '' });
@@ -418,6 +429,21 @@ export function Inicio() {
             )}
 
             <form onSubmit={handleEmailAuth}>
+              {mode === 'register' && (
+                <div className="form-group form-stagger" style={{ marginBottom: '1.25rem' }}>
+                  <label className="form-label">Nombre completo</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Juan Pérez"
+                    value={nombreCompleto}
+                    onChange={(e) => setNombreCompleto(e.target.value)}
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+              )}
+
               <div className="form-group form-stagger" style={{ marginBottom: '1.25rem' }}>
                 <label className="form-label">Correo electrónico</label>
                 <input

@@ -13,6 +13,7 @@ export function PaginaGenerarHorario() {
     mensajeError,
     cspTreeId,
     generarHorario,
+    generarHorarioEnServidor,
     reiniciarHorario,
     asignaciones,
   } = useHorarioStore();
@@ -77,12 +78,7 @@ export function PaginaGenerarHorario() {
               </button>
               <button
                 className="btn btn-secondary btn-lg"
-                onClick={() => {
-                  alert(
-                    '🚀 Simulando envío al Backend MERN remoto...\n\n(En un entorno real, esto llamaría a POST /api/schedules/generate con el body { periodId: "2026-1" })',
-                  );
-                  generarHorario();
-                }}
+                onClick={() => generarHorarioEnServidor('2026-I')}
               >
                 🌐 Generar en Servidor MERN
               </button>

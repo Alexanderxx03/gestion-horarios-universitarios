@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { useHorarioStore } from '@/stores/horario.store';
 
 const ELEMENTOS_NAV = [
   { etiqueta: 'Panel Principal', ruta: '/dashboard', icono: '📊' },
@@ -11,6 +13,12 @@ const ELEMENTOS_NAV = [
 ];
 
 export function DisenoTablero() {
+  const cargarDatosDeMongo = useHorarioStore((state) => state.cargarDatosDeMongo);
+
+  useEffect(() => {
+    cargarDatosDeMongo();
+  }, [cargarDatosDeMongo]);
+
   return (
     <div className="dashboard-layout">
       {/* Barra lateral */}

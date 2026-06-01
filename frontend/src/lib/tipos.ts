@@ -1,4 +1,4 @@
-/** Tipos compartidos del frontend para el prototipo */
+/** Tipos compartidos del frontend para el prototipo y la base de datos MERN */
 
 export interface FranjaHoraria {
   diaSemana: number;
@@ -7,39 +7,47 @@ export interface FranjaHoraria {
 }
 
 export interface Curso {
-  id: string;
+  _id: string; // ID en Mongoose
+  id: string; // Alias de compatibilidad
   codigo: string;
   nombre: string;
   creditos: number;
   horasSemanales: number;
-  requiereLab: boolean;
+  requiereLaboratorio: boolean;
+  requiereLab: boolean; // Alias de compatibilidad
   prerrequisitos: string[];
   capacidadMaxima: number;
-  estaActivo: boolean;
+  activo: boolean;
+  estaActivo: boolean; // Alias de compatibilidad
   carreraId: string;
   semestre: number;
 }
 
 export interface Docente {
-  id: string;
+  _id: string; // ID en Mongoose
+  id: string; // Alias de compatibilidad
   usuarioId: string;
   codigoEmpleado: string;
   departamento: string;
-  maxHorasSemana: number;
+  horasMaximasSemanales: number;
   disponibilidad: FranjaHoraria[];
-  cursosCalificados: string[];
-  nombreCompleto: string;
+  cursosHabilitados: string[];
+  cursosCalificados: string[]; // Alias de compatibilidad
+  activo: boolean;
+  nombreCompleto?: string;
 }
 
 export interface Aula {
-  id: string;
+  _id: string; // ID en Mongoose
+  id: string; // Alias de compatibilidad
   nombre: string;
-  edificio: string;
+  pabellon: string;
   piso: number;
   capacidad: number;
   esLaboratorio: boolean;
   tieneProyector: boolean;
-  estaActiva: boolean;
+  activo: boolean;
+  estaActiva: boolean; // Alias de compatibilidad
 }
 
 export interface AsignacionHorario {

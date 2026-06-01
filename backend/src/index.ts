@@ -6,6 +6,8 @@ import courseRoutes from './infrastructure/http/routes/course.routes';
 import enrollmentRoutes from './infrastructure/http/routes/enrollment.routes';
 import authRoutes from './infrastructure/http/routes/auth.routes';
 import logRoutes from './infrastructure/http/routes/log.routes';
+import teacherRoutes from './infrastructure/http/routes/teacher.routes';
+import classroomRoutes from './infrastructure/http/routes/classroom.routes';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -21,17 +23,19 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/schedules', scheduleRoutes);
 app.use('/api/courses', courseRoutes);
+app.use('/api/teachers', teacherRoutes);
+app.use('/api/classrooms', classroomRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 app.use('/api/logs', logRoutes);
 
-// Conexión a MongoDB
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/gestion-horarios';
+// Conexión a MongoDB (Local / Compass)
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/gestion-horarios';
 mongoose
   .connect(MONGO_URI)
   .then(() => {
-    console.log('📦 Conectado a MongoDB Atlas');
+    console.log('📦 Conectado exitosamente a MongoDB (Local / Compass)');
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`);
+      console.log(`🚀 Servidor backend MERN corriendo en http://localhost:${PORT}`);
     });
   })
   .catch((error) => {

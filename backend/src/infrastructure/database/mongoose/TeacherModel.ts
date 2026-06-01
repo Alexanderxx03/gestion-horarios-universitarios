@@ -1,34 +1,38 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface ITeacher extends Document {
-  userId: string;
-  employeeCode: string;
-  department: string;
-  maxHoursPerWeek: number;
-  qualifiedCourses: mongoose.Types.ObjectId[];
-  availability: {
-    dayOfWeek: number;
-    startTime: string;
-    endTime: string;
+export interface IDocente extends Document {
+  usuarioId: mongoose.Types.ObjectId;
+  codigoEmpleado: string;
+  departamento: string;
+  horasMaximasSemanales: number;
+  cursosHabilitados: mongoose.Types.ObjectId[];
+  disponibilidad: {
+    diaSemana: number;
+    horaInicio: string;
+    horaFin: string;
   }[];
+  activo: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const TeacherSchema: Schema = new Schema(
+const DocenteSchema: Schema = new Schema(
   {
-    userId: { type: String, required: true },
-    employeeCode: { type: String, required: true, unique: true },
-    department: { type: String, required: true },
-    maxHoursPerWeek: { type: Number, required: true },
-    qualifiedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
-    availability: [
+    usuarioId: { type: Schema.Types.ObjectId, ref: 'usuarios', required: true, index: true },
+    codigoEmpleado: { type: String, required: true, unique: true },
+    departamento: { type: String, required: true },
+    horasMaximasSemanales: { type: Number, required: true },
+    cursosHabilitados: [{ type: Schema.Types.ObjectId, ref: 'cursos' }],
+    disponibilidad: [
       {
-        dayOfWeek: { type: Number, required: true },
-        startTime: { type: String, required: true },
-        endTime: { type: String, required: true },
+        diaSemana: { type: Number, required: true },
+        horaInicio: { type: String, required: true },
+        horaFin: { type: String, required: true },
       },
     ],
+    activo: { type: Boolean, default: true, index: true },
   },
   { timestamps: true },
 );
 
-export const TeacherModel = mongoose.model<ITeacher>('Teacher', TeacherSchema);
+export const TeacherModel = mongoose.model<IDocente>('docentes', DocenteSchema);

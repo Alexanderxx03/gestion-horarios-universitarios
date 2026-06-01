@@ -2,7 +2,7 @@ import { useHorarioStore } from '@/stores/horario.store';
 import { NOMBRES_DIAS } from '@/lib/datosDemostracion';
 
 export function PaginaDocentes() {
-  const { docentes } = useHorarioStore();
+  const { docentes, cursos } = useHorarioStore();
 
   return (
     <div>
@@ -21,7 +21,7 @@ export function PaginaDocentes() {
         }}
       >
         {docentes.map((docente) => (
-          <div key={docente.id} className="glass-card" style={{ padding: '1.5rem' }}>
+          <div key={docente._id} className="glass-card" style={{ padding: '1.5rem' }}>
             <div
               style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}
             >
@@ -40,7 +40,9 @@ export function PaginaDocentes() {
                 👨‍🏫
               </div>
               <div>
-                <div style={{ fontWeight: 600, fontSize: '1.05rem' }}>{docente.nombreCompleto}</div>
+                <div style={{ fontWeight: 600, fontSize: '1.05rem' }}>
+                  {docente.nombreCompleto || `Docente ${docente.codigoEmpleado}`}
+                </div>
                 <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                   {docente.codigoEmpleado} · {docente.departamento}
                 </div>
@@ -49,7 +51,7 @@ export function PaginaDocentes() {
 
             <div style={{ fontSize: '0.85rem', marginBottom: '0.75rem' }}>
               <span style={{ color: 'var(--text-dimmed)' }}>Máx. horas/semana:</span>{' '}
-              <strong>{docente.maxHorasSemana}h</strong>
+              <strong>{docente.horasMaximasSemanales}h</strong>
             </div>
 
             <div style={{ marginBottom: '0.75rem' }}>
@@ -63,7 +65,7 @@ export function PaginaDocentes() {
                 Disponibilidad:
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
-                {docente.disponibilidad.map((franja, i) => (
+                {docente.disponibilidad?.map((franja, i) => (
                   <span key={i} className="badge badge-info" style={{ fontSize: '0.7rem' }}>
                     {NOMBRES_DIAS[franja.diaSemana]?.slice(0, 3)} {franja.horaInicio}-
                     {franja.horaFin}
@@ -80,14 +82,22 @@ export function PaginaDocentes() {
                   marginBottom: '0.375rem',
                 }}
               >
-                Cursos calificados:
+                Cursos habilitados:
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
-                {docente.cursosCalificados.map((cid) => (
-                  <span key={cid} className="badge badge-success" style={{ fontSize: '0.7rem' }}>
-                    {cid}
-                  </span>
-                ))}
+                {docente.cursosHabilitados?.map((cid) => {
+                  const curso = cursos.find((c) => c._id === cid || c.id === cid);
+                  return (
+                    <span
+                      key={cid}
+                      className="badge badge-success"
+                      style={{ fontSize: '0.7rem' }}
+                      title={curso?.nombre}
+                    >
+                      {curso ? curso.codigo : typeof cid === 'string' ? cid.slice(-6) : 'CURSO'}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>

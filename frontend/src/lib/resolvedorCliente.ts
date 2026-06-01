@@ -107,7 +107,7 @@ export function resolverHorario(
 
   for (const d of docentes) {
     disponibilidadDocente.set(d.id, d.disponibilidad);
-    mapaDocenteNombre.set(d.id, d.nombreCompleto);
+    mapaDocenteNombre.set(d.id, d.nombreCompleto || d.codigoEmpleado);
     for (const cid of d.cursosCalificados) {
       const arr = docentesPorCurso.get(cid) ?? [];
       arr.push(d.id);

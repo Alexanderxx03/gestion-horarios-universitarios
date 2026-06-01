@@ -8,6 +8,7 @@
   },
   "scripts": {
     "prepare": "husky",
+    "dev": "concurrently \"npm -w backend run dev\" \"npm -w frontend run dev\"",
     "lint": "npm -w frontend run lint && npm -w backend run lint",
     "typecheck": "npm -w frontend run typecheck && npm -w backend run build",
     "test": "npm -w frontend run test",
@@ -19,6 +20,7 @@
     "backend"
   ],
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.11",
     "prettier": "^3.4.2"

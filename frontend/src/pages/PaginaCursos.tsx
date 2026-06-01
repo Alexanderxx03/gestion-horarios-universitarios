@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useHorarioStore } from '@/stores/horario.store';
 
 export function PaginaCursos() {
-  const { cursos, agregarCurso } = useHorarioStore();
+  const { cursos, agregarCurso, cursosPaginacion, cargarDatosDeMongo } = useHorarioStore();
   const [mostrarForm, setMostrarForm] = useState(false);
   const [formData, setFormData] = useState({
     codigo: '',
@@ -11,15 +11,18 @@ export function PaginaCursos() {
     horasSemanales: 4,
     capacidadMaxima: 40,
     semestre: 1,
-    requiereLab: false,
+    requiereLaboratorio: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     agregarCurso({
+      _id: `course-${Date.now()}`,
       id: `course-${Date.now()}`,
       ...formData,
+      activo: true,
       estaActivo: true,
+      requiereLab: formData.requiereLaboratorio,
       carreraId: 'SIS',
       prerrequisitos: [],
     });
@@ -31,7 +34,7 @@ export function PaginaCursos() {
       horasSemanales: 4,
       capacidadMaxima: 40,
       semestre: 1,
-      requiereLab: false,
+      requiereLaboratorio: false,
     });
   };
 
@@ -126,8 +129,10 @@ export function PaginaCursos() {
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <input
                   type="checkbox"
-                  checked={formData.requiereLab}
-                  onChange={(e) => setFormData({ ...formData, requiereLab: e.target.checked })}
+                  checked={formData.requiereLaboratorio}
+                  onChange={(e) =>
+                    setFormData({ ...formData, requiereLaboratorio: e.target.checked })
+                  }
                 />
                 Requiere Laboratorio
               </label>
@@ -155,7 +160,7 @@ export function PaginaCursos() {
           </thead>
           <tbody>
             {cursos.map((curso) => (
-              <tr key={curso.id}>
+              <tr key={curso._id}>
                 <td>
                   <span style={{ fontFamily: 'monospace', color: 'var(--accent)' }}>
                     {curso.codigo}
@@ -169,21 +174,68 @@ export function PaginaCursos() {
                   <span className="badge badge-info">{curso.semestre}°</span>
                 </td>
                 <td>
-                  {curso.requiereLab ? (
+                  {curso.requiereLaboratorio ? (
                     <span className="badge badge-warning">🔬 Sí</span>
                   ) : (
                     <span style={{ color: 'var(--text-dimmed)' }}>—</span>
                   )}
                 </td>
                 <td>
-                  <span className={`badge ${curso.estaActivo ? 'badge-success' : 'badge-danger'}`}>
-                    {curso.estaActivo ? 'Activo' : 'Inactivo'}
+                  <span className={`badge ${curso.activo ? 'badge-success' : 'badge-danger'}`}>
+                    {curso.activo ? 'Activo' : 'Inactivo'}
                   </span>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {/* Controles de Paginación Ecológicos (Reducción de carga inicial) */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '1rem 1.5rem',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            background: 'rgba(0, 0, 0, 0.2)',
+          }}
+        >
+          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            Mostrando página <strong>{cursosPaginacion.page}</strong> de{' '}
+            <strong>{cursosPaginacion.totalPages}</strong> ({cursosPaginacion.total} asignaturas en
+            total)
+          </div>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              className="btn"
+              style={{
+                padding: '4px 12px',
+                fontSize: '0.85rem',
+                opacity: cursosPaginacion.page <= 1 ? 0.5 : 1,
+                cursor: cursosPaginacion.page <= 1 ? 'not-allowed' : 'pointer',
+              }}
+              disabled={cursosPaginacion.page <= 1}
+              onClick={() => cargarDatosDeMongo(true, cursosPaginacion.page - 1)}
+            >
+              ◀ Anterior
+            </button>
+            <button
+              className="btn"
+              style={{
+                padding: '4px 12px',
+                fontSize: '0.85rem',
+                opacity: cursosPaginacion.page >= cursosPaginacion.totalPages ? 0.5 : 1,
+                cursor:
+                  cursosPaginacion.page >= cursosPaginacion.totalPages ? 'not-allowed' : 'pointer',
+              }}
+              disabled={cursosPaginacion.page >= cursosPaginacion.totalPages}
+              onClick={() => cargarDatosDeMongo(true, cursosPaginacion.page + 1)}
+            >
+              Siguiente ▶
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

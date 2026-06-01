@@ -17,7 +17,7 @@ export function PaginaAulas() {
           <thead>
             <tr>
               <th>Nombre</th>
-              <th>Edificio</th>
+              <th>Pabellón</th>
               <th>Piso</th>
               <th>Capacidad</th>
               <th>Tipo</th>
@@ -27,17 +27,24 @@ export function PaginaAulas() {
           </thead>
           <tbody>
             {aulas.map((aula) => (
-              <tr key={aula.id}>
+              <tr key={aula._id}>
                 <td style={{ fontWeight: 500 }}>{aula.nombre}</td>
-                <td>{aula.edificio}</td>
+                <td>{aula.pabellon}</td>
                 <td>{aula.piso}°</td>
                 <td>{aula.capacidad} est.</td>
                 <td>
-                  {aula.esLaboratorio ? (
-                    <span className="badge badge-warning">🔬 Laboratorio</span>
-                  ) : (
-                    <span className="badge badge-info">📖 Aula</span>
-                  )}
+                  {(() => {
+                    if (aula.nombre.toLowerCase().includes('laboratorio')) {
+                      return <span className="badge badge-warning">🔬 Laboratorio</span>;
+                    }
+                    if (aula.nombre.toLowerCase().includes('taller')) {
+                      return <span className="badge badge-success">🛠️ Taller</span>;
+                    }
+                    if (aula.nombre.toLowerCase().includes('magna')) {
+                      return <span className="badge badge-danger">🏛️ Aula Magna</span>;
+                    }
+                    return <span className="badge badge-info">📖 Aula Teórica</span>;
+                  })()}
                 </td>
                 <td>
                   {aula.tieneProyector ? (
@@ -47,8 +54,8 @@ export function PaginaAulas() {
                   )}
                 </td>
                 <td>
-                  <span className={`badge ${aula.estaActiva ? 'badge-success' : 'badge-danger'}`}>
-                    {aula.estaActiva ? 'Activo' : 'Inactivo'}
+                  <span className={`badge ${aula.activo ? 'badge-success' : 'badge-danger'}`}>
+                    {aula.activo ? 'Activo' : 'Inactivo'}
                   </span>
                 </td>
               </tr>

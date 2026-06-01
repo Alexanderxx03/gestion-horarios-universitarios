@@ -1,42 +1,49 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface ISchedule extends Document {
-  periodId: string;
-  status: 'PENDING' | 'IN_PROGRESS' | 'GENERATED' | 'FAILED';
-  generationTimeMs: number;
-  conflictsFound: number;
-  assignments: {
-    courseId: mongoose.Types.ObjectId;
-    teacherId: mongoose.Types.ObjectId;
-    classroomId: mongoose.Types.ObjectId;
-    dayOfWeek: number;
-    startTime: string;
-    endTime: string;
+export interface IHorario extends Document {
+  periodoId: mongoose.Types.ObjectId;
+  estado: 'PENDIENTE' | 'EN_PROGRESO' | 'GENERADO' | 'FALLIDO';
+  tiempoGeneracionMs: number;
+  conflictosEncontrados: number;
+  asignaciones: {
+    cursoId: mongoose.Types.ObjectId;
+    docenteId: mongoose.Types.ObjectId;
+    aulaId: mongoose.Types.ObjectId;
+    diaSemana: number;
+    horaInicio: string;
+    horaFin: string;
   }[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const ScheduleSchema: Schema = new Schema(
+const HorarioSchema: Schema = new Schema(
   {
-    periodId: { type: String, required: true },
-    status: {
+    periodoId: {
+      type: Schema.Types.ObjectId,
+      ref: 'periodos_academicos',
+      required: true,
+      index: true,
+    },
+    estado: {
       type: String,
-      enum: ['PENDING', 'IN_PROGRESS', 'GENERATED', 'FAILED'],
+      enum: ['PENDIENTE', 'EN_PROGRESO', 'GENERADO', 'FALLIDO'],
       required: true,
     },
-    generationTimeMs: { type: Number, required: true },
-    conflictsFound: { type: Number, required: true },
-    assignments: [
+    tiempoGeneracionMs: { type: Number, required: true },
+    conflictosEncontrados: { type: Number, required: true },
+    asignaciones: [
       {
-        courseId: { type: Schema.Types.ObjectId, ref: 'Course' },
-        teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
-        classroomId: { type: Schema.Types.ObjectId, ref: 'Classroom' },
-        dayOfWeek: { type: Number, required: true },
-        startTime: { type: String, required: true },
-        endTime: { type: String, required: true },
+        cursoId: { type: Schema.Types.ObjectId, ref: 'cursos' },
+        docenteId: { type: Schema.Types.ObjectId, ref: 'docentes' },
+        aulaId: { type: Schema.Types.ObjectId, ref: 'aulas' },
+        diaSemana: { type: Number, required: true },
+        horaInicio: { type: String, required: true },
+        horaFin: { type: String, required: true },
       },
     ],
   },
   { timestamps: true },
 );
 
-export const ScheduleModel = mongoose.model<ISchedule>('Schedule', ScheduleSchema);
+export const ScheduleModel = mongoose.model<IHorario>('horarios', HorarioSchema);

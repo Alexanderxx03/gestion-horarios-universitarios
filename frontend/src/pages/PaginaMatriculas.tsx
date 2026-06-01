@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useHorarioStore } from '@/stores/horario.store';
 
 export function PaginaMatriculas() {
@@ -14,7 +14,7 @@ export function PaginaMatriculas() {
 
   const cursosActivos = cursos.filter((c) => c.estaActivo);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (formData.cursosSeleccionados.length === 0) return;
 

@@ -1,26 +1,28 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IClassroom extends Document {
-  name: string;
-  building: string;
-  floor: number;
-  capacity: number;
-  isLab: boolean;
-  hasProjector: boolean;
-  isActive: boolean;
+export interface IAula extends Document {
+  nombre: string;
+  pabellon: string;
+  piso: number;
+  capacidad: number;
+  esLaboratorio: boolean;
+  tieneProyector: boolean;
+  activo: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const ClassroomSchema: Schema = new Schema(
+const AulaSchema: Schema = new Schema(
   {
-    name: { type: String, required: true },
-    building: { type: String, required: true },
-    floor: { type: Number, required: true },
-    capacity: { type: Number, required: true },
-    isLab: { type: Boolean, default: false },
-    hasProjector: { type: Boolean, default: true },
-    isActive: { type: Boolean, default: true },
+    nombre: { type: String, required: true },
+    pabellon: { type: String, required: true },
+    piso: { type: Number, required: true },
+    capacidad: { type: Number, required: true },
+    esLaboratorio: { type: Boolean, default: false },
+    tieneProyector: { type: Boolean, default: true },
+    activo: { type: Boolean, default: true, index: true },
   },
   { timestamps: true },
 );
 
-export const ClassroomModel = mongoose.model<IClassroom>('Classroom', ClassroomSchema);
+export const ClassroomModel = mongoose.model<IAula>('aulas', AulaSchema);

@@ -1,19 +1,19 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface ILog extends Document {
-  executionId: string;
-  step: number;
-  message: string;
-  timestamp: Date;
-  data?: any;
+export interface IRegistro extends Document {
+  ejecucionId: string;
+  paso: number;
+  mensaje: string;
+  fecha: Date;
+  datos?: any;
 }
 
-const LogSchema: Schema = new Schema({
-  executionId: { type: String, required: true },
-  step: { type: Number, required: true },
-  message: { type: String, required: true },
-  timestamp: { type: Date, default: Date.now },
-  data: { type: Schema.Types.Mixed },
+const RegistroSchema: Schema = new Schema({
+  ejecucionId: { type: String, required: true },
+  paso: { type: Number, required: true },
+  mensaje: { type: String, required: true },
+  fecha: { type: Date, default: Date.now },
+  datos: { type: Schema.Types.Mixed },
 });
 
-export default mongoose.model<ILog>('Log', LogSchema);
+export default mongoose.model<IRegistro>('registros', RegistroSchema);
