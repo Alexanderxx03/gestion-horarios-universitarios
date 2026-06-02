@@ -872,8 +872,8 @@ a:hover { color: var(--accent-hover); }
 
 .split-left {
   flex: 1.2;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-lighter) 100%);
-  color: white;
+  background: linear-gradient(135deg, #090d16 0%, #1e293b 100%);
+  color: #ffffff;
   padding: 4rem;
   display: flex;
   flex-direction: column;
@@ -886,7 +886,7 @@ a:hover { color: var(--accent-hover); }
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-image: radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.15) 0%, transparent 50%);
+  background-image: radial-gradient(circle at 20% 80%, rgba(2, 132, 199, 0.25) 0%, transparent 60%);
   pointer-events: none;
 }
 

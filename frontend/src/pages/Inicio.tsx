@@ -198,7 +198,7 @@ export function Inicio() {
         <div className="branding">
           <div
             className="branding-logo"
-            style={{ background: 'var(--accent)', color: 'var(--primary)' }}
+            style={{ background: 'var(--accent)', color: '#ffffff' }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -538,7 +538,7 @@ export function Inicio() {
               }}
             >
               Al {mode === 'login' ? 'ingresar' : 'registrarte'} aceptas los{' '}
-              <a href="#" style={{ color: 'white' }}>
+              <a href="#" style={{ color: 'var(--accent)', fontWeight: 600 }}>
                 Términos de uso
               </a>{' '}
               de la plataforma CSP.
