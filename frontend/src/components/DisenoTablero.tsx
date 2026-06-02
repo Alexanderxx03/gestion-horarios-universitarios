@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useHorarioStore } from '@/stores/horario.store';
 import { calcularEmisionesCO2, calcularAhorroCO2 } from '@/lib/co2Calculator';
@@ -17,12 +17,29 @@ export function DisenoTablero() {
   const cargarDatosDeMongo = useHorarioStore((state) => state.cargarDatosDeMongo);
   const bytesTransferidos = useHorarioStore((state) => state.bytesTransferidos);
 
+  const [tema, setTema] = useState<'light' | 'dark'>(() => {
+    return (localStorage.getItem('tema') as 'light' | 'dark') || 'light';
+  });
+
   const emisiones = calcularEmisionesCO2(bytesTransferidos);
   const { porcentajeAhorro } = calcularAhorroCO2(bytesTransferidos);
 
   useEffect(() => {
     cargarDatosDeMongo();
   }, [cargarDatosDeMongo]);
+
+  useEffect(() => {
+    if (tema === 'dark') {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+    localStorage.setItem('tema', tema);
+  }, [tema]);
+
+  const toggleTema = () => {
+    setTema((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   return (
     <div className="dashboard-layout">
@@ -122,6 +139,26 @@ export function DisenoTablero() {
             >
               Coordinador
             </span>
+            <button
+              onClick={toggleTema}
+              style={{
+                background: 'rgba(0, 0, 0, 0.05)',
+                border: '1px solid var(--glass-border)',
+                cursor: 'pointer',
+                fontSize: '1.2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px',
+                borderRadius: '50%',
+                transition: 'var(--transition-fast)',
+                color: 'var(--text-main)',
+                marginLeft: '8px',
+              }}
+              title={tema === 'light' ? 'Cambiar a Modo Noche' : 'Cambiar a Modo Día'}
+            >
+              {tema === 'light' ? '🌙' : '☀️'}
+            </button>
           </div>
         </header>
         <main className="page-content animate-fade-in">
