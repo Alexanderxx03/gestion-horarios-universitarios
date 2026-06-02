@@ -25,6 +25,9 @@ const PaginaVerHorario = lazy(() =>
 const PaginaMatriculas = lazy(() =>
   import('@/pages/PaginaMatriculas').then((m) => ({ default: m.PaginaMatriculas })),
 );
+const PaginaSostenibilidad = lazy(() =>
+  import('@/pages/PaginaSostenibilidad').then((m) => ({ default: m.PaginaSostenibilidad })),
+);
 
 export function App() {
   return (
@@ -127,6 +130,20 @@ export function App() {
                 }
               >
                 <PaginaVerHorario />
+              </Suspense>
+            }
+          />
+          <Route
+            path="sostenibilidad"
+            element={
+              <Suspense
+                fallback={
+                  <div style={{ padding: '2rem', color: 'var(--text-muted)' }}>
+                    Cargando métricas ecológicas...
+                  </div>
+                }
+              >
+                <PaginaSostenibilidad />
               </Suspense>
             }
           />

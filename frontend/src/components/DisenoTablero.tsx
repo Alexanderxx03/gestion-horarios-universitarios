@@ -11,6 +11,7 @@ const ELEMENTOS_NAV = [
   { etiqueta: 'Matrículas', ruta: '/dashboard/matriculas', icono: '📝' },
   { etiqueta: 'Generar Horario', ruta: '/dashboard/generar', icono: '🧠' },
   { etiqueta: 'Ver Horario', ruta: '/dashboard/horario', icono: '📅' },
+  { etiqueta: 'Eco-Sostenibilidad', ruta: '/dashboard/sostenibilidad', icono: '🍃' },
 ];
 
 export function DisenoTablero() {
