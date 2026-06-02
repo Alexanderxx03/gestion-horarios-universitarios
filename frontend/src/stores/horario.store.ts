@@ -74,6 +74,9 @@ interface EstadoHorarioStore {
   mensajeError: string | null;
   cspTreeId: string | null;
 
+  /* Métricas de Sostenibilidad */
+  bytesTransferidos: number;
+
   /* Acciones */
   cargarDatosDeMongo: (force?: boolean, page?: number, limit?: number) => Promise<void>;
   generarHorario: () => void;
@@ -91,6 +94,7 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
   cursos: [],
   docentes: [],
   aulas: [],
+  bytesTransferidos: 0,
 
   cursosPaginacion: {
     total: 0,
@@ -211,11 +215,17 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
         totalPages: 1,
       };
 
+      const bytesCursos = JSON.stringify(dataCursos).length;
+      const bytesDocentes = JSON.stringify(dataDocentes).length;
+      const bytesAulas = JSON.stringify(dataAulas).length;
+      const bytesTransferred = bytesCursos + bytesDocentes + bytesAulas;
+
       set({
         cursos: mappedCursos,
         docentes: mappedDocentes,
         aulas: mappedAulas,
         cursosPaginacion: paginacion,
+        bytesTransferidos: get().bytesTransferidos + bytesTransferred,
       });
     } catch (error) {
       console.error('Error cargando datos de MongoDB:', error);
@@ -304,6 +314,10 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
           tamanoGrupo: a.groupSize || 30,
         }));
 
+        const bytesGen = JSON.stringify(data).length;
+        const bytesDetail = JSON.stringify(dataDetail).length;
+        const totalGenBytes = bytesGen + bytesDetail;
+
         set({
           estado: 'generado',
           asignaciones: mappedAssignments,
@@ -312,6 +326,7 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
           retrocesos: data.data.backtracks,
           mensajeError: null,
           cspTreeId: data.data.scheduleId,
+          bytesTransferidos: get().bytesTransferidos + totalGenBytes,
         });
       } else {
         throw new Error('No se pudo recuperar el detalle del horario generado.');
