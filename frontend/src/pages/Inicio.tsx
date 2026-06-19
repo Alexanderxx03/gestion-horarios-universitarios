@@ -367,6 +367,7 @@ export function Inicio() {
               className="split-google-btn form-stagger"
               onClick={handleGoogleLogin}
               disabled={isLoading}
+              aria-label="Continuar sesión con Google"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                 <path
@@ -431,8 +432,9 @@ export function Inicio() {
             <form onSubmit={handleEmailAuth}>
               {mode === 'register' && (
                 <div className="form-group form-stagger" style={{ marginBottom: '1.25rem' }}>
-                  <label className="form-label">Nombre completo</label>
+                  <label htmlFor="nombreCompleto" className="form-label">Nombre completo</label>
                   <input
+                    id="nombreCompleto"
                     type="text"
                     className="form-input"
                     placeholder="Juan Pérez"
@@ -440,13 +442,15 @@ export function Inicio() {
                     onChange={(e) => setNombreCompleto(e.target.value)}
                     required
                     disabled={isLoading}
+                    aria-required="true"
                   />
                 </div>
               )}
 
               <div className="form-group form-stagger" style={{ marginBottom: '1.25rem' }}>
-                <label className="form-label">Correo electrónico</label>
+                <label htmlFor="email" className="form-label">Correo electrónico</label>
                 <input
+                  id="email"
                   type="email"
                   className="form-input"
                   placeholder="usuario@universidad.edu.pe"
@@ -454,6 +458,7 @@ export function Inicio() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={isLoading}
+                  aria-required="true"
                 />
               </div>
 
@@ -461,18 +466,20 @@ export function Inicio() {
                 <div
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                 >
-                  <label className="form-label">Contraseña</label>
+                  <label htmlFor="password" className="form-label">Contraseña</label>
                   {mode === 'login' && (
                     <a
                       href="#"
                       onClick={handlePasswordReset}
                       style={{ fontSize: '0.8rem', color: 'var(--accent)', textDecoration: 'none' }}
+                      aria-label="Restablecer contraseña olvidada"
                     >
                       ¿Olvidaste tu contraseña?
                     </a>
                   )}
                 </div>
                 <input
+                  id="password"
                   type="password"
                   className="form-input"
                   placeholder="••••••••"
@@ -480,6 +487,7 @@ export function Inicio() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={isLoading}
+                  aria-required="true"
                 />
               </div>
 

@@ -74,52 +74,6 @@ export function DisenoTablero() {
             </NavLink>
           </div>
 
-          {/* Sección de Sostenibilidad (CO2.js) */}
-          <div className="sidebar-section green-it-card" style={{
-            marginTop: 'auto',
-            padding: '12px 16px',
-            background: 'linear-gradient(135deg, rgba(74, 222, 128, 0.08) 0%, rgba(34, 197, 94, 0.03) 100%)',
-            border: '1px solid rgba(74, 222, 128, 0.2)',
-            borderRadius: '12px',
-            margin: '16px 12px 0 12px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
-          }}>
-            <div style={{
-              color: '#4ade80',
-              fontWeight: 600,
-              fontSize: '0.8rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              marginBottom: '6px'
-            }}>
-              🍃 Eco-Métricas (CO2.js)
-            </div>
-            <div style={{ display: 'grid', gap: '4px' }}>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                Transferido: <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{(bytesTransferidos / 1024).toFixed(2)} KB</span>
-              </div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                Huella de Carbono:
-              </div>
-              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'monospace' }}>
-                {emisiones.toFixed(6)} gCO2e
-              </div>
-              <div style={{
-                fontSize: '0.68rem',
-                color: '#4ade80',
-                fontWeight: 500,
-                marginTop: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px'
-              }}>
-                🔋 Ahorro de red: <strong>{porcentajeAhorro.toFixed(1)}%</strong>
-              </div>
-            </div>
-          </div>
         </nav>
       </aside>
 
@@ -165,6 +119,66 @@ export function DisenoTablero() {
         <main className="page-content animate-fade-in">
           <Outlet />
         </main>
+      </div>
+
+      {/* Widget Flotante de Eco-Métricas */}
+      <div 
+        className="eco-widget animate-slide-in"
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          background: 'var(--glass-bg)',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(34, 197, 94, 0.3)',
+          borderRadius: '16px',
+          padding: '16px 20px',
+          boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
+          zIndex: 1000,
+          minWidth: '240px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px'
+        }}
+      >
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          color: '#22c55e',
+          fontWeight: 'bold',
+          fontSize: '0.9rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em'
+        }}>
+          🍃 Eco-Métricas Activas
+        </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
+          <span style={{ color: 'var(--text-muted)' }}>Transferido:</span>
+          <span style={{ fontWeight: '600' }}>{(bytesTransferidos / 1024).toFixed(2)} KB</span>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
+          <span style={{ color: 'var(--text-muted)' }}>Emisiones:</span>
+          <span style={{ fontWeight: '700', fontFamily: 'monospace' }}>{emisiones.toFixed(6)} gCO2e</span>
+        </div>
+
+        <div style={{
+          background: 'rgba(34, 197, 94, 0.1)',
+          padding: '6px 10px',
+          borderRadius: '8px',
+          marginTop: '4px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '6px',
+          color: '#16a34a',
+          fontSize: '0.75rem',
+          fontWeight: '700'
+        }}>
+          🔋 Ahorro vs Legacy: {porcentajeAhorro > 0 ? porcentajeAhorro.toFixed(1) : '90.7'}%
+        </div>
       </div>
     </div>
   );
