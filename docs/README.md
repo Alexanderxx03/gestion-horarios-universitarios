@@ -60,17 +60,17 @@ El sistema garantiza:
 60. [Accesibilidad Universal (WCAG 2.2 AA)](21-Accesibilidad-WCAG) — Validación de contraste y semántica
 61. [Usabilidad y Experiencia (Escala SUS)](22-Usabilidad-SUS) — Medición empírica y aceptabilidad de la interfaz
 62. [Pruebas Automatizadas (Testing)](23-Testing-Automatizado) — Reporte de pruebas unitarias y cobertura en Vitest
-63. [Informe Técnico Integral (QA)](24-Informe-Tecnico-Integral) — Consolidado de la validación de software
+65. [Informe Técnico Integral (QA)](24-Informe-Tecnico-Integral) — Consolidado de la validación de software
 
 ### 🏁 Fase de Control y Cierre (PMBOK)
 
-64. [Informe Final del Proyecto](25-Informe-Final-Proyecto) — Resumen ejecutivo y desempeño del alcance, costo y calidad
-65. [Informe Final de Lecciones Aprendidas](26-Lecciones-Aprendidas) — Consolidado de retrospectivas y buenas prácticas
-66. [Registro de Riesgos (Risk Register)](27-Registro-Riesgos) — Evaluación final de riesgos y mitigaciones
-67. [Registro de Incidentes (Issue Log)](28-Registro-Incidentes) — Problemas reales, responsables y correcciones
-68. [Registro de Impedimentos (Impediment Log)](29-Registro-Impedimentos) — Obstáculos técnicos y organizacionales bloqueantes
-69. [Registro de Defectos (Defect Log)](30-Registro-Defectos) — Bugs detectados en QA, severidad y validación de arreglos
-70. [Registro de Supuestos (Assumption Log)](31-Registro-Supuestos) — Validación empírica de las hipótesis iniciales
+66. [Informe Final del Proyecto](25-Informe-Final-Proyecto) — Resumen ejecutivo y desempeño del alcance, costo y calidad
+67. [Informe Final de Lecciones Aprendidas](26-Lecciones-Aprendidas) — Consolidado de retrospectivas y buenas prácticas
+68. [Registro de Riesgos (Risk Register)](27-Registro-Riesgos) — Evaluación final de riesgos y mitigaciones
+69. [Registro de Incidentes (Issue Log)](28-Registro-Incidentes) — Problemas reales, responsables y correcciones
+70. [Registro de Impedimentos (Impediment Log)](29-Registro-Impedimentos) — Obstáculos técnicos y organizacionales bloqueantes
+71. [Registro de Defectos (Defect Log)](30-Registro-Defectos) — Bugs detectados en QA, severidad y validación de arreglos
+72. [Registro de Supuestos (Assumption Log)](31-Registro-Supuestos) — Validación empírica de las hipótesis iniciales
 71. [Acta de Constitución - Cierre](32-Acta-Constitucion-Cierre) — Revisión final del cumplimiento de objetivos y criterios de éxito
 72. [Declaración de Trabajo (SOW)](33-Declaracion-Trabajo-SOW) — Validación contractual del alcance comprometido y entregables
 73. [Documentación de Capacitación](34-Documentacion-Capacitacion) — Transferencia de conocimiento, manuales y guías operativas

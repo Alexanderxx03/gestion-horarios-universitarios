@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
     "preview": "vite preview",
-    "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "generar-evidencias": "node generar-auditoria.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -35,10 +36,12 @@
     "@typescript-eslint/parser": "^8.19.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^2.1.9",
+    "chrome-launcher": "^1.2.1",
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "jsdom": "^25.0.1",
+    "lighthouse": "^13.4.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.7",
     "vitest": "^2.1.8"
