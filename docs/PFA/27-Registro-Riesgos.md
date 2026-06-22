@@ -1,15 +1,18 @@
 # 27. Registro de Riesgos (Risk Register)
 
-Este documento centraliza los eventos de riesgo identificados a lo largo del proyecto "Gestión de Horarios Universitarios". Muestra la trazabilidad desde su concepción, evaluación de impacto y la respuesta definitiva aplicada en la fase de control y cierre.
+Este registro documenta de manera estructurada los eventos de incertidumbre detectados, evaluados y mitigados durante todo el ciclo de vida del proyecto, garantizando una trazabilidad verificable.
 
-| ID | Riesgo | Categoría | Prob. | Impacto | Respuesta Planificada (Estrategia) | Estado Final y Mitigación Aplicada |
-| :-- | :-- | :-- | :--: | :--: | :-- | :-- |
-| **R01** | Curva de aprendizaje técnica del equipo con el algoritmo CSP (Backtracking y MRV). | Técnico | Alta | Crítico | **Mitigar:** Capacitación temprana (Sprint 0) y uso de Desarrollo Orientado a Pruebas (TDD). | **Cerrado.** Se aplicó *pair programming* y las pruebas de regresión aseguraron la funcionalidad del motor CSP sin retrasos críticos en el cronograma. |
-| **R02** | Exceder la capa gratuita (Free Tier) del proveedor de Base de Datos (MongoDB) debido a consultas masivas. | Financiero | Media | Alto | **Evitar / Mitigar:** Implementar estrategias estrictas de almacenamiento en caché en el Backend y Zustand en el Frontend. | **Cerrado.** Se reestructuró la API en el Sprint 3 con memoria Caché y Gzip. El consumo de red disminuyó un 90%, manteniéndose el costo en $0. |
-| **R03** | Conflictos y sobreescrituras de código debido al trabajo colaborativo simultáneo en la misma base. | Organizacional | Media | Medio | **Mitigar:** Uso riguroso de Git Flow, Pull Requests obligatorios y separación del entorno en un Monorepo MERN. | **Cerrado.** El uso de Workspaces y la rama `main` protegida previno rupturas en el código principal. La integración fue fluida. |
-| **R04** | Vulnerabilidades de seguridad en despliegue (Inyecciones de datos y ataques de denegación de servicio). | Seguridad | Baja | Crítico | **Mitigar:** Implementación temprana de estándares OWASP Top 10 en la fase de control. | **Cerrado.** Se instalaron defensas estáticas (`helmet`, `express-rate-limit`, `mongo-sanitize`), validadas a través del rating "A" en SonarQube. |
-| **R05** | Rechazo del usuario final (administradores) por falta de intuitividad de la interfaz. | Usabilidad | Baja | Alto | **Mitigar:** Aplicar diseño minimalista, validar contraste según WCAG 2.2, y levantar encuestas de aceptabilidad. | **Cerrado.** La interfaz obtuvo un puntaje excelente de 84.3/100 en la prueba empírica SUS, validando su usabilidad. |
+## Matriz y Estado Final de Riesgos
 
----
-**Responsable de Mantenimiento:** Scrum Master / Project Manager  
-**Última Actualización:** Fase de Cierre del Proyecto.
+*Probabilidad (P) e Impacto (I) se evalúan en una escala de 1 a 5. Severidad (S) = P x I.*
+
+| ID | Riesgo Identificado | P | I | S | Estrategia | Respuesta Aplicada (Mitigación real) | Estado Final |
+|:---:|---|:---:|:---:|:---:|---|---|---|
+| **R01** | El algoritmo CSP no converge en un tiempo razonable debido a complejidad combinatoria. | 4 | 5 | **20** | **Mitigar** | Se reemplazó el backtracking puro por heurísticas **MRV** y *Degree Heuristic*. | ✅ **Controlado** (Genera en < 30s) |
+| **R02** | Exceso de límite de cuotas en base de datos en la nube (Firestore Free Tier). | 3 | 4 | **12** | **Evitar** | Migración estratégica a **MongoDB Mongoose** con despliegue local/Docker para desarrollo. | ✅ **Evitado** |
+| **R03** | Incompatibilidad de horarios de los miembros del equipo reduciendo la Velocity. | 4 | 3 | **12** | **Aceptar** | Gestión asíncrona robusta, pair programming en fines de semana y Daily Scrums escritos vía Slack/Discord. | ✅ **Mitigado** |
+| **R04** | Vulnerabilidades de inyección en endpoints del Motor CSP. | 2 | 5 | **10** | **Evitar** | Implementación estricta de validadores de esquemas con **Zod** y sanitización de MongoDB. | ✅ **Evitado** |
+| **R05** | Fallo en la adaptación de la interfaz a dispositivos móviles (Responsive). | 3 | 3 | **9** | **Mitigar** | Enfoque *Mobile-First* con Vanilla CSS Flexbox/Grid y validación de Lighthouse en Sprint 3. | ✅ **Controlado** |
+
+## Conclusión del Monitoreo
+La gestión activa y temprana de riesgos, especialmente la re-arquitectura del algoritmo (R01), fue el factor decisivo que evitó el fracaso técnico del proyecto y permitió entregar valor según los estándares de ingeniería de software.

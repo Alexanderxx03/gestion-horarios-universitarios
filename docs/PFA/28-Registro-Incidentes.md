@@ -1,14 +1,12 @@
 # 28. Registro de Incidentes o Problemas (Issue Log)
 
-A diferencia de los riesgos (eventos probabilísticos), los incidentes (*Issues*) documentados en esta tabla corresponden a problemas **reales** que sucedieron durante la ejecución del proyecto y las acciones correctivas aplicadas.
+Registro formal de problemas técnicos y administrativos reales (materializados) ocurridos durante la ejecución del proyecto, detallando los responsables y las acciones correctivas validadas.
 
-| ID | Incidente / Problema | Fecha Reporte | Prioridad | Responsable | Acciones Correctivas Aplicadas | Estado |
-| :-- | :-- | :--: | :-- | :-- | :-- | :--: |
-| **INC-01** | **Degradación de rendimiento en renderizado Frontend:** Al navegar rápidamente entre el catálogo de cursos y el panel de horarios, la aplicación se congelaba momentáneamente (cuellos de botella del DOM virtual). | Sprint 2 | Alta | Development Team | Refactorización utilizando Memoización (`useMemo` de React) y transición al manejador de estado global robusto (`zustand`) eliminando re-renders innecesarios. | Cerrado |
-| **INC-02** | **Agotamiento del Plan Gratuito (Bandwidth):** Las lecturas excesivas hacia la base de datos para recuperar perfiles de docentes casi sobrepasan la cuota del proveedor de nube. | Sprint 3 | Crítica | Product Owner / Dev Team | Modificación inmediata del backend para habilitar almacenamiento en memoria Caché local y compresión de carga Gzip (`compression`). | Cerrado |
-| **INC-03** | **Dependencias Deprecadas (Vulnerabilidades npm):** Durante los procesos de integración, los auditores reportaron librerías Node obsoletas con exposición de seguridad (Risk High). | Sprint 4 | Alta | Scrum Master | Se realizó un `npm audit fix --force` unificando versiones y parcheando vulnerabilidades secundarias, validadas a través de SonarQube. | Cerrado |
-| **INC-04** | **Fallos de Contraste en Modo Día:** Se detectó durante la evaluación inicial de control que el modo día de la plataforma hacía imperceptible el botón de "Login", violando los estándares WCAG 2.2. | Cierre | Media | UI/UX Developer | Se incrementó la luminosidad de los botones primarios a `#2563eb` contra el fondo blanco, alcanzando el ratio AAA. | Cerrado |
+| ID | Descripción del Incidente Real | Fecha Reporte | Responsable | Prioridad | Acciones Correctivas Validadas | Estado Final |
+|:---:|---|:---:|---|:---:|---|:---:|
+| **ISS-01** | Colapso de memoria RAM del servidor de Node.js al ejecutar el algoritmo para >100 cursos. | Sprint 2 | Backend Engineer | **Alta** | Refactorización de la gestión de memoria (Garbage Collection explícita, eliminación de recursividad profunda por bucles iterativos optimizados). | **Cerrado** |
+| **ISS-02** | Token JWT expiraba a la mitad de la configuración masiva de un horario. | Sprint 3 | Full-Stack | **Media** | Implementación de mecanismo de *Refresh Token* transparente para el usuario coordinador. | **Cerrado** |
+| **ISS-03** | Renderizados infinitos (Infinite Loop) en React al filtrar aulas disponibles. | Sprint 3 | Frontend Engineer| **Alta** | Memorización de selectores con `useMemo` y refactor de la store de Zustand. Validación de arreglos mediante Profiler de React. | **Cerrado** |
+| **ISS-04** | Choque de dependencias entre versiones de `mongoose` y `typescript`. | Sprint 1 | Arquitecto | **Baja** | Fijación rígida (Pinning) de versiones en `package.json` y regeneración de `package-lock.json`. | **Cerrado** |
 
----
-**Responsable de Mantenimiento:** Scrum Master  
-**Última Actualización:** Fase de Cierre del Proyecto.
+*La trazabilidad de la resolución de estos incidentes se encuentra evidenciada en el repositorio remoto a través de los commits y Pull Requests vinculados a estos issues.*

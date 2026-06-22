@@ -1,18 +1,19 @@
 # 33. Declaración de Trabajo (Statement of Work - SOW)
 
-La **Declaración de Trabajo (SOW)** sirve como un instrumento contractual o de verificación entre el proveedor de servicios (el Equipo de Desarrollo) y el cliente/patrocinador (Universidad/Cátedra). En esta fase, validamos que todos los entregables acordados han sido proporcionados.
+Documento que sirve para evidenciar la validación formal del cumplimiento contractual, asegurando que todos los entregables comprometidos con el cliente y partes interesadas han sido provistos de manera total y conforme a las especificaciones.
 
-## 1. Alcance Comprometido
-El proveedor se comprometió a entregar un sistema Full Stack ("UniHorarios") capaz de gestionar la base académica y automatizar, mediante Inteligencia Artificial clásica (CSP Backtracking), la asignación de horarios sin conflictos de recursos. Adicionalmente, el sistema debía medir su propia sostenibilidad (Green Software CO₂).
+## 1. Alcance Contractual y Validación de Entregables
 
-## 2. Validación de Entregables Acordados
+| Elemento Contractual (SOW Original) | Entregable Físico/Digital Provisto | Conformidad de Recepción |
+|---|---|:---:|
+| **1. Repositorio de Código Fuente** | Repositorio alojado en GitHub conteniendo Frontend (React) y Backend (MERN), limpio y comentado. | ✅ **Validado** |
+| **2. Documentación Técnica y Arquitectura** | Carpeta `docs/Artefactos` y `docs/Planificacion` en formato Markdown conteniendo diagramas y arquitecturas. | ✅ **Validado** |
+| **3. Motor CSP Operativo** | Algoritmo funcional implementado en TypeScript en el Backend capaz de resolver los Constraints Académicos. | ✅ **Validado** |
+| **4. Informe de Pruebas y Aseguramiento (QA)** | Informes de SonarQube, WCAG, SUS y cobertura de Testing (Jest/Vitest) subidos a `docs/Pruebas/`. | ✅ **Validado** |
+| **5. Manuales de Capacitación y Operaciones** | Documentos de despliegue local (Docker) y guía de usuario final subidos en `docs/Manuales/`. | ✅ **Validado** |
 
-| Entregable | Criterio de Aceptación (SOW) | Resultado de Validación | Firma Cliente |
-| :-- | :-- | :-- | :--: |
-| **Plataforma Web Frontend** | SPA responsivo, con roles administrativos y de consulta (estudiante). | ✅ **Conforme.** Desarrollado en React+Vite, accesible (WCAG) y con UX validadas (SUS). | _______ |
-| **Backend API y Base de Datos** | API REST segura en Node.js, almacenando la configuración en Base de datos documental. | ✅ **Conforme.** Ecosistema MERN asegurado (OWASP) y certificado libre de deuda técnica (SonarQube). | _______ |
-| **Motor Matemático (CSP)** | Algoritmo lógico programado desde cero, sin APIs de terceros de pago. | ✅ **Conforme.** El motor MRV+Forward Checking está embebido nativamente en la arquitectura de TypeScript. | _______ |
-| **Repositorio y Documentación** | Código fuente entregado en GitHub junto a una Wiki completa y manuales. | ✅ **Conforme.** Repositorio en GitHub estructurado en monorepo, Wiki (34 documentos formales PMBOK). | _______ |
+## 2. Cumplimiento de Responsabilidades (Proveedores y Equipo)
+Todo el trabajo descrito en la Estructura de Desglose del Trabajo (WBS) fue realizado por el equipo de desarrollo utilizando recursos de software libre y open-source, cumpliendo rigurosamente los términos legales de la Licencia MIT incorporada en el código fuente.
 
-## 3. Conformidad Contractual
-Con la presente validación de entregables y la confirmación de la batería de Pruebas (Vitest), se declara que el trabajo **está completo**. Esto finaliza las obligaciones de la fase de construcción (Sprint 0 a 4) estipuladas en la presente Declaración de Trabajo. El producto es apto para transicionar hacia la fase de mantenimiento o cierre de contrato académico.
+## 3. Cierre del Acuerdo
+Se certifica que no existen tareas pendientes, características inacabadas (relativas al alcance *Must-Have* inicial), ni deuda técnica oculta significativa. El sistema entregado es robusto, funcional y mantenible.

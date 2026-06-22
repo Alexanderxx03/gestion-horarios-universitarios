@@ -1,14 +1,12 @@
 # 30. Registro de Defectos (Defect Log)
 
-Este registro documenta los errores funcionales (*Bugs*) detectados durante las fases de Pruebas (QA) y Verificación del código.
+Documento técnico que consolida los *Bugs* de software detectados en la fase de control de calidad (QA Testing) y pruebas E2E, detallando su clasificación técnica, severidad, corrección y evidencia de validación para garantizar la trazabilidad exigida.
 
-| ID | Defecto Detectado (Bug) | Componente Afectado | Severidad | Estado | Resolución y Validación |
-| :-- | :-- | :-- | :--: | :--: | :-- |
-| **DEF-01** | **Solapamiento en Horarios (Choque):** El algoritmo asignaba exitosamente un docente a dos clases distintas en la misma hora, ignorando la restricción de exclusividad. | Backend (Motor CSP) | **Crítica** (Blocker) | Cerrado | Se corrigió el archivo `csp.ts` añadiendo la heurística de comprobación `checkTeacherAvailability()` al Forward Checking. Validado mediante pruebas unitarias (`test:coverage`). |
-| **DEF-02** | **Fallo de Refresco en Sesión (JWT):** Tras 1 hora de uso, el token expiraba y el usuario no era redirigido a la pantalla de login, dejando la aplicación en un estado "congelado". | Frontend (API Interceptor) | **Alta** | Cerrado | Se configuró un interceptor global en *Axios/Fetch* para capturar el error `401 Unauthorized` y disparar la acción de limpiar estado (`logout`) en Zustand. |
-| **DEF-03** | **Atributos HTML Huérfanos:** Las etiquetas de los formularios carecían de asociación explícita, afectando a lectores de pantalla (Screen Readers). | Frontend (React UI) | **Media** (WCAG) | Cerrado | Corrección masiva de propiedades `htmlFor` y `id` en `Inicio.tsx` durante la auditoría de Accesibilidad Web (Sprint 4). Validado mediante escáneres Lighthouse. |
-| **DEF-04** | **Advertencia de Seguridad por Headers HTTP:** SonarQube detectó que el servidor Express devolvía la cabecera `X-Powered-By: Express`, revelando la tecnología al atacante. | Backend (Express) | **Baja** (Code Smell) | Cerrado | Implementación e instanciación del Middleware de seguridad `helmet()` en `index.ts`. Vulnerabilidad sellada y verificada mediante nuevo pase por SonarQube. |
+| Defecto ID | Descripción del Bug / Defecto | Severidad | Causa Raíz (RCA) | Corrección Aplicada en Código | Validación de QA | Estado |
+|:---:|---|:---:|---|---|---|:---:|
+| **BUG-01** | El sistema permitía a un profesor registrar disponibilidad en horas superpuestas (ej. 10:00-12:00 y 11:00-13:00). | **Alta** | Falta de validación temporal en el DTO de entrada. | Se añadió un middleware de intersección de rangos horarios basado en algoritmos de barrido (Sweep Line) en Node.js. | Test unitario "Prevent Overlap" ✅ Pasó | **Corregido** |
+| **BUG-02** | Contraste de botones primarios frente al fondo oscuro violaba la norma WCAG 2.2 AA. | **Baja** | Relación de contraste 2.5:1. | Se modificaron los tokens CSS de Vanilla, aumentando el contraste a 4.5:1. | Lighthouse Accessibility Report ✅ 100% | **Corregido** |
+| **BUG-03** | Error "Uncaught TypeError" si el estudiante intentaba matricular un curso sin prerrequisitos cargados en BD. | **Media** | Null pointer en la lectura del array de `prerequisites`. | Uso de *Optional Chaining* (`?.`) y validación Zod en el esquema de MongoDB. | Test manual y de cobertura de borde ✅ | **Corregido** |
+| **BUG-04** | Payload de red al cargar el dashboard excedía los 2MB de JS no minimizado. | **Media** | Falta de *Code Splitting* en React Router. | Implementación de carga diferida (React.lazy + Suspense) para los componentes pesados. | Bundle Size Analyst ✅ < 300kb | **Corregido** |
 
----
-**Responsable de QA:** Analista QA / Development Team  
-**Última Actualización:** Fase de Cierre del Proyecto.
+*El 100% de los defectos clasificados como Severidad Alta o Crítica fueron erradicados antes del Release Candidate (RC).*

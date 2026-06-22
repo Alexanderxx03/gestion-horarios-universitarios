@@ -1,28 +1,50 @@
-# 34. Documentación de Capacitación (Transferencia de Conocimiento)
+# 34. Documentación de Capacitación y Manuales Operativos
 
-Este documento centraliza los recursos, manuales y guías necesarias para transferir el conocimiento del sistema de "Gestión de Horarios Universitarios" al cliente o al equipo de operaciones de TI de la universidad.
+Como parte crítica del cierre del proyecto, este documento asegura la **transferencia de conocimiento** operativa, técnica y administrativa, dotando al cliente final (universidad) y al equipo de operaciones (DevOps) de la autonomía necesaria para mantener el sistema.
 
-## 1. Guía Rápida para el Administrador (Usuario Final)
-Para los coordinadores académicos o personal administrativo encargado de utilizar el sistema:
-1. **Acceso al Sistema:** Ingrese a la URL de producción (proporcionada durante el despliegue). Inicie sesión utilizando el botón de "Login Seguro" (Credenciales institucionales recomendadas).
-2. **Carga de Datos Base:** Diríjase al "Panel de Control". Es imperativo cargar primero los **Cursos** (nombre, código, créditos, aforo máximo) y luego a los **Docentes** (disponibilidad y cursos que dictan).
-3. **Generación de Horarios:** Haga clic en "Generar Horarios Automáticamente" (Run CSP Engine). El sistema procesará las variables por unos segundos.
-4. **Exportación e Interpretación:** Una vez generado sin conflictos, la vista de Calendario Semanal mostrará la asignación final. Puede confirmar que el ahorro de red (Green Software) se aplique en las pestañas posteriores.
+---
 
-## 2. Guía Técnica para Operaciones (DevOps / IT)
-Para el equipo encargado de mantener y hospedar la aplicación:
-- **Infraestructura:** La plataforma es un Monorepo MERN. El código del Frontend (`/frontend`) es un compilado estático SPA (React) que debe ser servido estáticamente (ej. Firebase Hosting, NGINX). El Backend (`/backend`) es un servidor Node.js/Express que requiere acceso a variables de entorno `.env` (URI de MongoDB Atlas y secretos JWT).
-- **Scripts Esenciales:**
-  - Instalar dependencias globales: `npm install` (desde la raíz).
-  - Levantar localmente para pruebas: `npm run dev`.
-  - Auditar calidad: `npm run lint` y `npm run test` (Vitest).
+## 1. Transferencia Operativa: Equipo DevOps (Mantenimiento Técnico)
 
-## 3. Matriz de Roles del Sistema
-Si el departamento de TI necesita otorgar o revocar accesos en la base de datos:
-- **ADMIN / COORDINATOR:** Tiene acceso total al CRUD de docentes y cursos y derecho de ejecución del Motor CSP.
-- **TEACHER:** Acceso de sólo lectura a su propio horario asignado.
-- **STUDENT:** Acceso de sólo lectura al horario final publicado de su sección matriculada.
+El proyecto está dockerizado para facilitar el *onboarding* de nuevos desarrolladores e ingenieros de sistema.
 
-> [!TIP]
-> **Ayuda Adicional**
-> Para dudas técnicas sobre la complejidad matemática del algoritmo o su modificación futura, remitirse al documento [Motor CSP y Arquitectura](05-Motor-CSP.md) en esta misma Wiki.
+### Rutina de Despliegue Limpio (Local/Staging)
+1. Clonar el repositorio master.
+2. Configurar el archivo `.env` en el backend con la conexión a MongoDB (`MONGO_URI`).
+3. Ejecutar comando orquestado:
+   ```bash
+   # Levanta MongoDB, Backend y Frontend concurrentemente
+   docker-compose up --build -d
+   ```
+4. El sistema de bases de datos generará un *seed* inicial de datos ficticios automáticamente si las tablas están vacías.
+
+### Resolución de Problemas Frecuentes (Troubleshooting)
+- **Problema:** "Motor CSP devuelve Timeout Exception".
+  - *Causa:* Restricciones mutuamente excluyentes imposibles de resolver matemáticamente (ej. Un docente solo tiene 2 horas disponibles, pero el curso exige 4).
+  - *Solución Técnica:* Revisar la consola de logs administrativos donde el motor CSP emite un `ConstraintViolationLog` detallando las ID problemáticas.
+
+---
+
+## 2. Transferencia a Usuarios Clave: Manual de Administrador
+
+Esta sección capacita al rol **COORDINATOR** o **ADMINISTRATOR**.
+
+### A. Gestión del Catálogo Maestros
+1. **Pestaña Aulas:** Ingrese la capacidad máxima física. El algoritmo CSP nunca superará este aforo en sus asignaciones.
+2. **Pestaña Docentes:** Asegúrese de llenar rigurosamente la **Disponibilidad Horaria** de cada profesor. Si un profesor no tiene disponibilidad marcada, no recibirá cursos.
+
+### B. Ejecución de la Generación de Horarios
+1. Diríjase a **"Motor Inteligente > Generar Semestre"**.
+2. Presione "Iniciar Cálculo Algorítmico".
+3. **NOTA IMPORTANTE:** El sistema validará restricciones. Espere hasta 30 segundos mientras la barra de progreso evalúa combinaciones matemáticas. Al finalizar, la vista previa mostrará los colores semantizados de cada facultad.
+
+---
+
+## 3. Transferencia a Usuarios Finales: Manual del Estudiante
+
+### A. Proceso de Matrícula
+1. Inicie sesión mediante sus credenciales institucionales.
+2. Navegue a **Mi Matrícula**. El sistema mostrará **exclusivamente** los cursos cuyos prerrequisitos usted ya haya aprobado.
+3. El sistema bloqueará automáticamente el botón "Agregar" si usted supera los 22 créditos permitidos.
+
+*Este documento certifica la viabilidad operativa y cierra la fase de entrega del conocimiento técnico al cliente, garantizando usabilidad a largo plazo.*
