@@ -41,7 +41,7 @@ El sistema garantiza:
 1. [Visión y Descripción del Proyecto](./Sprint_0/01-Vision-y-Descripcion.md) — Alcance, stakeholders, objetivos
 2. [Arquitectura del Sistema](./Artefactos/02-Arquitectura-del-Sistema.md) — Diagrama, componentes, flujo principal
 3. [Stack Tecnológico](./Artefactos/03-Stack-Tecnologico.md) — Justificación de cada tecnología
-4. [Modelo de Datos MongoDB / MERN](./Artefactos/04-Modelo-de-Datos-Firestore.md) — Esquemas Mongoose, colecciones MongoDB
+4. [Modelo de Datos MongoDB / MERN](./Artefactos/04-Modelo-de-Datos-MongoDB.md) — Esquemas Mongoose, colecciones MongoDB
 5. [Motor CSP](./Artefactos/05-Motor-CSP.md) — Algoritmo, heurísticas, pseudocódigo, complejidad
 6. [Roles y Funcionalidades](./Artefactos/06-Roles-y-Funcionalidades.md) — RBAC, matrices de permisos, flujos por rol
 

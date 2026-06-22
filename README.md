@@ -159,10 +159,8 @@ El proyecto está diseñado bajo una arquitectura **MERN (MongoDB, Express, Reac
 gestion-horarios-universitarios/
 │
 ├── 📄 README.md
-├── 📄 firebase.json              # Config hosting + functions
+├── 📄 firebase.json              # Config hosting
 ├── 📄 .firebaserc                # Proyecto Firebase
-├── 📄 firestore.rules            # Reglas de seguridad
-├── 📄 firestore.indexes.json     # Índices compuestos
 │
 ├── 📂 frontend/                  # App React + Vite
 │   ├── 📄 vite.config.ts
@@ -274,23 +272,15 @@ cd .. && firebase deploy --only hosting
 
 ## 📚 Documentación Completa
 
-La documentación técnica completa está disponible en la **[Wiki oficial del repositorio](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki)**:
+La documentación técnica completa está centralizada en la carpeta **[docs/](docs/)** del repositorio para mantener un mejor control de versiones y trazabilidad con el código. Puedes navegar por ella directamente desde GitHub:
 
-| Sección                                                                                                                                | Descripción                                   |
-| -------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| [🏠 Home](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki)                                                       | Portada, índice y stack MERN.                 |
-| [📌 Visión y Descripción](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/01-Vision-y-Descripcion)               | Propósito, alcance y stakeholders.            |
-| [🏗️ Arquitectura del Sistema](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/02-Arquitectura-del-Sistema)       | Diagrama MERN, componentes y flujo principal. |
-| [🔥 Stack Tecnológico](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/03-Stack-Tecnologico)                     | MongoDB, Express, React, Node.js detallado.   |
-| [🗄️ Modelo de Datos](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/04-Modelo-de-Datos-Firestore)               | Esquemas Mongoose y colecciones MongoDB.      |
-| [🧠 Motor CSP](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/05-Motor-CSP)                                     | Backtracking, MRV, Forward Checking.          |
-| [👥 Roles y Funcionalidades](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/06-Roles-y-Funcionalidades)         | Permisos por rol del sistema.                 |
-| [📋 Requerimientos](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/07-Requerimientos)                           | RF y RNF del sistema.                         |
-| [⚙️ Instalación y Configuración](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/08-Instalacion-y-Configuracion) | Guía de instalación local con MongoDB.        |
-| [🚀 Despliegue](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/09-Despliegue-Firebase)                          | Deploy en Vercel + Render + MongoDB Atlas.    |
-| [✅ Estándares de Calidad](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/10-Estandares-Calidad)                | ISO 25010, OWASP, WCAG 2.1.                   |
-| [👨‍💻 Equipo](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/11-Equipo-del-Proyecto)                              | Roles y responsabilidades del equipo.         |
-| [📅 Historial de Sprints](https://github.com/Alexanderxx03/gestion-horarios-universitarios/wiki/12-Historial-Sprints)                  | Progreso por sprint.                          |
+- 📖 **[Índice Principal de la Documentación (README)](docs/README.md)**
+- 🚀 **[Sprint 0 (Visión y Requerimientos)](docs/Sprint_0/)**
+- 🏗️ **[Artefactos y Arquitectura](docs/Artefactos/)**
+- 📋 **[Planificación y Sprints](docs/Planificacion/)**
+- ✅ **[Pruebas y Calidad QA](docs/Pruebas/)**
+- 🏁 **[Proyecto Final de Asignatura (PFA)](docs/PFA/)**
+- ⚙️ **[Manuales de Instalación](docs/Manuales/)**
 
 ---
 
@@ -300,7 +290,7 @@ La documentación técnica completa está disponible en la **[Wiki oficial del r
 | ------------------------------ | ---------------------------------------------------------- |
 | **Scrum Master / Analista**    | Metodología ágil, documentación, GitHub                    |
 | **Product Owner / Arquitecto** | Visión del producto, decisiones técnicas, Backlog          |
-| **Full-Stack Developer**       | Frontend React + Firebase Functions + UI Premium           |
+| **Full-Stack Developer**       | Frontend React + Node.js MERN + UI Premium           |
 | **Algoritmos Engineer**        | Diseño e implementación del motor CSP (Backtracking + MRV) |
 
 > _Proyecto académico — Taller de Proyectos 2, 2026_
