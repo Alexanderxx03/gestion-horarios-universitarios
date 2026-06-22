@@ -38,61 +38,63 @@ El sistema garantiza:
 
 ### 🏗️ Arquitectura y Diseño
 
-1. [Visión y Descripción del Proyecto](01-Vision-y-Descripcion) — Alcance, stakeholders, objetivos
-2. [Arquitectura del Sistema](02-Arquitectura-del-Sistema) — Diagrama, componentes, flujo principal
-3. [Stack Tecnológico](03-Stack-Tecnologico) — Justificación de cada tecnología
-4. [Modelo de Datos MongoDB / MERN](04-Modelo-de-Datos-Firestore) — Esquemas Mongoose, colecciones MongoDB
-5. [Motor CSP](05-Motor-CSP) — Algoritmo, heurísticas, pseudocódigo, complejidad
-6. [Roles y Funcionalidades](06-Roles-y-Funcionalidades) — RBAC, matrices de permisos, flujos por rol
+1. [Visión y Descripción del Proyecto](./Sprint_0/01-Vision-y-Descripcion.md) — Alcance, stakeholders, objetivos
+2. [Arquitectura del Sistema](./Artefactos/02-Arquitectura-del-Sistema.md) — Diagrama, componentes, flujo principal
+3. [Stack Tecnológico](./Artefactos/03-Stack-Tecnologico.md) — Justificación de cada tecnología
+4. [Modelo de Datos MongoDB / MERN](./Artefactos/04-Modelo-de-Datos-Firestore.md) — Esquemas Mongoose, colecciones MongoDB
+5. [Motor CSP](./Artefactos/05-Motor-CSP.md) — Algoritmo, heurísticas, pseudocódigo, complejidad
+6. [Roles y Funcionalidades](./Artefactos/06-Roles-y-Funcionalidades.md) — RBAC, matrices de permisos, flujos por rol
 
 ### 📋 Requerimientos y Especificación
 
-7. [Requerimientos Funcionales y No Funcionales](07-Requerimientos) — RF01–RF07, RNF01–RNF05, Backlog
-8. [Instalación y Configuración](08-Instalacion-y-Configuracion) — Setup local, emuladores, variables de entorno
-9. [Despliegue Firebase](09-Despliegue-Firebase) — Producción, CI/CD, hosting
+7. [Requerimientos Funcionales y No Funcionales](./Sprint_0/07-Requerimientos.md) — RF01–RF07, RNF01–RNF05, Backlog
+8. [Instalación y Configuración](./Manuales/08-Instalacion-y-Configuracion.md) — Setup local, emuladores, variables de entorno
+9. [Despliegue Firebase](./Manuales/09-Despliegue-Firebase.md) — Producción, CI/CD, hosting
 
 ### ✅ Calidad y Estándares (Quality Assurance)
 
-56. [Estándares de Calidad Generales](10-Estandares-Calidad) — Resumen inicial de normativas y estándares
-57. [Desarrollo Web Responsable (Green Software)](18-Desarrollo-Web-Responsable) — Optimización de payload y métricas MERN
-58. [Calidad de Código (SonarQube)](19-SonarQube-Calidad-Codigo) — Análisis de vulnerabilidades estáticas y deuda técnica
-59. [Seguridad Web (OWASP Top 10)](20-Seguridad-OWASP) — Matriz de mitigación (Helmet, Rate-Limit, Injection)
-60. [Accesibilidad Universal (WCAG 2.2 AA)](21-Accesibilidad-WCAG) — Validación de contraste y semántica
-61. [Usabilidad y Experiencia (Escala SUS)](22-Usabilidad-SUS) — Medición empírica y aceptabilidad de la interfaz
-62. [Pruebas Automatizadas (Testing)](23-Testing-Automatizado) — Reporte de pruebas unitarias y cobertura en Vitest
-65. [Informe Técnico Integral (QA)](24-Informe-Tecnico-Integral) — Consolidado de la validación de software
+10. [Estándares de Calidad Generales](./Pruebas/10-Estandares-Calidad.md) — Resumen inicial de normativas y estándares
+11. [Anexo A: Calidad de Código (SonarQube)](./Pruebas/Anexo_A_SonarQube.md) — Análisis de vulnerabilidades estáticas y deuda técnica
+12. [Anexo B: Seguridad Web (OWASP Top 10)](./Pruebas/Anexo_B_OWASP.md) — Matriz de mitigación (Helmet, Rate-Limit, Injection)
+13. [Anexo C: Accesibilidad (WCAG 2.2 AA)](./Pruebas/Anexo_C_WCAG.md) — Validación de contraste y semántica
+14. [Anexo D: Usabilidad (Escala SUS)](./Pruebas/Anexo_D_Usabilidad_SUS.md) — Medición empírica y aceptabilidad de la interfaz
+15. [Anexo E: Impacto Ambiental y Green IT](./Pruebas/Anexo_E_Impacto_Ambiental_y_Green_IT.md) — Optimización de payload y métricas MERN
+16. [Anexo F: Pruebas Frontend (Vitest)](./Pruebas/Anexo_F_Pruebas_Frontend_Vitest.md) — Reporte de pruebas unitarias y cobertura UI
+17. [Anexo G: Pruebas Backend (Jest)](./Pruebas/Anexo_G_Pruebas_Backend_Jest.md) — Reporte de pruebas unitarias y middlewares
+18. [Anexo H: Pruebas E2E (Motor CSP)](./Pruebas/Anexo_H_Pruebas_E2E_MotorCSP.md) — Validación funcional y algorítmica
+19. [Informe Técnico Integral (QA)](./Pruebas/24-Informe-Tecnico-Integral.md) — Consolidado de la validación de software
 
 ### 🏁 Fase de Control y Cierre (PMBOK)
 
-66. [Informe Final del Proyecto](25-Informe-Final-Proyecto) — Resumen ejecutivo y desempeño del alcance, costo y calidad
-67. [Informe Final de Lecciones Aprendidas](26-Lecciones-Aprendidas) — Consolidado de retrospectivas y buenas prácticas
-68. [Registro de Riesgos (Risk Register)](27-Registro-Riesgos) — Evaluación final de riesgos y mitigaciones
-69. [Registro de Incidentes (Issue Log)](28-Registro-Incidentes) — Problemas reales, responsables y correcciones
-70. [Registro de Impedimentos (Impediment Log)](29-Registro-Impedimentos) — Obstáculos técnicos y organizacionales bloqueantes
-71. [Registro de Defectos (Defect Log)](30-Registro-Defectos) — Bugs detectados en QA, severidad y validación de arreglos
-72. [Registro de Supuestos (Assumption Log)](31-Registro-Supuestos) — Validación empírica de las hipótesis iniciales
-71. [Acta de Constitución - Cierre](32-Acta-Constitucion-Cierre) — Revisión final del cumplimiento de objetivos y criterios de éxito
-72. [Declaración de Trabajo (SOW)](33-Declaracion-Trabajo-SOW) — Validación contractual del alcance comprometido y entregables
-73. [Documentación de Capacitación](34-Documentacion-Capacitacion) — Transferencia de conocimiento, manuales y guías operativas
+20. [Informe Final del Proyecto](./PFA/25-Informe-Final-Proyecto.md) — Resumen ejecutivo y desempeño del alcance, costo y calidad
+21. [Informe Final de Lecciones Aprendidas](./PFA/26-Lecciones-Aprendidas.md) — Consolidado de retrospectivas y buenas prácticas
+22. [Registro de Riesgos (Risk Register)](./PFA/27-Registro-Riesgos.md) — Evaluación final de riesgos y mitigaciones
+23. [Registro de Incidentes (Issue Log)](./PFA/28-Registro-Incidentes.md) — Problemas reales, responsables y correcciones
+24. [Registro de Impedimentos (Impediment Log)](./PFA/29-Registro-Impedimentos.md) — Obstáculos técnicos y organizacionales bloqueantes
+25. [Registro de Defectos (Defect Log)](./PFA/30-Registro-Defectos.md) — Bugs detectados en QA, severidad y validación de arreglos
+26. [Registro de Supuestos (Assumption Log)](./PFA/31-Registro-Supuestos.md) — Validación empírica de las hipótesis iniciales
+27. [Acta de Constitución - Cierre](./PFA/32-Acta-Constitucion-Cierre.md) — Revisión final del cumplimiento de objetivos y criterios de éxito
+28. [Declaración de Trabajo (SOW)](./PFA/33-Declaracion-Trabajo-SOW.md) — Validación contractual del alcance comprometido y entregables
+29. [Documentación de Capacitación](./Manuales/34-Documentacion-Capacitacion.md) — Transferencia de conocimiento, manuales y guías operativas
 
 ### 👥 Equipo y Gestión
 
-11. [Equipo del Proyecto](11-Equipo-del-Proyecto) — Roles Scrum, working agreements, ceremonias
-12. [Historial de Sprints](12-Historial-Sprints) — Sprint 0–4 con entregables, fechas y retrospectivas
-13. [Métricas Ágiles](13-Metricas-Agiles) — Burndown, Burnup, Velocidad, Gráfico de Control + análisis
-14. [Presupuesto del Proyecto](14-Presupuesto-del-Proyecto) — RRHH, infra, costos por sprint, Green Software
-15. [Gestión de Riesgos y Oportunidades](15-Gestion-Riesgos-Oportunidades) — 8 riesgos + 4 oportunidades con análisis cuantitativo
+30. [Equipo del Proyecto](./Sprint_0/11-Equipo-del-Proyecto.md) — Roles Scrum, working agreements, ceremonias
+31. [Historial de Sprints](./Planificacion/12-Historial-Sprints.md) — Sprint 0–4 con entregables, fechas y retrospectivas
+32. [Métricas Ágiles](./Planificacion/13-Metricas-Agiles.md) — Burndown, Burnup, Velocidad, Gráfico de Control + análisis
+33. [Presupuesto del Proyecto](./Sprint_0/14-Presupuesto-del-Proyecto.md) — RRHH, infra, costos por sprint, Green Software
+34. [Gestión de Riesgos y Oportunidades](./Planificacion/15-Gestion-Riesgos-Oportunidades.md) — 8 riesgos + 4 oportunidades con análisis cuantitativo
 
 ### 📐 Spec-Driven Development
 
-16. [Especificación Formal (SDD)](16-Spec-Driven-Development) — Principios, entradas/salidas, reglas, casos límite, coherencia
-17. [Trazabilidad y Repositorio](17-Trazabilidad-y-Repositorio) — Git Flow, tabla backlog↔commits↔features, PR evidence
+35. [Especificación Formal (SDD)](./Planificacion/16-Spec-Driven-Development.md) — Principios, entradas/salidas, reglas, casos límite, coherencia
+36. [Trazabilidad y Repositorio](./Planificacion/17-Trazabilidad-y-Repositorio.md) — Git Flow, tabla backlog↔commits↔features, PR evidence
 
 ### 📖 Especificaciones Adicionales
 
-- [Especificación de Requisitos](1.-Especificacion-de-Requisitos) — Casos de uso, constraints CSP formales
-- [Arquitectura y Motor CSP (detalle)](2.-Arquitectura-y-Motor-CSP) — Arquitectura hexagonal, MRV, Forward Checking
-- [Evidencia TDD y Pruebas](3.-Evidencia-TDD-y-Pruebas) — Tests unitarios, Zod, Firestore Rules, CI pipeline
+37. [Especificación de Requisitos](./Sprint_0/1.-Especificacion-de-Requisitos.md) — Casos de uso, constraints CSP formales
+38. [Arquitectura y Motor CSP (detalle)](./Artefactos/2.-Arquitectura-y-Motor-CSP.md) — Arquitectura hexagonal, MRV, Forward Checking
+39. [Evidencia TDD y Pruebas](./Planificacion/3.-Evidencia-TDD-y-Pruebas.md) — Tests unitarios, Zod, Firestore Rules, CI pipeline
 
 ---
 
