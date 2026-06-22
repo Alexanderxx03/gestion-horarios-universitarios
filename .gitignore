@@ -50,7 +50,6 @@ coverage/
 
 # Unnecessary for production/git
 .agents/
-wiki/
 wiki-repo/
 tests/
 new/
