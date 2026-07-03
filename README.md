@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">
-  🎓 UniHorarios
+  🎓 UniHorarios (Planner UC)
 </h1>
 
 <p align="center">
@@ -20,165 +20,89 @@
 
 ---
 
-## 📑 Tabla de Contenidos
+## 📑 5.2. Tabla de Contenidos
 
-- [👥 Equipo](#-equipo)
-- [📌 Descripción](#-descripción)
-- [🛠 Tecnologías (MERN)](#-tecnologías-mern)
-- [🧠 Motor de Generación de Horarios (CSP)](#-motor-de-generación-de-horarios-csp)
-- [🏗 Arquitectura Hexagonal](#-arquitectura-hexagonal)
-- [📁 Estructura del Proyecto](#-estructura-del-proyecto)
-- [⚙️ Instalación](#️-instalación)
-- [▶️ Uso](#️-uso)
-- [🔌 API & Swagger](#-api--swagger)
-- [🤝 Contribución](#-contribución)
-- [❓ FAQ](#-faq)
-- [📚 Documentación del Proyecto](#-documentación-del-proyecto)
-- [📄 Licencia](#-licencia)
+- [5.1. Nombre del proyecto](#51-nombre-del-proyecto)
+- [5.3. Integrantes del equipo](#53-integrantes-del-equipo)
+- [5.4. Problemática abordada](#54-problemática-abordada)
+- [5.5. Justificación del PMV](#55-justificación-del-pmv)
+- [5.6. Tecnologías utilizadas](#56-tecnologías-utilizadas)
+- [5.7. Arquitectura del sistema](#57-arquitectura-del-sistema)
+- [5.8. Instrucciones de instalación](#58-instrucciones-de-instalación)
+- [5.9. Instrucciones de build y despliegue](#59-instrucciones-de-build-y-despliegue)
+- [Documentación Técnica (docs/)](#c-enlaces-a-la-documentación-carpeta-docs)
 
 ---
 
-## 👥 Equipo
+## 5.1. Nombre del proyecto
+**UniHorarios (Planner UC)** - Proyecto de Fin de Asignatura (PFA) para Taller de Proyectos 2.
+
+---
+
+## 5.3. Integrantes del equipo
 
 <table align="center">
   <tr>
-    <td align="center" width="220">
-      <strong>Jheyson Paul Paytan Huaman</strong>
-      <br/>
-      <sub>🎯 Product Owner / Arquitecto</sub>
-      <br/>
+    <td align="center" width="300">
+      <strong>Jheyson Paul Paytan Huaman</strong><br/>
+      <sub>🎯 Product Owner / Arquitecto</sub><br/>
       <sub>Visión del producto, decisiones técnicas, Backlog</sub>
     </td>
-    <td align="center" width="220">
-      <strong>Jack Alexander Rojas Lara</strong>
-      <br/>
-      <sub>⚙️ Algoritmos Engineer</sub>
-      <br/>
-      <sub>Diseño e implementación del motor CSP (Backtracking + MRV)</sub>
+    <td align="center" width="300">
+      <strong>Jack Alexander Rojas Lara</strong><br/>
+      <sub>⚙️ Algoritmos Engineer / Full Stack</sub><br/>
+      <sub>Diseño e implementación del motor CSP, UI/UX</sub>
     </td>
   </tr>
 </table>
 
 ---
 
-## 📌 Descripción
+## 5.4. Problemática abordada
 
-**UniHorarios** es un sistema web diseñado para estudiantes, docentes y coordinadores académicos que enfrentan dificultades en la planificación de horarios debido a múltiples restricciones y conflictos de disponibilidad.
+La planificación manual de horarios académicos universitarios es un proceso **altamente complejo** que consume una cantidad significativa de tiempo y es muy propenso a errores humanos. Las instituciones enfrentan los siguientes problemas críticos:
 
-### Problema que resuelve
-
-La planificación manual de horarios académicos universitarios es un proceso **altamente complejo** (NP-Difícil) que involucra:
-- 🔴 Solapamiento de docentes, aulas y estudiantes
-- 🔴 Conflictos de prerrequisitos académicos no verificados
-- 🔴 Violaciones al límite de créditos permitidos (20–22)
-- 🔴 Uso ineficiente de la infraestructura disponible
-
-### Solución
-
-UniHorarios automatiza la generación de horarios mediante un **motor basado en Constraint Satisfaction Problem (CSP)** y heurísticas de Inteligencia Artificial (MRV, Forward Checking), garantizando:
-
-- ✅ **Cero solapamientos** de docentes, aulas y estudiantes
-- ✅ **Cumplimiento de prerrequisitos** académicos
-- ✅ **Respeto de límites de créditos** (20-22 créditos por período)
-- ✅ **Disponibilidad de docentes** según su registro
-- ✅ **Capacidad de aulas** no excedida
-
-### Alcance del Sistema
-
-| Funcionalidad | Descripción |
-|:---|:---|
-| **Gestión CRUD** | Estudiantes, docentes, cursos y aulas |
-| **Generación automática** | Asignación curso-docente-aula-franja sin conflictos |
-| **Matrícula** | Los estudiantes se matriculan verificando prerrequisitos |
-| **Seguridad** | Autenticación robusta con JWT y control de acceso por roles |
-
-### Roles del Sistema
-
-| Rol | Permisos |
-|:---|:---|
-| **ADMIN** | Gestión completa global |
-| **COORDINATOR** | CRUD de recursos y ejecución del Motor CSP |
-| **TEACHER** | Visualización de horario asignado y registro de disponibilidad |
-| **STUDENT** | Matrícula de cursos y visualización de horario personal |
+- 🔴 **Solapamiento de recursos:** Cruces de horarios para docentes, aulas y estudiantes.
+- 🔴 **Conflictos académicos:** Estudiantes matriculándose en cursos sin cumplir los prerrequisitos.
+- 🔴 **Violaciones de créditos:** Exceso o déficit del límite de créditos permitidos (20–22 por período).
+- 🔴 **Uso ineficiente de infraestructura:** Aulas subutilizadas o sobrepobladas superando su aforo máximo.
+- 🔴 **Insatisfacción docente:** Horarios fragmentados que no respetan la disponibilidad real de los profesores.
 
 ---
 
-## 🛠 Tecnologías (MERN)
+## 5.5. Justificación del PMV
 
-<table align="center">
-  <tr>
-    <td align="center" width="140">
-      <a href="https://react.dev/">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="50" height="50" alt="React"/>
-      </a>
-      <br/><strong>React (Vite)</strong>
-      <br/><sub>Frontend SPA</sub>
-    </td>
-    <td align="center" width="140">
-      <a href="https://nodejs.org/">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="50" height="50" alt="Node.js"/>
-      </a>
-      <br/><strong>Node.js</strong>
-      <br/><sub>Backend & CSP Worker</sub>
-    </td>
-    <td align="center" width="140">
-      <a href="https://expressjs.com/">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" width="50" height="50" alt="Express"/>
-      </a>
-      <br/><strong>Express.js</strong>
-      <br/><sub>API REST</sub>
-    </td>
-    <td align="center" width="140">
-      <a href="https://www.mongodb.com/">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" width="50" height="50" alt="MongoDB"/>
-      </a>
-      <br/><strong>MongoDB</strong>
-      <br/><sub>Base de Datos</sub>
-    </td>
-    <td align="center" width="140">
-      <a href="https://www.typescriptlang.org/">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="50" height="50" alt="TypeScript"/>
-      </a>
-      <br/><strong>TypeScript</strong>
-      <br/><sub>Tipado Estricto</sub>
-    </td>
-  </tr>
-</table>
+El **Producto Mínimo Viable (PMV)** desarrollado se justifica porque proporciona una solución automatizada e inmediata al problema NP-Difícil de la asignación de horarios. Al implementar un motor de **Constraint Satisfaction Problem (CSP)** con heurísticas de Inteligencia Artificial (MRV y Forward Checking), el PMV:
 
-### Stack Detallado
+1. **Reduce el tiempo de planificación** de semanas a escasos segundos (≤30 seg para escenarios complejos).
+2. **Elimina los errores humanos**, garantizando matemáticamente cero solapamientos y 100% de cumplimiento de reglas académicas.
+3. **Agrega valor inmediato** a los coordinadores, quienes pueden regenerar horarios dinámicamente si un docente cambia su disponibilidad.
+4. **Valida la viabilidad técnica** del modelo lógico en un entorno web escalable, estableciendo las bases para futuras integraciones con el ERP de la universidad.
+
+---
+
+## 5.6. Tecnologías utilizadas
+
+El proyecto está construido sobre un stack **MERN Moderno**, optimizado para alto rendimiento y escalabilidad:
 
 | Capa | Tecnología | Descripción |
 |:---|:---|:---|
-| **Frontend** | ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) | SPA renderizada en cliente impulsada por Vite |
-| **Backend** | ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat-square&logo=node.js&logoColor=white) | API REST escalable con Express y Arquitectura Hexagonal |
-| **Motor CSP** | ![Worker Threads](https://img.shields.io/badge/Worker_Threads-339933?style=flat-square&logo=nodedotjs&logoColor=white) | Hilos nativos (Worker Threads) para aislamiento de CPU intensivo |
-| **Base de Datos** | ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat-square&logo=mongodb&logoColor=white) | BD NoSQL con Mongoose para validación de esquemas |
-| **Caché & Logs** | ![NodeCache](https://img.shields.io/badge/Node--Cache-F7DF1E?style=flat-square) ![Winston](https://img.shields.io/badge/Winston-000000?style=flat-square) | Caché in-memory sub-milisegundo y logs corporativos |
-| **Autenticación** | ![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white) | Tokens JWT stateless y Bcrypt para hashing de contraseñas |
+| **Frontend** | ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) | SPA renderizada en cliente impulsada por **Vite**, **TypeScript** y **Zustand** para el estado. |
+| **Backend** | ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat-square&logo=node.js&logoColor=white) | API REST escalable con **Express.js** y **TypeScript**. |
+| **Motor CSP** | ![Worker Threads](https://img.shields.io/badge/Worker_Threads-339933?style=flat-square&logo=nodedotjs&logoColor=white) | Hilos nativos para aislamiento de CPU intensivo, evitando bloqueos en la API principal. |
+| **Base de Datos**| ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat-square&logo=mongodb&logoColor=white) | Base de datos NoSQL con **Mongoose** para validación estricta de esquemas. |
+| **Seguridad** | ![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white) | Autenticación robusta con JSON Web Tokens y encriptación **Bcrypt**. |
 
 ---
 
-## 🧠 Motor de Generación de Horarios (CSP)
+## 5.7. Arquitectura del sistema
 
-El corazón de UniHorarios es su motor de **Constraint Satisfaction Problem (CSP)**. Ejecutado en su propio hilo (*Worker Thread*) para evitar bloquear la API, resuelve un problema **NP-difícil**.
+El backend implementa una **Arquitectura Hexagonal (Puertos y Adaptadores)** para separar la lógica de negocio de las dependencias externas (Base de datos, HTTP).
 
-### Restricciones Hard (Obligatorias)
-1. **Sin solapamiento docente**
-2. **Sin solapamiento de aula**
-3. **Sin solapamiento estudiantil**
-4. **Prerrequisitos académicos**
-5. **Límite de créditos** (20-22)
-6. **Disponibilidad docente**
-7. **Capacidad de aula**
-
----
-
-## 🏗 Arquitectura Hexagonal
-
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
-│                        CLIENTE                              │
-│                   React + Vite SPA                          │
+│                        CLIENTE WEB                          │
+│             React + Vite SPA (Axios, Zustand)               │
 └───────────────────────────┬─────────────────────────────────┘
                             │ HTTPS / REST API
                             ▼
@@ -191,10 +115,10 @@ El corazón de UniHorarios es su motor de **Constraint Satisfaction Problem (CSP
 │  │   └─────────────────────┘   └───────────────────┘     │  │
 │  └───────────────────────────────────────────────────────┘  │
 │  ┌───────────────────────────────────────────────────────┐  │
-│  │   🧠 Capa de Aplicación (Casos de Uso)                │  │
+│  │   🧠 Capa de Aplicación (Casos de Uso, Autenticación) │  │
 │  └───────────────────────────────────────────────────────┘  │
 │  ┌───────────────────────────────────────────────────────┐  │
-│  │   🏢 Capa de Dominio (Entidades y Reglas de Negocio)  │  │
+│  │   🏢 Capa de Dominio (Entidades y Motor CSP)          │  │
 │  └────────────────────────┬──────────────────────────────┘  │
 └───────────────────────────┼─────────────────────────────────┘
                             │ Worker Threads (Aislamiento)
@@ -207,105 +131,70 @@ El corazón de UniHorarios es su motor de **Constraint Satisfaction Problem (CSP
 
 ---
 
-## 📁 Estructura del Proyecto
-
-```
-gestion-horarios-universitarios/
-├── 📄 README.md
-├── 📂 frontend/                  # App React + Vite
-│   ├── 📂 src/
-│   │   ├── 📂 pages/             # Login, Dashboard, etc.
-│   │   ├── 📂 components/        # Componentes UI reutilizables
-│   │   ├── 📂 services/          # Llamadas a la API Backend
-│   │   └── 📂 stores/            # Estado global (Zustand)
-│
-├── 📂 backend/                   # Backend Node.js Express Hexagonal
-│   ├── 📂 src/
-│   │   ├── 📂 domain/            # Entidades y reglas de negocio
-│   │   ├── 📂 application/       # Motor CSP y Worker Threads
-│   │   ├── 📂 infrastructure/    # Rutas HTTP, Mongoose y Caché
-│   │   └── 📂 shared/            # Validadores (Zod), Logs (Winston)
-│
-└── 📂 docs/                      # Documentación Técnica
-    ├── 📂 inicio/                # Vision, Equipo, Requerimientos
-    ├── 📂 planificacion/         # Cronogramas, Presupuestos
-    ├── 📂 ejecucion/             # Arquitectura, Modelos, Motor CSP
-    ├── 📂 seguimiento_control/   # Testing, QA (SonarQube, OWASP)
-    ├── 📂 cierre/                # Informe Final, Lecciones Aprendidas
-    └── 📂 otros/                 # Manuales, Instalación, Despliegue
-```
-
----
-
-## ⚙️ Instalación
+## 5.8. Instrucciones de instalación
 
 ### Prerrequisitos
-
 - [Node.js 20+](https://nodejs.org/)
-- [MongoDB Local o Atlas URI](https://www.mongodb.com/)
+- [MongoDB Local](https://www.mongodb.com/try/download/community) corriendo en el puerto `27017`
 
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/Alexanderxx03/gestion-horarios-universitarios.git
-cd gestion-horarios-universitarios
-```
+### Pasos
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/Alexanderxx03/gestion-horarios-universitarios.git
+   cd gestion-horarios-universitarios
+   ```
 
-### 2. Configurar Variables de Entorno
-Crea un archivo `.env` en la carpeta `backend/`:
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/unihorarios
-JWT_SECRET=tu_secreto_super_seguro
-```
+2. **Configurar el Backend:**
+   ```bash
+   cd backend
+   npm install
+   ```
+   Crea un archivo `.env` en la carpeta `backend/` con lo siguiente:
+   ```env
+   PORT=5000
+   MONGO_URI=mongodb://127.0.0.1:27017/gestion-horarios
+   JWT_SECRET=secreto_seguro_para_jwt
+   ```
 
-### 3. Ejecutar el Backend
-```bash
-cd backend
-npm install
-npm run dev
-```
+3. **Configurar el Frontend:**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
 
-### 4. Ejecutar el Frontend
+---
+
+## 5.9. Instrucciones de build y despliegue
+
+### a. Instrucciones de despliegue
+Para generar los archivos de producción (build) listos para ser desplegados en un servidor (ej. Vercel, Render o Firebase Hosting):
+
+**Build del Frontend:**
 ```bash
 cd frontend
-npm install
-npm run dev
+npm run build
+# Los archivos estáticos se generarán en la carpeta frontend/dist/
 ```
 
----
+**Build del Backend (Transpilación de TypeScript a JS):**
+```bash
+cd backend
+npm run build
+# El código transpilado se generará en backend/dist/
+npm start # Para ejecutar en producción
+```
 
-## 🔌 API & Swagger
+### b. Enlace a video explicativo
+🎬 **[Ver Video Explicativo del PMV (YouTube) - 5 minutos](https://youtube.com/tu-enlace-aqui)**
 
-Nuestra API REST está documentada interactivamente usando **Swagger**.
+### c. Enlaces a la documentación (Carpeta `docs/`)
+Toda la documentación está estructurada bajo estándares PMBOK en la carpeta `docs/`. Aquí tienes los accesos directos:
 
-Con el backend en ejecución, accede a:
-👉 `http://localhost:5000/api/docs`
-
-| Método | Endpoint | Descripción | Rol Requerido |
-|:---:|:---|:---|:---|
-| `POST` | `/api/auth/login` | Iniciar sesión y obtener JWT | Público |
-| `GET` | `/api/students` | Listar estudiantes con caché | Admin |
-| `POST` | `/api/schedules/generate` | Ejecutar Motor CSP (Worker Thread) | Coordinator |
-
----
-
-## 📚 Documentación del Proyecto
-
-Toda la documentación está estructurada bajo estándares PMBOK y se encuentra en `docs/`:
-
-- 🚀 **[Inicio](docs/inicio/)**
-- 📋 **[Planificación](docs/planificacion/)**
-- 🏗️ **[Ejecución (Arquitectura y Código)](docs/ejecucion/)**
-- ✅ **[Seguimiento y Control (Testing, QA)](docs/seguimiento_control/)**
-- 🏁 **[Cierre (PFA, Informes Finales)](docs/cierre/)**
-- ⚙️ **[Otros (Manuales, Capacitación)](docs/otros/)**
+- 🚀 **[Inicio](docs/inicio/)**: Visión, requerimientos, equipo.
+- 📋 **[Planificación](docs/planificacion/)**: Sprints, presupuestos, riesgos.
+- 🏗️ **[Ejecución](docs/ejecucion/)**: Arquitectura detallada, modelos de base de datos.
+- ✅ **[Seguimiento y Control](docs/seguimiento_control/)**: Pruebas, calidad (SonarQube, OWASP), usabilidad.
+- 🏁 **[Cierre](docs/cierre/)**: Informes finales, lecciones aprendidas, acta de constitución.
 
 ---
-
-## 📄 Licencia
-
-Este proyecto está bajo la licencia **MIT**.
-
-<div align="center">
-  Hecho con ❤️ — Taller de Proyectos 2, 2026
-</div>
+> Proyecto desarrollado por Jheyson Paul Paytan Huaman y Jack Alexander Rojas Lara - 2026.
