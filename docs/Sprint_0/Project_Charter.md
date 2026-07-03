@@ -2,7 +2,7 @@
 
 **Nombre del Proyecto:** UniHorarios (Motor CSP Algorítmico)  
 **Patrocinador (Sponsor Ejecutivo):** Decanatura de la Facultad de Ingeniería  
-**Líder del Proyecto (Scrum Master):** Alexander  
+**Líder del Proyecto (Scrum Master):** Paul Paytan  
 **Fecha de Emisión:** 10 de Enero de 2026 (Sprint 0)  
 **Versión del Documento:** 1.0 (Aprobado)
 
@@ -10,7 +10,7 @@
 
 ## 1. Propósito y Autorización Ejecutiva
 
-El presente **Project Charter** es el documento fundacional (El Certificado de Nacimiento) del proyecto UniHorarios. Su firma autoriza formalmente la existencia del proyecto dentro del portafolio de la Universidad y faculta legal y administrativamente al Líder del Proyecto (Alexander) para aplicar los recursos organizacionales y el presupuesto asignado en la consecución de las actividades de desarrollo de software aquí descritas.
+El presente **Project Charter** es el documento fundacional (El Certificado de Nacimiento) del proyecto UniHorarios. Su firma autoriza formalmente la existencia del proyecto dentro del portafolio de la Universidad y faculta legal y administrativamente al Líder del Proyecto (Paul Paytan) para aplicar los recursos organizacionales y el presupuesto asignado en la consecución de las actividades de desarrollo de software aquí descritas.
 
 Cualquier trabajo de código, arquitectura o diseño UI realizado sin la firma de esta Acta se considera un esfuerzo no autorizado (*Bootlegging*).
 

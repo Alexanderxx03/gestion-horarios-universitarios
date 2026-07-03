@@ -31,7 +31,7 @@ En el marco de trabajo Scrum aplicado a UniHorarios, este documento condensa las
 
 ## 4. Recomendaciones Finales del Líder Técnico
 
-Tras diseccionar 6 meses de desarrollo intensivo, el Líder Técnico (Alexander) emite las siguientes directrices formales:
+Tras diseccionar 6 meses de desarrollo intensivo, el Líder Técnico (Paul Paytan) emite las siguientes directrices formales:
 
 1. **Evitar las Bases de Datos NoSQL Puras para Data Estrictamente Relacional:** MongoDB demostró ser excepcionalmente flexible al inicio (Schema-less), pero para entidades fuertemente acopladas (Un estudiante pertenece a un Curso, que pertenece a un Aula, que pertenece a una Sede), el encadenamiento de `.populate()` ralentiza consultas masivas. En futuros proyectos del mismo índole, se recomienda evaluar **PostgreSQL** apoyado por Prisma ORM.
 2. **Priorizar Tailwind CSS sobre librerías de UI pre-ensambladas:** El uso de Tailwind CSS nos permitió implementar Dark Mode y directivas WCAG de alto contraste con extrema facilidad, sin pelearnos con las directivas `!important` que librerías como Material-UI o Bootstrap a menudo imponen en componentes sellados.

@@ -1,7 +1,7 @@
 # Informe de Estado del Proyecto - Cierre Sprint 4 (Final)
 
 **Fecha de Corte (Status Date):** Viernes de la Semana 2 del Sprint 4 (Último Día)  
-**Preparado por:** Alexander (Scrum Master / Lead Dev)  
+**Preparado por:** Paul Paytan (Scrum Master / Lead Dev)  
 **Audiencia (To):** Patrocinadores, Equipo de Desarrollo y Jurado Académico.
 
 ## 1. Resumen Ejecutivo Final (Executive Summary)
@@ -20,7 +20,7 @@ La "Cereza del Pastel" ha sido colocada. El sistema pasó de arrojar feos textos
 
 1. **La Grilla Interactiva (React-Big-Calendar):** Se integró la biblioteca visual. Ahora el coordinador navega por un calendario gigante codificado por colores (Azul para Teoría, Naranja para Laboratorio), que permite ver exactamente quién dicta, dónde y a qué hora.
 2. **Impresión PDF (El Req-05 Creado):** A petición original de la Secretaria Administrativa (Sprint 0), Jack Rojas logró inyectar `jspdf` y `html2canvas` para "tomar una foto" vectorial de la grilla de colores y descargarla instantáneamente en formato PDF apaisado, listo para imprimir.
-3. **Muro DevOps de Seguridad:** Alexander instaló paquetes de mitigación como `helmet` (oculta cabeceras de servidor Express) y un `RateLimiter` que bloquea IPs si alguien intenta probar contraseñas locas más de 10 veces seguidas (Fuerza Bruta mitigada).
+3. **Muro DevOps de Seguridad:** Paul Paytan instaló paquetes de mitigación como `helmet` (oculta cabeceras de servidor Express) y un `RateLimiter` que bloquea IPs si alguien intenta probar contraseñas locas más de 10 veces seguidas (Fuerza Bruta mitigada).
 4. **Pruebas y SonarQube (Clean Code):** Se corrieron las herramientas de análisis estático (Ver Carpeta `docs/PFA`). Se redujo la Deuda Técnica de 5 horas a menos de 1 hora. Cobertura de tests unitarios estabilizada en 82%.
 
 ---

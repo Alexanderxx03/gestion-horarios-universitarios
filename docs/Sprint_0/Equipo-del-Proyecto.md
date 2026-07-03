@@ -19,7 +19,7 @@ Estos roles son los responsables directos de la escritura de código, la gestió
 - **Autoridad:** Tiene el poder de vetar o aprobar (Sign-off) cada entrega al final de un Sprint durante la ceremonia de *Sprint Review*.
 
 ### 2.2 Scrum Master / Líder Técnico (Servant Leader)
-**Nombre Asignado:** Alexander (Lead Developer)
+**Nombre Asignado:** Paul Paytan (Lead Developer)
 - **Responsabilidad Principal:** Garantizar que el marco de trabajo Scrum se respete. Actuar como un "Escudo" (Bulldozer) para proteger a los programadores de distracciones externas, reuniones inútiles y bloqueos técnicos (Impedimentos).
 - **Rol Técnico Dual:** Dado el tamaño del equipo, asume también el rol de Arquitecto Principal. Diseña los flujos de las bases de datos y orquesta los despliegues en la nube.
 - **Criterio de Éxito:** Mantener una velocidad (*Velocity*) constante del equipo de desarrollo, sin *Burnout* (Agotamiento).

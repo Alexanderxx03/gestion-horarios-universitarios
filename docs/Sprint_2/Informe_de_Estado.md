@@ -1,7 +1,7 @@
 # Informe de Estado del Proyecto - Cierre Sprint 2
 
 **Fecha de Corte (Status Date):** Viernes de la Semana 2 del Sprint 2  
-**Preparado por:** Alexander (Scrum Master / Lead Dev)  
+**Preparado por:** Paul Paytan (Scrum Master / Lead Dev)  
 **Audiencia (To):** Patrocinadores y Equipo de Desarrollo
 
 ## 1. Resumen Ejecutivo de Avance (Executive Summary)
@@ -25,7 +25,7 @@ Este Sprint exigió alta velocidad en programación Front-end. Se han desplegado
 
 ### Impedimento Destrabado (Incident-002)
 - *Bloqueador:* Los puertos de MongoDB Atlas fueron bloqueados misteriosamente por el Firewall de la Universidad el día martes. 
-- *Resolución:* Alexander (Scrum Master) ejecutó un reclamo inmediato con Jefatura TI, logrando abrir una VLAN para el equipo en 48 horas (Ver Registro de Impedimentos). El equipo no paró de trabajar porque levantaron contenedores Docker locales (`mongo:latest`) durante la caída.
+- *Resolución:* Paul Paytan (Scrum Master) ejecutó un reclamo inmediato con Jefatura TI, logrando abrir una VLAN para el equipo en 48 horas (Ver Registro de Impedimentos). El equipo no paró de trabajar porque levantaron contenedores Docker locales (`mongo:latest`) durante la caída.
 
 ---
 

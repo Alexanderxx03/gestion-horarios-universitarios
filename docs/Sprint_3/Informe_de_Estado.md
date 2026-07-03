@@ -1,7 +1,7 @@
 # Informe de Estado del Proyecto - Cierre Sprint 3
 
 **Fecha de Corte (Status Date):** Viernes de la Semana 2 del Sprint 3  
-**Preparado por:** Alexander (Scrum Master / Lead Dev)  
+**Preparado por:** Paul Paytan (Scrum Master / Lead Dev)  
 **Audiencia (To):** Patrocinadores y Equipo de Desarrollo
 
 ## 1. Resumen Ejecutivo de Avance (Executive Summary)
@@ -21,7 +21,7 @@ El hito central del proyecto se completó tras sortear desafíos de infraestruct
 
 1. **El Motor CSP (Núcleo Terminado):** El algoritmo es capaz de analizar disponibilidad docente, aforo de aulas, cruce de mallas curriculares y restricciones de teoría/práctica de manera simultánea.
 2. **Mitigación del Bloqueador (Incident-001):** Durante el día 4, al intentar probar el motor con los datos de 50 aulas (1200 alumnos), el servidor de Node.js se congeló (Time-out de 60 segundos). La API dejó de responderle a todos los usuarios del sistema por estrangulamiento de CPU (Event Loop Blocking).
-   - *Solución Definitiva:* Alexander orquestó una refactorización de hilos (Threading). Envolvió la función del CSP utilizando el módulo nativo `worker_threads` de Node. Ahora, el hilo principal de la web atiende requests instantáneamente (10ms) mientras un Hilo Hijo silencioso mastica los números matemáticos en el fondo y envía un mensaje al terminar.
+   - *Solución Definitiva:* Paul Paytan orquestó una refactorización de hilos (Threading). Envolvió la función del CSP utilizando el módulo nativo `worker_threads` de Node. Ahora, el hilo principal de la web atiende requests instantáneamente (10ms) mientras un Hilo Hijo silencioso mastica los números matemáticos en el fondo y envía un mensaje al terminar.
 3. **Poda Heurística MRV:** Para evitar que el hilo hijo se quedara horas calculando, se implementó la heurística *Minimum Remaining Values*. El motor procesa primero a los docentes con MENOS tiempo disponible, llenando las celdas más críticas, reduciendo el tiempo de cálculo de 2 minutos a un promedio brutal de **1.2 Segundos**.
 4. **Drag & Drop (Frontend):** Jack Rojas terminó la grilla interactiva. Los profesores ya pueden ingresar desde sus móviles y "pintar" arrastrando el dedo para indicar las horas en las que aceptan dictar clases.
 

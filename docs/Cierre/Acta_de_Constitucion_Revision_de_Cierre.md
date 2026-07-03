@@ -2,7 +2,7 @@
 
 **Nombre del Proyecto:** UniHorarios - Sistema Inteligente de Gestión de Horarios Universitarios  
 **Patrocinador del Proyecto (Sponsor):** Dirección de Escuela de Ingeniería de Sistemas  
-**Gerente de Proyecto / Scrum Master:** Alexander (Lead Developer)  
+**Gerente de Proyecto / Scrum Master:** Paul Paytan (Lead Developer)  
 **Fecha de Aprobación del Cierre:** 03 de Julio de 2026  
 **Fase Correspondiente:** Cierre del Ciclo de Vida del Proyecto (Project Closure)
 
@@ -72,7 +72,7 @@ Los abajo firmantes declaran haber revisado las métricas, haber ejecutado el so
 | Rol en el Proyecto | Nombre Legal Representante | Firma Digital / Sello de Aceptación | Fecha de Firma |
 |:---|:---|:---:|:---:|
 | **Sponsor (Patrocinador)** | Dr. Hernán Cortéz (Decano) | *(Firmado Electrónicamente)* | 03/07/2026 |
-| **Scrum Master / Lead Dev** | Alexander | *(Firmado Electrónicamente)* | 03/07/2026 |
+| **Scrum Master / Lead Dev** | Paul Paytan | *(Firmado Electrónicamente)* | 03/07/2026 |
 | **Líder de Operaciones IT** | Ing. Jack Rojas�nchez | *(Firmado Electrónicamente)* | 03/07/2026 |
 | **Cliente (Usuario Final)** | Lic. Marta Ruiz (Coordinadora) | *(Firmado Electrónicamente)* | 03/07/2026 |
 

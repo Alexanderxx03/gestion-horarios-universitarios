@@ -15,7 +15,7 @@ A diferencia de las retrospectivas anteriores (que buscaban optimizar el próxim
 ## 2. Análisis del Desempeño Operativo y Arquitectónico (The Good, The Bad & The Ugly)
 
 ### 🟢 THE GOOD: ¿Qué fue el pilar de nuestro éxito? (Keep forever)
-- **Scrum Protegido por el Scrum Master:** Alexander ejerció como un verdadero escudo. Nunca permitió que la burocracia de la universidad añadiera nuevos requerimientos (*Scope Creep*) a mitad de un Sprint. Si el Decano pedía algo el Miércoles de la Semana 1, Alexander le decía "Perfecto, va al Backlog del próximo Sprint". Esto protegió la moral del equipo y evitó el colapso.
+- **Scrum Protegido por el Scrum Master:** Paul Paytan ejerció como un verdadero escudo. Nunca permitió que la burocracia de la universidad añadiera nuevos requerimientos (*Scope Creep*) a mitad de un Sprint. Si el Decano pedía algo el Miércoles de la Semana 1, Paul Paytan le decía "Perfecto, va al Backlog del próximo Sprint". Esto protegió la moral del equipo y evitó el colapso.
 - **Node.js Worker Threads:** La decisión de aislar la algoritmia matemática pesada de la Web API (Express) fue una genialidad arquitectónica que salvó el proyecto en el Sprint 3.
 - **Tipado Duro en Fronteras (Zod + TypeScript):** Obligar al Frontend a validar con esquemas estrictos de Zod antes de mandar llamadas de red fue un cambio doloroso en el Sprint 1, pero produjo un Frontend casi indestructible en el Sprint 4.
 

@@ -18,8 +18,8 @@
   - *Nueva Regla:* Ningún componente React debe exceder las 200 líneas. Si lo hace, debe romperse obligatoriamente en sub-componentes más pequeños (Ej. `<CourseListItem />`).
 
 ### 🟡 ¿Qué nueva práctica técnica debemos INICIAR (Start) en el Sprint 3?
-- **El Reto del Motor Matemático:** El Sprint 3 alberga el "Demonio" del proyecto: el Algoritmo CSP. Alexander (Lead Dev) pidió aislamiento total.
-  - *Acuerdo del Equipo (Focus Mode Activo):* Durante la primera semana del Sprint 3, Alexander no asistirá a reuniones secundarias, ignorará mensajes de Slack no urgentes y se dedicará a programar el Worker Thread del algoritmo algorítmico. Jack Rojas encargará de ser el "Escudo Humano" contestando dudas del cliente.
+- **El Reto del Motor Matemático:** El Sprint 3 alberga el "Demonio" del proyecto: el Algoritmo CSP. Paul Paytan (Lead Dev) pidió aislamiento total.
+  - *Acuerdo del Equipo (Focus Mode Activo):* Durante la primera semana del Sprint 3, Paul Paytan no asistirá a reuniones secundarias, ignorará mensajes de Slack no urgentes y se dedicará a programar el Worker Thread del algoritmo algorítmico. Jack Rojas encargará de ser el "Escudo Humano" contestando dudas del cliente.
 
 ---
 

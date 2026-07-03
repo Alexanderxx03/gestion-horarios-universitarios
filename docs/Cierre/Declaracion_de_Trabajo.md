@@ -58,7 +58,7 @@ A partir de la firma del Acta de Cierre (03/07/2026), entra en vigor un periodo 
 **Duración del Hypercare:** 30 Días Calendario (Hasta 02/08/2026).
 
 ### 4.1 Alcance de la Garantía (In-Scope)
-El equipo original (Alexander y el desarrollador secundario) atenderán sin costo adicional los siguientes incidentes:
+El equipo original (Paul Paytan y el desarrollador secundario) atenderán sin costo adicional los siguientes incidentes:
 - **Defectos Fatales (Nivel 1):** El algoritmo CSP entra en loop, la base de datos rechaza inserciones correctas, la UI de React muestra pantalla blanca. (SLA de Respuesta: < 4 Horas).
 - **Fallos de Lógica Discreta (Nivel 2):** El algoritmo ignora accidentalmente una restricción de disponibilidad docente en el 5% de los casos. (SLA de Respuesta: < 24 Horas).
 - **Vulnerabilidades Day-0:** Cualquier parche urgente de seguridad de Node.js o Express.

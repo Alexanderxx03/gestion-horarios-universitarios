@@ -9,7 +9,7 @@
 ## 1. Análisis del Desempeño Operativo del Equipo
 
 ### 🟢 ¿Qué hicimos muy bien y debemos MANTENER (Keep)?
-- **El "Focus Mode" de Programación Extrema:** La decisión acordada en el Sprint 2 de blindar a Alexander (Líder Backend) aislándolo de reuniones y correos funcionó magistralmente. Pudo sostener todo el contexto del algoritmo CSP en su memoria de trabajo sin sufrir disrupción por cambios de contexto. Se mantiene esta práctica para tareas de clasificación NP-Hard.
+- **El "Focus Mode" de Programación Extrema:** La decisión acordada en el Sprint 2 de blindar a Paul Paytan (Líder Backend) aislándolo de reuniones y correos funcionó magistralmente. Pudo sostener todo el contexto del algoritmo CSP en su memoria de trabajo sin sufrir disrupción por cambios de contexto. Se mantiene esta práctica para tareas de clasificación NP-Hard.
 - **Tolerancia a Fallos Controlada (Graceful Degradation):** En lugar de que la pantalla blanca "estalle" cuando el Motor Matemático descubre una imposibilidad, el equipo programó manejadores de excepciones que lanzan alertas rojas súper descriptivas en la interfaz. Eso impresionó al cliente.
 
 ### 🔴 ¿En qué fracasamos y debemos DESCARTAR (Drop)?

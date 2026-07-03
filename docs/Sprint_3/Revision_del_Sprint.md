@@ -14,7 +14,7 @@ Demostrar en vivo que el sistema puede ingerir parámetros caóticos e incomplet
 
 ## 2. Demostración en Vivo (La Prueba de Fuego)
 
-El ambiente estaba tenso. Alexander (Scrum Master y desarrollador del algoritmo) conectó el portátil y cedió el ratón al propio Coordinador Académico para que él operara la interfaz, demostrando la usabilidad real.
+El ambiente estaba tenso. Paul Paytan (Scrum Master y desarrollador del algoritmo) conectó el portátil y cedió el ratón al propio Coordinador Académico para que él operara la interfaz, demostrando la usabilidad real.
 
 ### Prueba Demostrativa 1: Declaración Docente (Drag and Drop)
 - **Acción del Coordinador (Impersonando a un Docente):** Inició sesión. Navegó a "Mi Disponibilidad". En la grilla táctil, "pintó" de verde solo los días Lunes por la mañana y Jueves por la noche. Pulsó Guardar.

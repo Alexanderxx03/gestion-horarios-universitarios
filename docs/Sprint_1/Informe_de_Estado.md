@@ -1,7 +1,7 @@
 # Informe de Estado del Proyecto - Cierre Sprint 1
 
 **Fecha de Corte (Status Date):** Viernes de la Semana 2 del Sprint 1  
-**Preparado por:** Alexander (Scrum Master / Lead Dev)  
+**Preparado por:** Paul Paytan (Scrum Master / Lead Dev)  
 **Audiencia (To):** Patrocinadores y Equipo de Desarrollo
 
 ## 1. Resumen Ejecutivo de Avance (Executive Summary)
@@ -30,7 +30,7 @@ No hemos construido nada "Lindo" a la vista todavía, todo fue plomería (Backen
 Durante este Sprint, el "Daily Scrum" (Diaria) sirvió para desatorar dos cuellos de botella severos:
 
 - **Alerta CORS en Producción (Bloqueo):** Cuando el equipo probó la pantalla de Login conectándose a la API alojada en la nube (Render), el navegador bloqueó la solicitud (Política de Mismo Origen). 
-  - *Solución Inyectada:* El equipo Backend (Alexander) configuró un Middleware `cors` estricto en Express, permitiendo únicamente solicitudes que provengan del subdominio de Vercel del proyecto.
+  - *Solución Inyectada:* El equipo Backend (Paul Paytan) configuró un Middleware `cors` estricto en Express, permitiendo únicamente solicitudes que provengan del subdominio de Vercel del proyecto.
 - **Renderizado React Doble (Falsa Alarma):** El programador Frontend alertó que el Login se ejecutaba dos veces en consola y pensó que era un bug de rendimiento. 
   - *Solución:* El Scrum Master clarificó que se debía al `React.StrictMode` de la versión 18 (Cosa normal en desarrollo local).
 

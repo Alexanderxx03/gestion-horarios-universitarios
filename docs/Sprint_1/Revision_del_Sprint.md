@@ -16,7 +16,7 @@ Solo se mostrará código "Terminado" (Done), que haya pasado las pruebas de cal
 
 ## 2. Demostración en Vivo (Live Demo)
 
-El Scrum Master (Alexander) conectó su portátil al proyector e ingresó a la URL temporal (Staging) alojada en Vercel. Se ejecutaron las siguientes pruebas frente al Decano y el Coordinador:
+El Scrum Master (Paul Paytan) conectó su portátil al proyector e ingresó a la URL temporal (Staging) alojada en Vercel. Se ejecutaron las siguientes pruebas frente al Decano y el Coordinador:
 
 ### Prueba Demostrativa 1: Muro de Seguridad y Rechazo (Security Test)
 - **Acción del Dev:** Se intentó ingresar a la URL `dashboard/aulas` directamente en la barra de direcciones del navegador.
@@ -37,7 +37,7 @@ El marco Scrum brilla en este momento. A partir de los comentarios de los Intere
 | Solicitud del Stakeholder (Feedback Crudo) | Decisión del Equipo / Acción Tomada | Clasificación (Bug vs Feature) |
 |:---|:---|:---:|
 | **Coordinador:** "El botón de Login es pequeño para mis dedos si lo abro en el celular" | Se creará un pequeño Ticket de UI para aumentar el Padding (CSS: `py-3 px-6`) en móviles en el Sprint 2. | Mejora UX (Feature) |
-| **Decano:** "Si pongo mal la contraseña 5 veces, ¿Se bloquea la cuenta?" | Actualmente no hay política de bloqueo (Brute Force Protection). Alexander explica que esto tomaría 3 días de ingeniería y una Base de Datos Redis para rastrear IPs de atacantes. El Decano concluyó que no vale la pena (Sobrecoste). Se pospone indefinidamente. | Nueva Épica (Rechazada) |
+| **Decano:** "Si pongo mal la contraseña 5 veces, ¿Se bloquea la cuenta?" | Actualmente no hay política de bloqueo (Brute Force Protection). Paul Paytan explica que esto tomaría 3 días de ingeniería y una Base de Datos Redis para rastrear IPs de atacantes. El Decano concluyó que no vale la pena (Sobrecoste). Se pospone indefinidamente. | Nueva Épica (Rechazada) |
 | **Coordinador:** "¿Puedo entrar con mi cuenta de Google de la universidad (@universidad.edu.pe)?" | El equipo explica que la autenticación Oauth 2.0 (Google Sign-In) es una épica compleja. Se añade al fondo del Backlog (Prioridad Baja) para fases futuras. | Feature (Postergado) |
 
 ---

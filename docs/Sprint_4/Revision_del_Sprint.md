@@ -14,7 +14,7 @@ Esta no es una reunión privada típica; es el **Demo Day**. El objetivo es pres
 
 ## 2. Demostración en Vivo (El Gran Show)
 
-Alexander (Líder del Proyecto) proyectó el sistema en la pantalla gigante del auditorio. Jack Rojas (Líder Frontend) operó la máquina.
+Paul Paytan (Líder del Proyecto) proyectó el sistema en la pantalla gigante del auditorio. Jack Rojas (Líder Frontend) operó la máquina.
 
 ### Hito 1: La Magia de la Nube y el Drag & Drop (Inicio rápido)
 - **Acción:** Se pidió a un profesor del público que entrara a una URL corta desde su celular. El profesor dibujó rápidamente su disponibilidad en su pantalla táctil (Martes todo el día). 
@@ -34,8 +34,8 @@ No hubo "Peticiones de Cambio" (Change Requests) para inyectar al código. Los c
 
 | Comentario de la Directiva | Respuesta del Scrum Master |
 |:---|:---|
-| **Soporte TI:** "¿Nos pueden capacitar para reiniciar la base de datos si algo se cae?" | **Alexander:** "Sí. Durante la próxima semana elaboraremos la *Fase de Cierre* (Actas y Manuales del Software) y daremos la capacitación técnica (Hand-over)." |
-| **Decano:** "¿Cuándo podemos usarlo oficialmente?" | **Alexander:** "El código está en Producción (v1.0). Inmediatamente cerremos la parte legal (Firma de Acta de Aceptación), ustedes tienen las llaves maestras." |
+| **Soporte TI:** "¿Nos pueden capacitar para reiniciar la base de datos si algo se cae?" | **Paul Paytan:** "Sí. Durante la próxima semana elaboraremos la *Fase de Cierre* (Actas y Manuales del Software) y daremos la capacitación técnica (Hand-over)." |
+| **Decano:** "¿Cuándo podemos usarlo oficialmente?" | **Paul Paytan:** "El código está en Producción (v1.0). Inmediatamente cerremos la parte legal (Firma de Acta de Aceptación), ustedes tienen las llaves maestras." |
 
 ---
 

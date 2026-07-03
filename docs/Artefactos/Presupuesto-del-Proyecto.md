@@ -15,7 +15,7 @@ El equipo está compuesto por 2 integrantes con dedicación parcial (académica)
 | Integrante               | Roles Asumidos                  | Tarifa Promedio | Horas/Sprint | Sprints Activos |  Costo Total  |
 | :----------------------- | :------------------------------ | :-------------: | :----------: | :-------------: | :-----------: |
 | **Jheyson Paul Paytan**  | Scrum Master, Product Owner     |   S/ 49.70/h    |     38h      |        4        | **S/ 7,560**  |
-| **Jack Alexander Rojas** | Full-Stack Dev, Algorithms Eng. |   S/ 54.70/h    |     47h      |        4        | **S/ 10,280** |
+| **Jack Rojas** | Full-Stack Dev, Algorithms Eng. |   S/ 54.70/h    |     47h      |        4        | **S/ 10,280** |
 | **TOTAL RRHH**           |                                 |                 |   **85h**    |                 | **S/ 17,840** |
 
 > **Nota:** Las horas incluyen ceremonias Scrum (Planning, Daily, Review, Retro), desarrollo, testing y documentación. No incluyen horas del Sprint 0 (documentación inicial sin desarrollo).
