@@ -227,11 +227,12 @@ gestion-horarios-universitarios/
 │   │   └── 📂 shared/            # Validadores (Zod), Logs (Winston)
 │
 └── 📂 docs/                      # Documentación Técnica
-    ├── 📂 Artefactos/            # Diagramas y Arquitectura
-    ├── 📂 Manuales/              # Guías de Uso
-    ├── 📂 PFA/                   # Informes de Cierre
-    ├── 📂 Planificacion/         # Scrum y Sprints
-    └── 📂 Pruebas/               # QA (SonarQube, OWASP, WCAG)
+    ├── 📂 inicio/                # Vision, Equipo, Requerimientos
+    ├── 📂 planificacion/         # Cronogramas, Presupuestos
+    ├── 📂 ejecucion/             # Arquitectura, Modelos, Motor CSP
+    ├── 📂 seguimiento_control/   # Testing, QA (SonarQube, OWASP)
+    ├── 📂 cierre/                # Informe Final, Lecciones Aprendidas
+    └── 📂 otros/                 # Manuales, Instalación, Despliegue
 ```
 
 ---
@@ -292,12 +293,12 @@ Con el backend en ejecución, accede a:
 
 Toda la documentación está estructurada bajo estándares PMBOK y se encuentra en `docs/`:
 
-- 🚀 **[Sprint 0 (Visión y Requerimientos)](docs/Sprint_0/)**
-- 🏗️ **[Artefactos y Arquitectura](docs/Artefactos/)**
-- 📋 **[Planificación y Sprints](docs/Planificacion/)**
-- ✅ **[Pruebas y Calidad QA](docs/Pruebas/)** *(OWASP, WCAG, Green IT)*
-- 🏁 **[Proyecto Final de Asignatura (PFA)](docs/PFA/)**
-- ⚙️ **[Manuales de Instalación](docs/Manuales/)**
+- 🚀 **[Inicio](docs/inicio/)**
+- 📋 **[Planificación](docs/planificacion/)**
+- 🏗️ **[Ejecución (Arquitectura y Código)](docs/ejecucion/)**
+- ✅ **[Seguimiento y Control (Testing, QA)](docs/seguimiento_control/)**
+- 🏁 **[Cierre (PFA, Informes Finales)](docs/cierre/)**
+- ⚙️ **[Otros (Manuales, Capacitación)](docs/otros/)**
 
 ---
 
