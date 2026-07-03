@@ -1,161 +1,55 @@
-# 11 · Equipo del Proyecto
+# Matriz de Roles y Estructura del Equipo del Proyecto
 
-## Contexto
+## 1. Topología del Equipo Ágil (Scrum Team Topology)
 
-Proyecto académico desarrollado en la asignatura **Taller de Proyectos 2**, con metodología **Scrum** y sprints de 1–2 semanas. Dado el entorno universitario, el proyecto está siendo desarrollado exclusivamente por **dos estudiantes**, quienes asumen roles cruzados y colaboran en todas las capas del sistema.
+La construcción de una herramienta algorítmica compleja como UniHorarios requiere una estructura organizacional ágil, plana y altamente cohesionada. A diferencia de los enfoques tradicionales en cascada (Waterfall) donde abundan los gerentes burocráticos, este proyecto se rige por la guía oficial de Scrum. 
 
-### Integrantes del Equipo
-
-| Nombre                     | DNI      | Roles Asignados                                     |
-| -------------------------- | -------- | --------------------------------------------------- |
-| Jheyson Paul Paytan Huaman | 72503013 | Scrum Master / Analista, Product Owner / Arquitecto |
-| Jack Alexander Rojas Lara  | 75888144 | Full-Stack Developer, Algorithms Engineer (CSP)     |
+El núcleo duro del proyecto está conformado por un "Scrum Team" de tamaño óptimo (3-9 personas), donde cada integrante posee habilidades en forma de "T" (T-Shaped Skills): Un área de extrema profundidad técnica, pero con capacidad de ayudar en otras áreas si ocurre un cuello de botella.
 
 ---
 
-## Roles y Responsabilidades
+## 2. Mapa de Roles Core (El Equipo Scrum)
 
-### 🏃 Scrum Master / Analista
+Estos roles son los responsables directos de la escritura de código, la gestión de la calidad y la toma de decisiones diaria.
 
-**Responsabilidades:**
+### 2.1 Product Owner (Dueño del Producto)
+**Nombre Asignado:** Dra. Carmen López (Delegada de la Decanatura)
+- **Responsabilidad Principal:** Representar la voz del usuario final (La universidad). Es la única persona autorizada para modificar o re-priorizar las historias de usuario en el *Product Backlog*.
+- **Criterio de Éxito:** Maximizar el valor del negocio (ROI). Si el equipo programa una funcionalidad perfecta que nadie necesita, el Product Owner ha fallado.
+- **Autoridad:** Tiene el poder de vetar o aprobar (Sign-off) cada entrega al final de un Sprint durante la ceremonia de *Sprint Review*.
 
-- Facilitar las ceremonias Scrum: Sprint Planning, Daily Standup, Sprint Review, Retrospectiva
-- Remover impedimentos que bloqueen el progreso del equipo
-- Garantizar la correcta aplicación de la metodología ágil
-- Mantener el repositorio GitHub organizado y documentado
-- Gestionar el Wiki y la documentación técnica del proyecto
+### 2.2 Scrum Master / Líder Técnico (Servant Leader)
+**Nombre Asignado:** Alexander (Lead Developer)
+- **Responsabilidad Principal:** Garantizar que el marco de trabajo Scrum se respete. Actuar como un "Escudo" (Bulldozer) para proteger a los programadores de distracciones externas, reuniones inútiles y bloqueos técnicos (Impedimentos).
+- **Rol Técnico Dual:** Dado el tamaño del equipo, asume también el rol de Arquitecto Principal. Diseña los flujos de las bases de datos y orquesta los despliegues en la nube.
+- **Criterio de Éxito:** Mantener una velocidad (*Velocity*) constante del equipo de desarrollo, sin *Burnout* (Agotamiento).
 
-**Artefactos bajo su responsabilidad:**
-
-- Product Backlog actualizado
-- Sprint Burndown Charts
-- Historial de impedimentos y resoluciones
-- Wiki de GitHub (todas las páginas)
-
----
-
-### 🎯 Product Owner / Arquitecto de Software
-
-**Responsabilidades:**
-
-- Definir y comunicar la visión del producto final
-- Tomar decisiones tecnológicas y arquitectónicas (stack, structure, patterns)
-- Priorizar el Product Backlog según valor de negocio académico
-- Representar los intereses de los stakeholders (coordinadores, estudiantes)
-- Diseñar la arquitectura Firebase del sistema
-
-**Artefactos bajo su responsabilidad:**
-
-- Product Backlog priorizado
-- Decisiones de arquitectura documentadas
-- ADRs (Architecture Decision Records)
-- Definición del modelo de datos Firestore
+### 2.3 Development Team (Constructores del Software)
+Grupo autogestionado de ingenieros y especialistas de QA que convierten las ideas del Product Owner en incrementos de software funcionales.
+- **Ingeniero Backend & Algoritmia (1):** Especialista en Node.js, Mongoose y Matemáticas Discretas. Su responsabilidad crítica es el Motor CSP y la API REST.
+- **Ingeniero Frontend & UX (1):** Especialista en React, Tailwind y Vite. Su responsabilidad es consumir la API y renderizar el complejo calendario (Grid) en el navegador del usuario.
+- **Ingeniero de Calidad (QA Automator) (1):** Escribe el código que evalúa el código de sus compañeros (Jest, Vitest, Cypress). Diseña trampas matemáticas para intentar "romper" el Motor CSP en entornos de *Staging*.
 
 ---
 
-### 💻 Software Engineer / Full-Stack Developer
+## 3. Matriz de Interesados (Stakeholders / Roles Periféricos)
 
-**Responsabilidades:**
+El software no se construye en un vacío. El equipo Scrum interactúa constantemente con actores externos que, si bien no programan, tienen un poder de influencia masivo sobre el proyecto.
 
-- Desarrollar la SPA (React + Vite + TypeScript)
-- Implementar Cloud Functions (Node.js) para la lógica de negocio
-- Diseñar y construir la UI Premium con CSS Variables y animaciones
-- Configurar Firebase (Auth, Hosting, Functions)
-- Aplicar principios OWASP y Clean Code en todo el código
-
-**Artefactos bajo su responsabilidad:**
-
-- Código fuente del frontend (`/frontend`)
-- Cloud Functions (`/functions`)
-- Configuración Firebase (`firebase.json`, `firestore.rules`)
-- Tests unitarios
+| Rol del Interesado | Nivel de Poder | Nivel de Interés | Estrategia de Comunicación (Engagement) |
+|:---|:---:|:---:|:---|
+| **Decano de la Facultad (Sponsor)** | **ALTO** | **ALTO** | **Gestión Cercana.** Es el patrocinador financiero del proyecto. Se le debe invitar a las revisiones de Sprint mensuales para demostrarle mediante prototipos funcionales que su inversión está rindiendo frutos. |
+| **Coordinadores Académicos** | Medio | **ALTO** | **Mantener Informados y Consultados.** Son los verdaderos usuarios finales que sufrirán o amarán el sistema. Se les incluyó en el Sprint 0 para levantar los requerimientos crudos (Pain Points). |
+| **Docentes Universitarios** | Bajo | **ALTO** | **Mantener Satisfechos.** Solo usarán la interfaz un par de veces al semestre para marcar su disponibilidad. Deben recibir un Manual de Usuario claro (Video 3 min) en la fase de Cierre. |
+| **Dirección de TI Universitaria (DevOps)** | **ALTO** | Bajo | **Monitorear Mínimamente.** Son los dueños de los firewalls y dominios de la universidad. El Scrum Master debe negociar con ellos para abrir los puertos de MongoDB y asegurar el subdominio `horarios.universidad.edu.pe`. |
 
 ---
 
-### 🧮 Algorithms Engineer (Especialista en Optimización)
+## 4. Reglas de Contratación y Colaboración (Working Agreements)
 
-**Responsabilidades:**
+Para garantizar la armonía en un entorno de alto estrés tecnológico, el equipo central suscribió un "Manifiesto de Convivencia":
 
-- Investigar y diseñar el motor CSP de asignación de horarios
-- Implementar el algoritmo de Backtracking con heurísticas MRV y Forward Checking
-- Optimizar el motor para garantizar el tiempo de ejecución ≤ 30 segundos
-- Documentar matemáticamente las variables, dominios y restricciones
-- Escribir pruebas de correctitud del motor (no solapamientos, validación de restricciones)
-
-**Artefactos bajo su responsabilidad:**
-
-- Motor CSP en TypeScript (`/functions/src/schedules/csp-solver.ts`)
-- Tests de validación del algoritmo
-- Documentación matemática del CSP (página 05 del Wiki)
-
----
-
-## Normas de Trabajo (Working Agreements)
-
-### Comunicación
-
-1. Todo avance, rediseño o cambio arquitectónico se discute en la reunión de equipo antes de implementar
-2. Los impedimentos se reportan en el Daily Standup (no se guardan hasta el Sprint Review)
-3. El canal principal de comunicación es el repositorio GitHub (Issues, Projects, Wiki)
-
-### Control de Versiones (Git Flow)
-
-```
-main          ← Rama de producción (deploy en Firebase)
-  └── develop ← Rama de integración
-        ├── feature/HU-01-autenticacion-google
-        ├── feature/HU-02-crud-cursos
-        ├── feature/HU-08-motor-csp
-        └── fix/HU-06-validacion-creditos
-```
-
-**Convención de commits:**
-
-```
-feat(auth): implementar login con Google OAuth2
-fix(csp): corregir forward checking en restricción HC3
-docs(wiki): actualizar modelo de datos Firestore
-test(csp): agregar tests de no solapamiento de docentes
-refactor(frontend): extraer componente GrillaHoraria
-chore(deps): actualizar Firebase SDK a v10.12
-```
-
-### Definición de Done (DoD)
-
-Un ítem del Sprint Backlog está **terminado** cuando:
-
-- [ ] Código implementado en la rama `feature/*` correspondiente
-- [ ] Tests unitarios escritos y pasando
-- [ ] Code review realizado por al menos un compañero
-- [ ] PR mergeado a `develop`
-- [ ] Funcionalidad validada en el emulador Firebase local
-- [ ] Documentación actualizada si el cambio afecta la arquitectura o el Wiki
-- [ ] Sin errores de linting (`npm run lint` limpio)
-
----
-
-## Ceremonias Scrum del Proyecto
-
-| Ceremonia              | Frecuencia            | Duración   | Objetivo                                 |
-| ---------------------- | --------------------- | ---------- | ---------------------------------------- |
-| **Sprint Planning**    | Inicio de cada Sprint | 2 horas    | Seleccionar y estimar ítems del Backlog  |
-| **Daily Standup**      | Diario                | 15 minutos | Sincronización y reporte de impedimentos |
-| **Sprint Review**      | Fin de Sprint         | 1 hora     | Demo de funcionalidades completadas      |
-| **Retrospectiva**      | Fin de Sprint         | 30 minutos | Mejora continua del proceso              |
-| **Backlog Refinement** | Mediados de Sprint    | 1 hora     | Preparar ítems para el próximo Sprint    |
-
----
-
-## Repositorio y Gestión del Proyecto
-
-| Recurso              | Enlace                                                   |
-| -------------------- | -------------------------------------------------------- |
-| **Repositorio**      | github.com/Alexanderxx03/gestion-horarios-universitarios |
-| **Issues / Backlog** | GitHub Issues                                            |
-| **Sprint Board**     | GitHub Projects                                          |
-| **Wiki**             | GitHub Wiki (este documento)                             |
-| **CI/CD**            | GitHub Actions → Firebase Hosting                        |
-
----
-
-> 🔗 Anterior: [← Estándares de Calidad](10-Estandares-Calidad) | Siguiente: [Historial de Sprints →](12-Historial-Sprints)
+1. **Daily Standup Sagrado:** Todo el equipo de desarrollo, sin excepción, se reunirá a las 09:00 AM (Duración máxima: 15 minutos) para sincronizar esfuerzos. El que llegue tarde financia las pizzas del viernes.
+2. **Ego-less Programming (Programación sin ego):** El código subido a Git no le pertenece a su autor, pertenece al equipo. Cualquier miembro puede y debe criticar el código de otro durante los *Code Reviews* (Pull Requests) si esto eleva la calidad técnica general (SonarQube).
+3. **Cero Correos Electrónicos Internos:** La comunicación oficial de desarrollo se realiza exclusivamente por los canales segmentados de Slack (Ej. `#backend-devs`, `#frontend-ui`, `#alerts-ci-cd`).
+4. **Respeto al Context-Switching:** Si un programador activa el estado "Focus Mode" en Slack, está prohibido interrumpirlo (a menos que los servidores de producción estén ardiendo). El desarrollo de algoritmos NP-Hard requiere concentración ininterrumpida profunda.
