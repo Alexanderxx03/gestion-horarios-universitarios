@@ -1,203 +1,64 @@
-# 10 · Estándares de Calidad
+# Estándares de Calidad y Políticas de Integración Continua (CI/CD)
 
-## Marco de Calidad Aplicado
+## 1. Declaración de Misión de Calidad (Quality Charter)
 
-El proyecto aplica tres marcos de calidad complementarios:
+El equipo de UniHorarios comprende que el código es efímero, pero la arquitectura y la calidad de construcción perduran. Este documento define las "Reglas del Juego" (Estándares de Codificación, Criterios de Aceptación y Políticas de Control de Versiones) a las cuales todo miembro del equipo se suscribe y obliga antes de fusionar (merge) una sola línea de código en la rama principal (Main/Master) de producción.
 
-| Estándar | Alcance | Aplicación |
-|---|---|---|
-| **OWASP Top 10** | Seguridad | Prevención de las 10 vulnerabilidades más críticas en web |
-| **ISO/IEC 25010** | Calidad del Software | Modelo de características para evaluar la calidad del producto |
-| **WCAG 2.1 Nivel AA** | Accesibilidad | Criterios de accesibilidad del W3C |
+El objetivo central de este manifiesto de calidad es erradicar el factor humano del control de calidad. No dependemos de que un desarrollador "recuerde" probar su código; delegamos esa responsabilidad a canalizaciones automatizadas (CI Pipelines) que auditan despiadadamente la base del código.
 
 ---
 
-## OWASP Top 10 – Mitigaciones Implementadas
+## 2. Convenciones de Codificación (Code Standards)
 
-### A01:2021 – Broken Access Control
+La uniformidad del código reduce la deuda técnica, minimiza los errores de lectura y facilita la inducción de nuevos desarrolladores al equipo. Para forzar estas convenciones, UniHorarios emplea herramientas automáticas que prohíben subir código mal formateado (Mediante Husky Pre-commit Hooks).
 
-**Riesgo:** Usuarios acceden a funciones o datos fuera de sus permisos.
+### 2.1 Estándares de Tipado (TypeScript Strict Mode)
+Se ha configurado el archivo `tsconfig.json` con la propiedad `"strict": true`. Esto fuerza a todo el equipo a adherirse a las siguientes normas:
+- **Ausencia del `any` implícito:** Prohibido usar tipos `any` para escapar del tipado, pues destruye el propósito de TypeScript. Los contratos de datos (Interfaces) deben definir exactamente qué objetos transitan por la API.
+- **Null Safety:** Obligación de validar si un objeto de la base de datos es `null` o `undefined` antes de leer sus propiedades, mitigando el famoso "Cannot read properties of undefined".
 
-**Mitigaciones en este proyecto:**
-- ✅ **Firebase Security Rules** verifican el rol del usuario en cada operación Firestore
-- ✅ **Custom Claims** en el token JWT almacenan el rol (`ADMIN`, `COORDINATOR`, etc.)
-- ✅ **Rutas de React protegidas** por componente `PrivateRoute` que verifica el rol antes de renderizar
-- ✅ **Cloud Functions** verifican el token y rol antes de ejecutar lógica de negocio crítica
-
-```typescript
-// Ejemplo: verificar rol en Cloud Function
-export const generateSchedule = onCall(async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Debes iniciar sesión')
-  }
-  if (!['ADMIN', 'COORDINATOR'].includes(request.auth.token.role)) {
-    throw new HttpsError('permission-denied', 'Sin permiso para esta acción')
-  }
-  // ...lógica del motor CSP
-})
-```
+### 2.2 Estándares Estilísticos (Prettier & ESLint)
+Toda disputa sobre si usar punto y coma, comillas simples o dobles, tabuladores o espacios, fue eliminada. 
+- **ESLint:** Configurado con el *Standard JS* y recomendaciones de React. Obliga a los desarrolladores a colocar todas las dependencias necesarias en el array de un `useEffect` para prevenir bucles infinitos.
+- **Prettier:** Formatea todo el documento automáticamente al guardar, obligando a usar comillas simples y tabulaciones de 2 espacios.
 
 ---
 
-### A02:2021 – Cryptographic Failures
+## 3. Barreras de Calidad (Quality Gates)
 
-**Riesgo:** Datos sensibles expuestos por cifrado débil o inexistente.
+Un *Quality Gate* es una alcabala virtual que analiza el código subido a un *Pull Request* (PR) y le deniega el paso si no alcanza métricas de calidad mínimas.
 
-**Mitigaciones:**
-- ✅ **HTTPS forzado** por Firebase Hosting en todos los endpoints
-- ✅ **JWT tokens** generados y verificados por Firebase Auth (RS256)
-- ✅ **Variables de entorno** con las claves Firebase nunca se suben a Git (`.gitignore`)
-- ✅ Las contraseñas son gestionadas exclusivamente por Firebase Auth (nunca en nuestra base de datos)
+### 3.1 La Política "Zero Tolerance" (Seguridad)
+Ninguna rama (Branch) de desarrollo será aprobada si el análisis estático arroja vulnerabilidades de categoría **BLOCKER** o **CRITICAL** (ej. contraseñas quemadas o SQL/NoSQL Injections expuestos). Este es un límite no negociable.
 
----
+### 3.2 El Umbral de Cobertura de Pruebas (Coverage Threshold)
+Todo nuevo módulo desarrollado (Controlador, Componente, Servicio) debe contar con una suite de pruebas de Vitest o Jest que avale su funcionamiento. 
+- La configuración del CI rechaza el Build si la métrica general de cobertura del proyecto decae con la inserción de nuevo código.
+- Meta de Calidad Institucional: **> 70% de cobertura de código general (Coverage)**.
 
-### A03:2021 – Injection
-
-**Riesgo:** SQL injection, NoSQL injection, command injection.
-
-**Mitigaciones:**
-- ✅ **Firestore no usa SQL** → imposibe SQL injection
-- ✅ **Validación de inputs** en Cloud Functions antes de escribir en Firestore
-- ✅ **TypeScript** captura errores de tipo en tiempo de compilación
-- ✅ **Zod** para validación de esquemas en Functions
-
-```typescript
-// Ejemplo: validar input con Zod en Functions
-import { z } from 'zod'
-
-const EnrollmentSchema = z.object({
-  studentId: z.string().min(1),
-  periodId: z.string().min(1),
-  courseIds: z.array(z.string()).min(1).max(10)
-})
-
-// Valida y lanza error si el input no cumple el esquema
-const validated = EnrollmentSchema.parse(request.data)
-```
+### 3.3 Límite de Deuda Técnica y Complejidad Cognitiva
+No se permitirá subir funciones ciclópeas (Monolíticas). Si una función supera un puntaje de "15" en el medidor de **Cognitive Complexity** de SonarQube (demasiados condicionales `if-else` anidados en una misma rutina), la canalización obligará al programador a refactorizar, dividiendo la función gigante en 3 subfunciones atómicas y limpias.
 
 ---
 
-### A07:2021 – Identification and Authentication Failures
+## 4. Política Estricta de Control de Versiones (Git Workflow)
 
-**Riesgo:** Ataques de fuerza bruta, robo de sesión, gestión débil de credenciales.
+Para evitar el famoso problema de "Funciona en mi máquina, pero explotó en el servidor", se implementó una estrategia derivada de *GitFlow* y *Trunk-Based Development*.
 
-**Mitigaciones:**
-- ✅ **Firebase Authentication** gestiona todo el ciclo de autenticación
-- ✅ **Token refresh automático** cada hora sin intervención del usuario
-- ✅ **Revocación de tokens** al cerrar sesión
-- ✅ **Google OAuth2** delega la autenticación a una entidad de confianza
-- ✅ **Sign-in rate limiting** gestionado por Firebase Auth automáticamente
+### 4.1 Protección de Ramas (Branch Protection Rules)
+La rama `main` (Producción) está bloqueada criptográficamente en GitHub.
+- **Push Directo Prohibido:** Es imposible que un administrador o desarrollador ejecute un `git push origin main` saltándose los controles.
+- **Revisión por Pares (Code Review):** Para integrar código a `main`, se requiere abrir un *Pull Request* (PR). Este PR exige la revisión aprobatoria de, al menos, un desarrollador secundario distinto al autor original (Técnica de los 4 ojos).
+- **Aprobación de la Canalización (CI Pass):** El PR no habilita el botón verde de "Merge" hasta que los bots automatizados de GitHub Actions respondan con "Success" validando que las pruebas de Jest pasan y que la compilación (Build) no se rompe.
 
----
-
-### A10:2021 – Server-Side Request Forgery (SSRF)
-
-**Mitigaciones:**
-- ✅ Las Cloud Functions no realizan peticiones HTTP a URLs proporcionadas por el usuario
-- ✅ Todas las llamadas externas son a servicios Firebase internos con Admin SDK
-- ✅ Sin listas blancas de URLs necesarias (no hay flujos SSRF en el diseño)
+### 4.2 Nomenclatura de Commits (Conventional Commits)
+Los mensajes de `git commit` deben apegarse al estándar internacional para facilitar la lectura del historial forense y la generación automática de versiones.
+- `feat: [Módulo]` para nuevas características (ej. `feat: agregar filtro por facultad`).
+- `fix: [Módulo]` para parchear bugs en producción (ej. `fix: corregir superposición visual de botones`).
+- `test: [Módulo]` al inyectar únicamente nuevos tests de Jest.
+- `refactor: [Módulo]` al limpiar código sin alterar la lógica.
 
 ---
 
-## ISO/IEC 25010 – Características de Calidad
-
-### Funcionalidad
-
-| Subcaracterística | Implementación |
-|---|---|
-| **Completitud funcional** | Todos los RF documentados con criterios de aceptación |
-| **Corrección funcional** | Tests unitarios del motor CSP |
-| **Adecuación funcional** | Diseño orientado a las necesidades del coordinador académico |
-
-### Desempeño y Eficiencia
-
-| Subcaracterística | Meta | Implementación |
-|---|---|---|
-| **Tiempo de respuesta** | < 3s carga inicial | Vite con tree-shaking, lazy loading |
-| **Uso de recursos** | Mínimo | Serverless: sin servidor idle |
-| **Capacidad** | 50+ cursos sin degradación | Heurísticas MRV + Forward Checking |
-
-### Compatibilidad
-
-| Subcaracterística | Implementación |
-|---|---|
-| **Interoperabilidad** | API Firestore estándar; exportación PDF/Excel portátil |
-| **Co-existencia** | SPA no interfiere con otras aplicaciones del navegador |
-
-### Usabilidad
-
-| Subcaracterística | Implementación |
-|---|---|
-| **Reconocibilidad** | Iconografía estándar, labels descriptivos, tooltips |
-| **Aprendizaje** | Flujo guiado, mensajes de error descriptivos |
-| **Operabilidad** | Accesible por teclado completo, responsive |
-| **Estética** | Diseño premium consistente con CSS Variables y sistema de diseño |
-
-### Confiabilidad
-
-| Subcaracterística | Implementación |
-|---|---|
-| **Disponibilidad** | Firebase SLA 99.95% |
-| **Tolerancia a fallos** | Estado FAILED en el motor CSP con mensaje explicativo |
-| **Recuperabilidad** | Emuladores Firebase para pruebas sin afectar producción |
-
-### Seguridad
-
-Ver sección OWASP arriba.
-
-### Mantenibilidad
-
-| Subcaracterística | Implementación |
-|---|---|
-| **Modularidad** | Componentes React desacoplados, Functions independientes |
-| **Reusabilidad** | Hooks personalizados (`useAuth`, `useSchedule`), servicios |
-| **Testabilidad** | Emuladores Firebase para pruebas, Jest para unit tests |
-| **Modificabilidad** | TypeScript strict mode, contratos bien definidos |
-
-### Portabilidad
-
-| Subcaracterística | Implementación |
-|---|---|
-| **Adaptabilidad** | SPA funciona en cualquier navegador moderno |
-| **Instalabilidad** | Sin instalación del usuario, acceso solo por URL |
-| **Reemplazabilidad** | Estructura modular permite reemplazar componentes fácilmente |
-
----
-
-## WCAG 2.1 Nivel AA – Criterios de Accesibilidad
-
-### Perceptible
-
-| Criterio | Implementación |
-|---|---|
-| **1.1.1 Non-text Content** | Atributos `alt` en todas las imágenes e iconos |
-| **1.3.1 Info and Relationships** | Uso semántico de headings, listas, tablas |
-| **1.4.3 Contrast (Minimum)** | Relación de contraste ≥ 4.5:1 para texto normal |
-| **1.4.4 Resize text** | Texto escala hasta 200% sin pérdida de funcionalidad |
-
-### Operable
-
-| Criterio | Implementación |
-|---|---|
-| **2.1.1 Keyboard** | Todos los elementos accesibles por Tab/Enter/Escape |
-| **2.4.3 Focus Order** | Orden lógico de foco en formularios y modales |
-| **2.4.6 Headings and Labels** | Títulos descriptivos en todas las secciones |
-
-### Comprensible
-
-| Criterio | Implementación |
-|---|---|
-| **3.1.1 Language of Page** | `<html lang="es">` declarado |
-| **3.3.1 Error Identification** | Mensajes de error específicos junto al campo con error |
-| **3.3.2 Labels or Instructions** | Labels asociados a todos los inputs del formulario |
-
-### Robusto
-
-| Criterio | Implementación |
-|---|---|
-| **4.1.1 Parsing** | HTML semántico válido |
-| **4.1.2 Name, Role, Value** | Atributos ARIA en componentes custom (modales, dropdowns) |
-
----
-
-> 🔗 Anterior: [← Despliegue Firebase](09-Despliegue-Firebase) | Siguiente: [Equipo →](11-Equipo-del-Proyecto)
+## 5. Conclusión de Calidad
+Este marco de trabajo garantiza que el código de UniHorarios no dependa de la buena voluntad o de días particularmente inspirados del equipo, sino que es guiado por un sistema frío, auditable e implacable de métricas de calidad de software (Software Quality Assurance). La estandarización nos dota de resiliencia empresarial.
