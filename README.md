@@ -105,6 +105,8 @@ Demostración en video de las funcionalidades principales de UniHorarios:
 > Asegúrate de configurar la calidad en 1080p para visualizar la interfaz gráfica correctamente.
 
 ---
+<img width="1599" height="1200" alt="5c18592b-b4df-4274-9cab-8b6cfddcc190" src="https://github.com/user-attachments/assets/5519340b-fec4-457a-af9a-cb94c8886e49" />
+
 
 ## 🛠 Tecnologías
 
