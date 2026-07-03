@@ -41,6 +41,9 @@
 
 ## 👥 Equipo
 
+<p align="center">
+  <img src="docs/img/equipo.png" alt="Equipo UniHorarios" width="600" style="border-radius: 10px;"/>
+</p>
 <table align="center">
   <tr>
     <td align="center" width="250">
