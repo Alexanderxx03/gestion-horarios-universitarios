@@ -73,7 +73,7 @@ Los abajo firmantes declaran haber revisado las métricas, haber ejecutado el so
 |:---|:---|:---:|:---:|
 | **Sponsor (Patrocinador)** | Dr. Hernán Cortéz (Decano) | *(Firmado Electrónicamente)* | 03/07/2026 |
 | **Scrum Master / Lead Dev** | Alexander | *(Firmado Electrónicamente)* | 03/07/2026 |
-| **Líder de Operaciones IT** | Ing. Roberto Sánchez | *(Firmado Electrónicamente)* | 03/07/2026 |
+| **Líder de Operaciones IT** | Ing. Jack Rojas�nchez | *(Firmado Electrónicamente)* | 03/07/2026 |
 | **Cliente (Usuario Final)** | Lic. Marta Ruiz (Coordinadora) | *(Firmado Electrónicamente)* | 03/07/2026 |
 
 ---

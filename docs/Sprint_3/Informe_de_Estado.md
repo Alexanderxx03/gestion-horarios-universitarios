@@ -23,7 +23,7 @@ El hito central del proyecto se completó tras sortear desafíos de infraestruct
 2. **Mitigación del Bloqueador (Incident-001):** Durante el día 4, al intentar probar el motor con los datos de 50 aulas (1200 alumnos), el servidor de Node.js se congeló (Time-out de 60 segundos). La API dejó de responderle a todos los usuarios del sistema por estrangulamiento de CPU (Event Loop Blocking).
    - *Solución Definitiva:* Alexander orquestó una refactorización de hilos (Threading). Envolvió la función del CSP utilizando el módulo nativo `worker_threads` de Node. Ahora, el hilo principal de la web atiende requests instantáneamente (10ms) mientras un Hilo Hijo silencioso mastica los números matemáticos en el fondo y envía un mensaje al terminar.
 3. **Poda Heurística MRV:** Para evitar que el hilo hijo se quedara horas calculando, se implementó la heurística *Minimum Remaining Values*. El motor procesa primero a los docentes con MENOS tiempo disponible, llenando las celdas más críticas, reduciendo el tiempo de cálculo de 2 minutos a un promedio brutal de **1.2 Segundos**.
-4. **Drag & Drop (Frontend):** Roberto terminó la grilla interactiva. Los profesores ya pueden ingresar desde sus móviles y "pintar" arrastrando el dedo para indicar las horas en las que aceptan dictar clases.
+4. **Drag & Drop (Frontend):** Jack Rojas terminó la grilla interactiva. Los profesores ya pueden ingresar desde sus móviles y "pintar" arrastrando el dedo para indicar las horas en las que aceptan dictar clases.
 
 ---
 

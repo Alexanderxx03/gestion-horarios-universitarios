@@ -19,12 +19,12 @@ La pregunta fundamental de esta sesión no es "¿Qué software construimos?" (Es
 - **Disciplina en Git:** Se respetó la política de ramas (Git Flow ligero). Nadie subió código roto a `main`. Todo entró por *Pull Requests* revisados por pares.
 
 ### 🔴 ¿En qué fracasamos y debemos DESCARTAR (Drop)?
-- **Dolor en la Validación de Tipos:** El desarrollador Backend (Alexander) escribía los esquemas de Mongoose con ciertas reglas, pero el desarrollador Frontend (Roberto) no se enteraba y enviaba JSONs al revés, causando errores 500 y horas de depuración en llamadas post-man.
+- **Dolor en la Validación de Tipos:** El desarrollador Backend (Alexander) escribía los esquemas de Mongoose con ciertas reglas, pero el desarrollador Frontend (Jack Rojas) no se enteraba y enviaba JSONs al revés, causando errores 500 y horas de depuración en llamadas post-man.
   - *Medida de Mitigación:* Se descarta la técnica de "Hablar por Slack" para acordar el formato de JSON. Se declara ineficiente.
 
 ### 🟡 ¿Qué nueva práctica técnica debemos INICIAR (Start) en el Sprint 2?
 - **Implementación de Fronteras de Tipado Duro:** Para arreglar el problema anterior, el equipo acordó utilizar un repositorio compartido (Shared Monorepo Folder) donde residirán las **Interfaces TypeScript**. Tanto el Frontend como el Backend importarán de ese mismo archivo. Si la interfaz cambia, el compilador de TS gritará un error automáticamente, previniendo bugs en producción.
-- **Uso de Zod en Frontend:** Roberto propuso comenzar a parsear la data de los formularios visuales con la librería `Zod` antes de enviarla a la API, para garantizar que un número viaje como número y no como cadena (String), aliviando la carga al Backend.
+- **Uso de Zod en Frontend:** Jack Rojas propuso comenzar a parsear la data de los formularios visuales con la librería `Zod` antes de enviarla a la API, para garantizar que un número viaje como número y no como cadena (String), aliviando la carga al Backend.
 
 ---
 

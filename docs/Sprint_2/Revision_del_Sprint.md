@@ -14,7 +14,7 @@ Validar operativamente que la interfaz de usuario (UI) construida para gestionar
 
 ## 2. Demostración en Vivo (Live Demo)
 
-El desarrollador Frontend (Roberto) tomó el control del proyector para guiar a los stakeholders por el *Happy Path* (Camino Feliz) del sistema, demostrando software 100% funcional y conectado a la base de datos en la nube.
+El desarrollador Frontend (Jack Rojas) tomó el control del proyector para guiar a los stakeholders por el *Happy Path* (Camino Feliz) del sistema, demostrando software 100% funcional y conectado a la base de datos en la nube.
 
 ### Prueba Demostrativa 1: Gestión Intuitiva de Aulas
 - **Acción del Dev:** Ingresó al Menú `[Infraestructura]`. Pulsó "Nueva Aula". Ingresó el nombre "Laboratorio Mac" y un Aforo de `30`.
@@ -35,7 +35,7 @@ El comentario del Decano fue una revelación crítica (Insight) sobre una regla 
 | Solicitud del Stakeholder (Feedback Crudo) | Decisión del Equipo (Scrum Master) | Acción / Ticket a Generar |
 |:---|:---|:---:|
 | **Decano:** "Debemos poder separar teoría de práctica en un mismo curso." | **Es Mandatorio:** Si no separamos esto, el algoritmo (Sprint 3) asignará 50 personas a un laboratorio pequeño y fallará el Criterio de Éxito de colisiones cero. | *Añadido al Backlog (Prioridad Alta):* Refactorizar el Schema `Course` para soportar horas particionadas (Teoría vs Lab). |
-| **Coordinador:** "A veces los profesores se equivocan de apellido al crear docentes, ¿Hay un botón de editar rápido?" | Roberto demuestra que sí existe el botón del 'Lápiz' en la tabla. El problema era que el icono de Tailwind era muy sutil. | *Ticket de UI Menor:* Aumentar contraste y color azul al icono de edición de tablas. |
+| **Coordinador:** "A veces los profesores se equivocan de apellido al crear docentes, ¿Hay un botón de editar rápido?" | Jack Rojas demuestra que sí existe el botón del 'Lápiz' en la tabla. El problema era que el icono de Tailwind era muy sutil. | *Ticket de UI Menor:* Aumentar contraste y color azul al icono de edición de tablas. |
 
 ---
 

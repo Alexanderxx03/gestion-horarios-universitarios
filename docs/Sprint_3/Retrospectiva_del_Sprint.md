@@ -13,9 +13,9 @@
 - **Tolerancia a Fallos Controlada (Graceful Degradation):** En lugar de que la pantalla blanca "estalle" cuando el Motor Matemático descubre una imposibilidad, el equipo programó manejadores de excepciones que lanzan alertas rojas súper descriptivas en la interfaz. Eso impresionó al cliente.
 
 ### 🔴 ¿En qué fracasamos y debemos DESCARTAR (Drop)?
-- **Subestimación de Entornos Locales:** Durante el pico de cálculo del motor, la computadora de Roberto (Core i3, 8GB RAM) literalmente se congeló intentando correr el contenedor Docker y la DB local. Se perdieron 4 horas de desarrollo esperando reinicios.
+- **Subestimación de Entornos Locales:** Durante el pico de cálculo del motor, la computadora de Jack Rojas (Core i3, 8GB RAM) literalmente se congeló intentando correr el contenedor Docker y la DB local. Se perdieron 4 horas de desarrollo esperando reinicios.
   - *Medida de Mitigación:* Se descarta correr el Backend entero en laptops débiles durante el desarrollo Frontend pesado. 
-  - *Nueva Práctica:* Roberto se conectará a la API de Staging desplegada en la nube para probar su interfaz React, apagando sus contenedores locales.
+  - *Nueva Práctica:* Jack Rojas conectará a la API de Staging desplegada en la nube para probar su interfaz React, apagando sus contenedores locales.
 
 ### 🟡 ¿Qué nueva práctica técnica debemos INICIAR (Start) en el Sprint Final (S4)?
 - **Code Freeze Temprano:** Como el Sprint 4 es el último y conlleva el pase a Producción de la Universidad, no podemos darnos el lujo de arreglar bugs el Jueves por la noche.

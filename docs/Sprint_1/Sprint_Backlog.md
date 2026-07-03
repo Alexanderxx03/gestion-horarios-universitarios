@@ -13,8 +13,8 @@ El equipo de desarrollo ha absorbido (Pulls) las siguientes historias de usuario
 | **US-102** | Seguridad Backend | Crear Schema `User` de Mongoose y cifrar las contraseñas con `bcryptjs` en los ganchos `pre-save`. | 3 | Alexander | ✅ Completado |
 | **US-103** | Seguridad Backend | Programar Ruta `/auth/login` que valide el hash y firme un JWT (JSON Web Token) con vencimiento de 4 horas. | 5 | Alexander | ✅ Completado |
 | **US-104** | Seguridad Backend | Construir un *Middleware* de Express que intercepte peticiones HTTP y extraiga el JWT del Header de Autorización. Rechazar 401 si no existe o expiró. | 3 | Alexander | ✅ Completado |
-| **US-105** | UI Autenticación | Crear pantalla de Login en React usando Tailwind. Validar formato de correos con Zod antes de apretar "Entrar". | 5 | Roberto (Front) | ✅ Completado |
-| **US-106** | UI Routing | Configurar `React Router v6` e implementar envoltorios (`ProtectedRoutes`) que boten al usuario a la vista de Login si Zustand detecta que no hay token en LocalStorage. | 8 | Roberto (Front) | ✅ Completado |
+| **US-105** | UI Autenticación | Crear pantalla de Login en React usando Tailwind. Validar formato de correos con Zod antes de apretar "Entrar". | 5 | Jack Rojas (Front) | ✅ Completado |
+| **US-106** | UI Routing | Configurar `React Router v6` e implementar envoltorios (`ProtectedRoutes`) que boten al usuario a la vista de Login si Zustand detecta que no hay token en LocalStorage. | 8 | Jack Rojas (Front) | ✅ Completado |
 
 ## 2. Deuda Técnica y Spikes (Investigación)
 

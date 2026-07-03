@@ -14,16 +14,16 @@ Esta no es una reunión privada típica; es el **Demo Day**. El objetivo es pres
 
 ## 2. Demostración en Vivo (El Gran Show)
 
-Alexander (Líder del Proyecto) proyectó el sistema en la pantalla gigante del auditorio. Roberto (Líder Frontend) operó la máquina.
+Alexander (Líder del Proyecto) proyectó el sistema en la pantalla gigante del auditorio. Jack Rojas (Líder Frontend) operó la máquina.
 
 ### Hito 1: La Magia de la Nube y el Drag & Drop (Inicio rápido)
 - **Acción:** Se pidió a un profesor del público que entrara a una URL corta desde su celular. El profesor dibujó rápidamente su disponibilidad en su pantalla táctil (Martes todo el día). 
 - **Reacción:** El público aplaudió la fluidez.
 
 ### Hito 2: El Cerebro en Acción y la Belleza Visual (La Meta)
-- **Acción:** Roberto (Como Coordinador) fue al panel "Generador Algorítmico". Cargó un set gigante pre-programado (150 asignaturas, 40 docentes, 20 aulas). Presionó **EJECUTAR**.
+- **Acción:** Jack Rojas (Como Coordinador) fue al panel "Generador Algorítmico". Cargó un set gigante pre-programado (150 asignaturas, 40 docentes, 20 aulas). Presionó **EJECUTAR**.
 - **Comportamiento del Sistema:** El spinner giró por 2.5 segundos. ¡Boom! La pantalla no lanzó un JSON crudo como en el Sprint 3, sino que renderizó instantáneamente un gigantesco y hermoso **Calendario de Colores (React-Big-Calendar)** semanal. Bloques azules (Teoría) y bloques naranjas (Laboratorio) tapizaban la pantalla.
-- **Acción Adicional:** Roberto pulsó el botón **[Exportar PDF]**. El navegador descargó un archivo instantáneo con la tabla formateada y el logo de la universidad.
+- **Acción Adicional:** Jack Rojas pulsó el botón **[Exportar PDF]**. El navegador descargó un archivo instantáneo con la tabla formateada y el logo de la universidad.
 - **Reacción del Decano:** *(Levantando la mano)* *"Esto es brujería matemática. Lo que acaban de hacer solía darnos gastritis durante un mes. El formato en PDF es idéntico al que la secretaria hacía a mano, pero automático."*
 
 ---

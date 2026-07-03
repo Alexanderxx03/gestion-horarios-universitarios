@@ -10,16 +10,16 @@
 
 ### 🟢 ¿Qué hicimos muy bien y debemos MANTENER (Keep)?
 - **Reacción Rápida al Cambio (Agile Mindset):** Cuando el Decano destruyó nuestra arquitectura de cursos pidiendo división de "Teoría/Práctica" a mitad de la Review, el equipo no entró en pánico defensivo. Entendimos que era un error de negocio genuino. Adoptar Scrum nos permitió abrazar este cambio en lugar de pelear contratos, lo cual se celebra.
-- **Validación Zod Centralizada:** El "Firewall de Zod" implementado por Roberto en el Frontend funcionó de maravilla. Evitó que subieran datos basura a la API unas 400 veces durante la semana de pruebas manuales.
+- **Validación Zod Centralizada:** El "Firewall de Zod" implementado por Jack Rojas en el Frontend funcionó de maravilla. Evitó que subieran datos basura a la API unas 400 veces durante la semana de pruebas manuales.
 
 ### 🔴 ¿En qué fracasamos y debemos DESCARTAR (Drop)?
-- **Componentes React Monstruosos:** El componente `<MallaCurricularForm />` creció de forma descontrolada llegando a tener más de 800 líneas de código en un solo archivo. Roberto confesó que hacer scroll para depurar se volvió un martirio cognitivo.
+- **Componentes React Monstruosos:** El componente `<MallaCurricularForm />` creció de forma descontrolada llegando a tener más de 800 líneas de código en un solo archivo. Jack Rojas confesó que hacer scroll para depurar se volvió un martirio cognitivo.
   - *Medida de Mitigación:* Se descarta la filosofía de "Construir rápido y refactorizar después" para vistas complejas.
   - *Nueva Regla:* Ningún componente React debe exceder las 200 líneas. Si lo hace, debe romperse obligatoriamente en sub-componentes más pequeños (Ej. `<CourseListItem />`).
 
 ### 🟡 ¿Qué nueva práctica técnica debemos INICIAR (Start) en el Sprint 3?
 - **El Reto del Motor Matemático:** El Sprint 3 alberga el "Demonio" del proyecto: el Algoritmo CSP. Alexander (Lead Dev) pidió aislamiento total.
-  - *Acuerdo del Equipo (Focus Mode Activo):* Durante la primera semana del Sprint 3, Alexander no asistirá a reuniones secundarias, ignorará mensajes de Slack no urgentes y se dedicará a programar el Worker Thread del algoritmo algorítmico. Roberto se encargará de ser el "Escudo Humano" contestando dudas del cliente.
+  - *Acuerdo del Equipo (Focus Mode Activo):* Durante la primera semana del Sprint 3, Alexander no asistirá a reuniones secundarias, ignorará mensajes de Slack no urgentes y se dedicará a programar el Worker Thread del algoritmo algorítmico. Jack Rojas encargará de ser el "Escudo Humano" contestando dudas del cliente.
 
 ---
 
