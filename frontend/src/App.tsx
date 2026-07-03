@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { Inicio } from '@/pages/Inicio';
 import { DisenoTablero } from '@/components/DisenoTablero';
+import { AuthCallback } from './pages/AuthCallback';
 
 // Lazy loading of dashboard subpages for initial bundle size optimization (Green IT)
 const PanelPrincipal = lazy(() =>
@@ -34,6 +35,7 @@ export function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Inicio />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/dashboard" element={<DisenoTablero />}>
           <Route
             index

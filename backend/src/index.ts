@@ -12,6 +12,7 @@ import authRoutes from './infrastructure/http/routes/auth.routes';
 import logRoutes from './infrastructure/http/routes/log.routes';
 import teacherRoutes from './infrastructure/http/routes/teacher.routes';
 import classroomRoutes from './infrastructure/http/routes/classroom.routes';
+import { careerRoutes } from './infrastructure/http/routes/career.routes';
 import dotenv from 'dotenv';
 import { logger } from './shared/logger';
 import { setupSwagger } from './shared/swagger';
@@ -48,6 +49,7 @@ app.use('/api/teachers', teacherRoutes);
 app.use('/api/classrooms', classroomRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 app.use('/api/logs', logRoutes);
+app.use('/api/careers', careerRoutes);
 
 // Documentación de API (Swagger)
 setupSwagger(app);

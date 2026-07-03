@@ -174,8 +174,8 @@ export function Inicio() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setErrorMsg('Google login not supported in MERN demo.');
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:5000/api/auth/google';
   };
 
   const handlePasswordReset = async (e: MouseEvent) => {

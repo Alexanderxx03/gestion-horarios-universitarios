@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { CourseModel } from '../../database/mongoose/CourseModel';
-import { cacheMiddleware, clearCachePrefix } from '../../shared/cache';
+import { cacheMiddleware, clearCachePrefix } from '../../../shared/cache';
 
 const router = Router();
 
@@ -30,7 +30,7 @@ router.get('/', cacheMiddleware(300), async (req, res) => {
     // Proyectamos solo las columnas necesarias para el listado para ahorrar ancho de banda
     const cursos = await CourseModel.find(query)
       .select(
-        'codigo nombre creditos horasSemanales capacidadMaxima semestre requiereLaboratorio activo',
+        'codigo nombre creditos horasSemanales capacidadMaxima semestre requiereLaboratorio activo carreraId',
       )
       .skip(skip)
       .limit(limit)
@@ -67,3 +67,5 @@ router.post('/', async (req, res) => {
 });
 
 export default router;
+
+// touch

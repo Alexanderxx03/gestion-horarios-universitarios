@@ -6,7 +6,10 @@ const router = Router();
 // GET all enrollments
 router.get('/', async (req, res) => {
   try {
-    const enrollments = await EnrollmentModel.find().populate('selectedCourses.courseId');
+    const enrollments = await EnrollmentModel.find()
+      .populate('cursosSeleccionados.cursoId')
+      .populate('estudianteId', 'nombreCompleto correo')
+      .lean();
     res.json({ success: true, data: enrollments });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server Error' });
@@ -25,3 +28,5 @@ router.post('/', async (req, res) => {
 });
 
 export default router;
+
+// touch

@@ -61,6 +61,8 @@ const SYSTEM_TIME_SLOTS: TimeSlot[] = [
 
 export interface GenerateScheduleInput {
   periodId: string;
+  carreraId?: string;
+  ciclo?: number;
 }
 
 export interface GenerateScheduleDeps {
@@ -106,7 +108,16 @@ export async function generateSchedule(
     deps.classrooms.findActive(),
   ]);
 
-  const activeCourses = courses.filter((c) => c.isActive);
+  let activeCourses = courses.filter((c) => c.isActive);
+
+  if (input.carreraId) {
+    activeCourses = activeCourses.filter((c) => c.careerId === input.carreraId);
+  }
+  
+  if (input.ciclo) {
+    // Note: Some models use strings for ciclo/semester. Coerce to string for comparison if needed
+    activeCourses = activeCourses.filter((c) => c.semester.toString() === input.ciclo?.toString());
+  }
 
   // 3. Construir problema CSP
   const problem = buildCSPProblem(activeCourses, teachers, classrooms);
@@ -152,7 +163,7 @@ export async function generateSchedule(
   }
 
   // 5. Convertir asignaciones CSP a formato de dominio
-  const assignments: ScheduleAssignment[] = result.assignments.map((a) => ({
+  const assignments: ScheduleAssignment[] = result.assignments.map((a: any) => ({
     courseId: a.variable.courseId,
     courseName: a.variable.courseName,
     teacherId: a.value.teacherId,

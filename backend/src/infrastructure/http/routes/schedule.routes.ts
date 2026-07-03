@@ -11,7 +11,7 @@ const router = Router();
 // Endpoint para generar horario usando el solver CSP en el backend MERN y MongoDB
 router.post('/generate', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { periodId } = req.body;
+    const { periodId, carreraId, ciclo } = req.body;
 
     if (!periodId) {
       res.status(400).json({ success: false, message: 'El campo periodId es requerido.' });
@@ -27,7 +27,7 @@ router.post('/generate', async (req: Request, res: Response): Promise<void> => {
     const periods = new MongooseAcademicPeriodRepository();
 
     const result = await generateSchedule(
-      { periodId },
+      { periodId, carreraId, ciclo },
       { courses, teachers, classrooms, schedules, periods },
     );
 

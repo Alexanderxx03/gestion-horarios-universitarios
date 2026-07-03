@@ -2,7 +2,8 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUsuario extends Document {
   correo: string;
-  hashContrasena: string;
+  hashContrasena?: string;
+  authProvider: 'local' | 'google';
   nombreCompleto: string;
   rol: 'ADMIN' | 'COORDINATOR' | 'TEACHER' | 'STUDENT';
   activo: boolean;
@@ -20,7 +21,8 @@ export interface IUsuario extends Document {
 const UsuarioSchema: Schema = new Schema(
   {
     correo: { type: String, required: true, unique: true },
-    hashContrasena: { type: String, required: true },
+    hashContrasena: { type: String, required: false },
+    authProvider: { type: String, enum: ['local', 'google'], default: 'local' },
     nombreCompleto: { type: String, required: true },
     rol: {
       type: String,

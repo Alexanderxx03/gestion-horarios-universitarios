@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { UsuarioModel } from '../../database/mongoose/UserModel';
+import passport from '../passport';
 
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-change-in-production';
@@ -24,6 +25,11 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
 
     if (!user.activo) {
       res.status(403).json({ error: 'Esta cuenta ha sido desactivada.' });
+      return;
+    }
+
+    if (!user.hashContrasena) {
+      res.status(401).json({ error: 'Usa Google para iniciar sesión con esta cuenta.' });
       return;
     }
 
@@ -105,5 +111,40 @@ router.get('/me', async (req: Request, res: Response): Promise<void> => {
     res.status(401).json({ error: 'Invalid token' });
   }
 });
+
+// ==========================================
+// RUTAS OAUTH2 (GOOGLE) - SERVER SIDE FLOW
+// ==========================================
+
+// 1. Redirige a la pantalla de consentimiento de Google
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// 2. Callback desde Google
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false, failureRedirect: 'http://localhost:5173/login?error=oauth2_failed' }),
+  (req: Request, res: Response) => {
+    try {
+      const user = req.user as any;
+      if (!user) {
+        res.redirect('http://localhost:5173/login?error=oauth2_failed');
+        return;
+      }
+
+      // Generate JWT
+      const token = jwt.sign(
+        { uid: user._id.toString(), email: user.correo, role: user.rol },
+        JWT_SECRET,
+        { expiresIn: '24h' },
+      );
+
+      // Redirigir al frontend pasándole el token por la URL (estilo SPA callback)
+      res.redirect(`http://localhost:5173/auth/callback?token=${token}`);
+    } catch (error) {
+      console.error('Google Callback Error:', error);
+      res.redirect('http://localhost:5173/login?error=oauth2_failed');
+    }
+  }
+);
 
 export default router;

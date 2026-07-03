@@ -56,6 +56,7 @@ interface EstadoHorarioStore {
   cursos: Curso[];
   docentes: Docente[];
   aulas: Aula[];
+  carreras: { _id: string; nombre: string }[];
 
   /* Paginación de Cursos */
   cursosPaginacion: {
@@ -79,8 +80,8 @@ interface EstadoHorarioStore {
 
   /* Acciones */
   cargarDatosDeMongo: (force?: boolean, page?: number, limit?: number) => Promise<void>;
-  generarHorario: () => void;
-  generarHorarioEnServidor: (periodId: string) => Promise<void>;
+  generarHorario: (carreraId?: string, ciclo?: number) => void;
+  generarHorarioEnServidor: (periodId: string, carreraId?: string, ciclo?: number) => Promise<void>;
   reiniciarHorario: () => void;
   agregarCurso: (curso: Curso) => void;
   eliminarCurso: (id: string) => void;
@@ -94,12 +95,13 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
   cursos: [],
   docentes: [],
   aulas: [],
+  carreras: [],
   bytesTransferidos: 0,
 
   cursosPaginacion: {
     total: 0,
     page: 1,
-    limit: 30,
+    limit: 1000,
     totalPages: 1,
   },
 
@@ -111,7 +113,7 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
   mensajeError: null,
   cspTreeId: null,
 
-  cargarDatosDeMongo: async (force = false, page = 1, limit = 30) => {
+  cargarDatosDeMongo: async (force = false, page = 1, limit = 1000) => {
     // Si no es forzado, ya tenemos datos cargados en Zustand y estamos solicitando la pag 1,
     // evitamos volver a realizar solicitudes HTTP repetidas (Caché local)
     if (
@@ -139,6 +141,10 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
       // Fetch Aulas
       const resAulas = await fetch('http://localhost:5000/api/classrooms');
       const dataAulas = await resAulas.json();
+      
+      // Fetch Carreras
+      const resCarreras = await fetch('http://localhost:5000/api/careers');
+      const dataCarreras = await resCarreras.json();
 
       // Mapeador (Anti-Corruption Layer) para resolver inconsistencias entre la base de datos MERN y el resolvedor del cliente
       const mappedCursos: Curso[] = dataCursos.success
@@ -211,7 +217,7 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
       const paginacion = dataCursos.pagination || {
         total: mappedCursos.length,
         page: 1,
-        limit: 30,
+        limit: 1000,
         totalPages: 1,
       };
 
@@ -224,6 +230,7 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
         cursos: mappedCursos,
         docentes: mappedDocentes,
         aulas: mappedAulas,
+        carreras: dataCarreras.success ? dataCarreras.data : [],
         cursosPaginacion: paginacion,
         bytesTransferidos: get().bytesTransferidos + bytesTransferred,
       });
@@ -232,13 +239,21 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
     }
   },
 
-  generarHorario: async () => {
+  generarHorario: async (carreraId?: string, ciclo?: number) => {
     set({ estado: 'generando', mensajeError: null });
 
     // Ejecutar en un setTimeout para permitir que la UI muestre el estado "generando"
     setTimeout(async () => {
       const { cursos, docentes, aulas } = get();
-      const resultado = resolverHorario(cursos, docentes, aulas);
+      
+      const cursosFiltrados = cursos.filter((c) => {
+        let pass = c.estaActivo;
+        if (carreraId) pass = pass && c.carreraId === carreraId;
+        if (ciclo) pass = pass && c.semestre === ciclo;
+        return pass;
+      });
+
+      const resultado = resolverHorario(cursosFiltrados, docentes, aulas);
 
       let treeId = null;
       if (resultado.arbolDeBusqueda) {
@@ -271,15 +286,19 @@ export const useHorarioStore = create<EstadoHorarioStore>((set, get) => ({
     }, 500);
   },
 
-  generarHorarioEnServidor: async (periodId: string) => {
+  generarHorarioEnServidor: async (periodId: string, carreraId?: string, ciclo?: number) => {
     set({ estado: 'generando', mensajeError: null });
     try {
+      const payload: any = { periodId };
+      if (carreraId) payload.carreraId = carreraId;
+      if (ciclo) payload.ciclo = ciclo;
+
       const response = await fetch('http://localhost:5000/api/schedules/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ periodId }),
+        body: JSON.stringify(payload),
       });
       const data = await response.json();
 

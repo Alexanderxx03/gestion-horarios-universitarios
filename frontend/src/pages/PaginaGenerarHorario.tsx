@@ -1,8 +1,13 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useHorarioStore } from '@/stores/horario.store';
 
 export function PaginaGenerarHorario() {
+  const [selectedCarrera, setSelectedCarrera] = useState<string>('');
+  const [selectedCiclo, setSelectedCiclo] = useState<string>('');
+  
   const {
+    carreras,
     cursos,
     docentes,
     aulas,
@@ -18,9 +23,14 @@ export function PaginaGenerarHorario() {
     asignaciones,
   } = useHorarioStore();
 
-  const cursosActivos = cursos.filter((c) => c.estaActivo);
+  const cursosActivos = cursos.filter((c) => {
+    let pass = c.estaActivo;
+    if (selectedCarrera) pass = pass && c.carreraId === selectedCarrera;
+    if (selectedCiclo) pass = pass && c.semestre === parseInt(selectedCiclo);
+    return pass;
+  });
   const aulasActivas = aulas.filter((a) => a.estaActiva);
-  const cursosConLab = cursos.filter((c) => c.requiereLab && c.estaActivo);
+  const cursosConLab = cursosActivos.filter((c) => c.requiereLab);
 
   return (
     <div>
@@ -55,6 +65,38 @@ export function PaginaGenerarHorario() {
         </div>
       </div>
 
+      {/* Selectores de Carrera y Ciclo */}
+      <div className="glass-card" style={{ padding: '1.5rem', marginBottom: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 300px' }}>
+          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Carrera:</label>
+          <select 
+            className="form-control" 
+            value={selectedCarrera} 
+            onChange={(e) => setSelectedCarrera(e.target.value)}
+            style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)' }}
+          >
+            <option value="">-- Seleccione una Carrera --</option>
+            {carreras.map(c => (
+              <option key={c._id} value={c._id}>{c.nombre}</option>
+            ))}
+          </select>
+        </div>
+        <div style={{ flex: '1 1 300px' }}>
+          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Ciclo (Semestre):</label>
+          <select 
+            className="form-control" 
+            value={selectedCiclo} 
+            onChange={(e) => setSelectedCiclo(e.target.value)}
+            style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)' }}
+          >
+            <option value="">-- Seleccione un Ciclo --</option>
+            {[1,2,3,4,5,6,7,8,9,10].map(ciclo => (
+              <option key={ciclo} value={ciclo}>Ciclo {ciclo}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       {/* Botón de generación */}
       <div className="glass-card" style={{ padding: '2rem', textAlign: 'center' }}>
         {estado === 'inactivo' && (
@@ -73,12 +115,20 @@ export function PaginaGenerarHorario() {
               {aulasActivas.length} aulas para encontrar una asignación sin conflictos.
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-              <button className="btn btn-primary btn-lg" onClick={generarHorario} id="btn-generar">
+              <button 
+                className="btn btn-primary btn-lg" 
+                onClick={() => generarHorario(selectedCarrera, selectedCiclo ? parseInt(selectedCiclo) : undefined)} 
+                id="btn-generar"
+                disabled={!selectedCarrera || !selectedCiclo}
+                title={(!selectedCarrera || !selectedCiclo) ? 'Seleccione una Carrera y un Ciclo' : ''}
+              >
                 ⚡ Generar (Local CSP)
               </button>
               <button
                 className="btn btn-secondary btn-lg"
-                onClick={() => generarHorarioEnServidor('2026-I')}
+                onClick={() => generarHorarioEnServidor('2026-I', selectedCarrera, selectedCiclo ? parseInt(selectedCiclo) : undefined)}
+                disabled={!selectedCarrera || !selectedCiclo}
+                title={(!selectedCarrera || !selectedCiclo) ? 'Seleccione una Carrera y un Ciclo' : ''}
               >
                 🌐 Generar en Servidor MERN
               </button>
