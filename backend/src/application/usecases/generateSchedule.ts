@@ -19,6 +19,8 @@ import type {
 } from '../../domain/ports/ports';
 import { NoSolutionFoundError, PeriodNotActiveError } from '../../domain/errors';
 import { CSPSolver } from './cspSolver';
+import { Worker } from 'worker_threads';
+import path from 'path';
 
 /** Franjas horarias estándar del sistema académico (bloques de 2 horas) */
 const SYSTEM_TIME_SLOTS: TimeSlot[] = [
@@ -109,9 +111,31 @@ export async function generateSchedule(
   // 3. Construir problema CSP
   const problem = buildCSPProblem(activeCourses, teachers, classrooms);
 
-  // 4. Ejecutar solver (timeout: 60 segundos)
-  const solver = new CSPSolver(60_000);
-  const result = solver.solve(problem);
+  // 4. Ejecutar solver en un Worker Thread para no bloquear el Event Loop principal
+  const workerFile = __filename.endsWith('.ts')
+    ? path.join(__dirname, '../workers/cspWorker.ts')
+    : path.join(__dirname, '../workers/cspWorker.js');
+
+  const result: any = await new Promise((resolve, reject) => {
+    // Si estamos en entorno de desarrollo con ts-node, inyectamos execArgv
+    const workerOptions = __filename.endsWith('.ts') 
+      ? { execArgv: ['-r', 'ts-node/register'] } 
+      : {};
+
+    const worker = new Worker(workerFile, workerOptions);
+    
+    worker.postMessage(problem);
+
+    worker.on('message', (msg) => {
+      if (msg.success) resolve(msg.result);
+      else reject(new Error(msg.error));
+    });
+
+    worker.on('error', reject);
+    worker.on('exit', (code) => {
+      if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`));
+    });
+  });
 
   if (!result.success) {
     // Guardar intento fallido

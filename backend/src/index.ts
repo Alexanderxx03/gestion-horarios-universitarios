@@ -13,6 +13,8 @@ import logRoutes from './infrastructure/http/routes/log.routes';
 import teacherRoutes from './infrastructure/http/routes/teacher.routes';
 import classroomRoutes from './infrastructure/http/routes/classroom.routes';
 import dotenv from 'dotenv';
+import { logger } from './shared/logger';
+import { setupSwagger } from './shared/swagger';
 
 dotenv.config();
 
@@ -47,16 +49,20 @@ app.use('/api/classrooms', classroomRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 app.use('/api/logs', logRoutes);
 
+// Documentación de API (Swagger)
+setupSwagger(app);
+
 // Conexión a MongoDB (Local / Compass)
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/gestion-horarios';
 mongoose
   .connect(MONGO_URI)
   .then(() => {
-    console.log('📦 Conectado exitosamente a MongoDB (Local / Compass)');
+    logger.info('📦 Conectado exitosamente a MongoDB');
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor backend MERN corriendo en http://localhost:${PORT}`);
+      logger.info(`🚀 Servidor backend MERN corriendo en http://localhost:${PORT}`);
+      logger.info(`📄 Documentación Swagger: http://localhost:${PORT}/api/docs`);
     });
   })
   .catch((error) => {
-    console.error('❌ Error conectando a MongoDB:', error);
+    logger.error(`❌ Error conectando a MongoDB: ${error.message}`);
   });

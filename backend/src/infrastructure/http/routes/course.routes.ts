@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { CourseModel } from '../../database/mongoose/CourseModel';
+import { cacheMiddleware, clearCachePrefix } from '../../shared/cache';
 
 const router = Router();
 
 // GET all courses with optional pagination and projection
-router.get('/', async (req, res) => {
+router.get('/', cacheMiddleware(300), async (req, res) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 30;
@@ -58,6 +59,7 @@ router.post('/', async (req, res) => {
   try {
     const newCourse = new CourseModel(req.body);
     await newCourse.save();
+    clearCachePrefix('/api/courses');
     res.status(201).json({ success: true, data: newCourse });
   } catch (error) {
     res.status(400).json({ success: false, message: 'Bad Request' });
