@@ -1,20 +1,29 @@
-# Anexo G: Pruebas Unitarias del Backend (Jest)
+# Anexo G - Pruebas Automatizadas Backend (Jest)
 
-## Objetivo
-Implementar y documentar la suite de pruebas automatizadas que valide el comportamiento del Backend, asegurando que los controladores, middlewares de seguridad y la persistencia de datos (MongoDB) funcionen correctamente bajo distintos escenarios de carga y vulnerabilidad.
+## G.1 Objetivo
+Asegurar la integridad de la API REST, la seguridad de las rutas protegidas y la validez de los repositorios de acceso a la base de datos MongoDB.
 
-## Framework Utilizado
-El framework elegido es **Jest** junto con **Supertest** para simular peticiones HTTP sin necesidad de levantar el servidor físico.
+## G.2 Infraestructura
+- **Framework:** Jest
+- **Librerías auxiliares:** Supertest (para HTTP)
+- **Base de Datos:** MongoDB In-Memory Server (para pruebas aisladas)
 
-## Cobertura de Middlewares (OWASP)
-Se verifican activamente las medidas preventivas de seguridad:
-- **Rate Limiting:** Se dispara una prueba de estrés enviando 101 peticiones consecutivas al endpoint de Login, verificando que la última devuelva `429 Too Many Requests`.
-- **Sanitización NoSQL:** Se envían payloads maliciosos `{"$gt": ""}` en el cuerpo de la autenticación para confirmar que `express-mongo-sanitize` los neutraliza.
+## G.3 Resultados de Cobertura
+Al ejecutar `npm run test:coverage` en el directorio `backend/`:
 
-## Cobertura de Controladores y Servicios
-Se probaron los endpoints de la API REST:
-- **Usuarios & Autenticación:** Verificación de hash bcrypt y validación estricta de JWT en rutas protegidas.
-- **Roles:** Validación RBAC asegurando que un rol `STUDENT` no pueda acceder a los endpoints de eliminación de `COORDINATOR`.
+| Métrica | Porcentaje (%) | Archivos Evaluados |
+|---|---|---|
+| **Statements** | 61.7% | 35 |
+| **Branches** | 45.2% | 35 |
+| **Functions** | 68.9% | 35 |
+| **Lines** | 61.7% | 35 |
 
-## Conclusión
-Las pruebas del backend confirman la resiliencia del sistema ante vulnerabilidades comunes (OWASP Top 10) y garantizan que la lógica de negocio se preserve durante las fases de refactorización o actualización de dependencias.
+## G.4 Casos de Prueba Críticos
+Se desarrollaron **364 tests** distribuidos en 53 suites, logrando un 100% de tasa de éxito:
+- Pruebas E2E de inicio de sesión y emisión de JWT.
+- Controladores HTTP (manejo de códigos 200, 400, 401, 404, 500).
+- Pruebas de integración sobre los repositorios de MongoDB.
+
+## G.5 Evidencia Visual
+![Resultados Jest](Capturas/CoverageJest.png)
+*Figura G.1: Reporte de cobertura generado por Jest para el backend Node.js.*

@@ -1,48 +1,102 @@
-# 19. Evaluación de Calidad de Código con SonarQube
+# Anexo A - Evaluación de Calidad de Código con SonarQube
 
-## Objetivo
-Implementar y ejecutar un análisis estático de código en el proyecto "Gestión de Horarios Universitarios" utilizando SonarQube. El propósito es identificar vulnerabilidades de seguridad, *code smells*, errores, nivel de deuda técnica y medir la cobertura de pruebas, garantizando los estándares profesionales exigidos.
+## A.1 Configuración del entorno
 
-## Configuración Técnica
-El análisis se ha estructurado mediante el archivo `sonar-project.properties` en la raíz del monorepo, unificando la revisión tanto del Frontend (React/TypeScript) como del Backend (Express/Node.js).
+### Infraestructura
+- **Herramienta:** SonarQube Community Build 26.6
+- **Scanner:** `sonarsource/sonar-scanner-cli:latest`
+- **Integración Continua:** GitHub Actions
+- **URL local (desarrollo):** http://localhost:9000
 
-```properties
-sonar.projectKey=gestion-horarios-universitarios
-sonar.projectName=Gestión de Horarios Universitarios
-sonar.sources=backend/src,frontend/src
-sonar.tests=frontend/tests
-sonar.exclusions=**/node_modules/**,**/dist/**,**/*.test.ts,**/*.spec.ts,**/vite-env.d.ts,**/coverage/**
-sonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
-```
+### Proyectos configurados
 
-## Resumen de Métricas (Dashboard)
+| Proyecto | Clave | Tecnología | Cobertura |
+|---|---|---|---|
+| Frontend | `unihorarios-frontend` | React + Vite + TypeScript | Vitest |
+| Backend | `unihorarios-backend` | Node.js + Express | Jest + Supertest |
+| Motor CSP | `unihorarios-solver` | Node.js Worker Threads | Jest |
 
-El escaneo inicial del proyecto arrojó los siguientes indicadores clave en el panel de SonarQube:
+### Automatización
+El análisis se ejecuta mediante un script automatizado `npm run test:sonar` en el nivel raíz que:
+1. Ejecuta todas las pruebas unitarias y de integración.
+2. Genera los reportes `lcov.info`.
+3. Inicia el análisis estático de SonarScanner.
 
-| Métrica | Valor | Estado (Quality Gate) | Interpretación |
-| :--- | :---: | :---: | :--- |
-| **Bugs** | `0` | ✅ Passed | No se detectaron errores críticos que afecten la fiabilidad del sistema de horarios. |
-| **Vulnerabilities** | `0` | ✅ Passed | Ausencia de brechas de seguridad severas detectables estáticamente en el código fuente. |
-| **Security Hotspots** | `2` | ⚠️ Review | Se requiere revisión manual de las configuraciones CORS (`backend/src/index.ts`) y la conexión a MongoDB. |
-| **Code Smells** | `15` | ✅ Passed | Oportunidades de mejora menores en la mantenibilidad (e.g., funciones muy largas, imports no utilizados). |
-| **Debt (Deuda Técnica)** | `2h` | ✅ Passed | Nivel de deuda clasificado como "A". El tiempo estimado para resolver todos los *code smells* es de solo 2 horas, reflejando un código muy limpio. |
-| **Duplications** | `1.2%`| ✅ Passed | El porcentaje de líneas de código duplicadas está muy por debajo del umbral del 3.0%. |
-| **Coverage** | `85.4%`| ✅ Passed | La suite de pruebas unitarias (`Vitest`) cubre más del 80% de las funciones críticas (validadores de choque de horarios, lógica de componentes de UI). |
+## A.2 Métricas consolidadas
 
-## Hallazgos Críticos y Soluciones Implementadas
+*Fuente: API de SonarQube. Datos exportables en [metricas_sonarqube.csv](metricas_sonarqube.csv)*
 
-### 1. Refactorización de "Code Smells" (Mantenibilidad)
-- **Problema Detectado:** Complejidad cognitiva alta en la función de detección de choques de horarios en el Frontend (`frontend/src/lib/horarios.ts`).
-- **Solución Técnica:** Se modularizó la lógica de intersección de rangos de tiempo en funciones más pequeñas y puras (`isTimeOverlapping`).
-- **Impacto:** Reducción de la Deuda Técnica de 4h a 2h, mejorando la calificación de mantenibilidad de 'B' a 'A'.
+| Métrica | Frontend | Backend | Motor CSP |
+|---|---|---|---|
+| **Bugs** | 4 (-6) | 0 | 2 |
+| **Vulnerabilities** | 0 (-1) | 0 (-1) | 0 |
+| **Code Smells** | 316 | 77 | 38 |
+| **Security Hotspots** | 2 | 1 | 2 |
+| **Duplicated Lines (%)** | 19.2 | 1.6 | 0.5 |
+| **Coverage (%)** | 45.6 (+33.3) | 61.7 (+26.7) | 69.8 |
+| **Technical Debt (min)** | 1 611 | 2 843 | 690 |
+| **Maintainability Rating** | A | A | A |
+| **Reliability Rating** | B | A | C |
+| **Security Rating** | A | A | A |
+| **Alert Status** | OK | OK | OK |
 
-### 2. Eliminación de Credenciales Hardcodeadas (Seguridad)
-- **Problema Detectado:** URL de MongoDB definida explícitamente como cadena predeterminada en `index.ts`.
-- **Solución Técnica:** Se aseguró que todas las configuraciones críticas lean exclusivamente desde `process.env.MONGO_URI` apoyándose en el paquete `dotenv`.
+## A.3 Distribución de issues por severidad
 
-### 3. Duplicación de Código
-- **Problema Detectado:** Bloques repetidos en las definiciones de interfaces (Typescript) en `MongooseCourseRepository.ts` y el modelo de dominio.
-- **Solución Técnica:** Centralización de Tipos (`ISchedule`, `ICourse`) en un directorio global compartido o importándolos directamente desde la capa de dominio (`backend/src/domain/entities`).
+| Severidad | Frontend | Backend | Motor CSP |
+|---|---|---|---|
+| BLOCKER | 0 | 0 | 0 |
+| CRITICAL | 14 (-6) | 11 | 23 |
+| MAJOR | 122 (-1) | 7 (+1) | 11 |
+| MINOR | 180 | 31 (+8) | 6 |
+| INFO | 4 | 48 (+11) | 0 |
 
-## Conclusión
-El proyecto cumple con los más altos estándares de calidad de software (*Clean Code*). El **Quality Gate de SonarQube fue superado (Passed)**, lo que indica que el código base es mantenible, seguro, fiable y apto para ser desplegado a entornos de producción.
+## A.4 Vulnerabilidades detectadas y mitigadas
+
+### Backend
+- ~~**[BLOCKER]** `backend/src/index.ts` - Remove this hard-coded password.~~
+  - **Estado:** Mitigado.
+  - **Riesgo original:** Cadena de conexión `MONGO_URI` expuesta con credenciales en texto plano.
+  - **Mitigación:** Se eliminó la URI y se forzó el uso de `dotenv` para inyectarla desde el entorno.
+
+### Frontend
+- ~~**[MAJOR]** `frontend/src/pages/Login.tsx` - Review this potentially hard-coded password.~~
+  - **Estado:** Mitigado.
+  - **Riesgo original:** Falso positivo por etiquetas genéricas (`Contraseña:`) que Sonar detectó como credencial.
+  - **Mitigación:** Se agregó el comentario de supresión `// NOSONAR` justificando que es una etiqueta de interfaz de usuario.
+
+## A.5 Interpretación técnica por capa
+
+### Frontend
+- **Puntos fuertes:** Security Rating A tras descartar falsos positivos. Incremento radical en la cobertura gracias a la incorporación de Vitest.
+- **Puntos críticos:** Alta tasa de código duplicado (19.2%) que sugiere la necesidad urgente de refactorizar y abstraer componentes de UI y lógica de Hooks.
+
+### Backend
+- **Puntos fuertes:** Cero bugs y cero vulnerabilidades reales. Código excepcionalmente mantenible gracias a la separación por casos de uso.
+- **Recomendación:** Continuar agregando pruebas de endpoints (`Supertest`) para alcanzar el 70% de cobertura.
+
+### Motor CSP
+- **Puntos fuertes:** Baja duplicación y cobertura cercana al umbral óptimo (69.8%).
+- **Puntos críticos:** Dos bugs lógicos de tipado estricto que lo penalizan con un Reliability Rating C.
+
+## A.6 Dashboards y Capturas de Evidencia
+
+### Dashboard Frontend
+![Dashboard Frontend - SonarQube](Capturas/DashboardFrontend.png)
+*Figura A.1: Panel de control de SonarQube para el Frontend.*
+
+### Dashboard Backend
+![Dashboard Backend - SonarQube](Capturas/DashboardBackend.png)
+*Figura A.2: Panel de control del Backend evidenciando ausencia de bugs.*
+
+### Dashboard Motor CSP
+![Dashboard Motor - SonarQube](Capturas/DashboardMotor.png)
+*Figura A.3: Resultados del Motor CSP y su cobertura de código.*
+
+## A.7 Plan de mejoras post-análisis
+
+| # | Mejora | Capa | Estado | Evidencia |
+|---|---|---|---|---|
+| 1 | Externalizar credenciales (`index.ts`) | Backend | ✅ Completado | `.env.example`, `index.ts` |
+| 2 | Revisar hard-coded password en Login | Frontend | ✅ Completado | `Login.tsx` |
+| 3 | Aumentar cobertura general > 70% | Frontend/Backend | 🔄 En progreso | `lcov.info` |
+| 4 | Reducir duplicación abstraendo componentes | Frontend | ⏳ Pendiente | TBD |

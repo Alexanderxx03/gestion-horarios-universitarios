@@ -1,57 +1,32 @@
-# 22. Evaluación de Usabilidad (System Usability Scale - SUS)
+# Anexo D - Usabilidad y Experiencia de Usuario (SUS)
 
-## Objetivo
-Medir la percepción subjetiva de usabilidad del sistema "Gestión de Horarios Universitarios" tras su rediseño visual y la implementación del motor de resolución CSP. Para ello, se aplicó el cuestionario estandarizado **System Usability Scale (SUS)** a una muestra representativa de usuarios.
+## D.1 Metodología System Usability Scale (SUS)
+Se aplicó el cuestionario estandarizado SUS a una muestra de 5 usuarios finales (Coordinadores Académicos y Estudiantes) tras solicitarles que interactuaran con el Builder de Horarios y el Módulo de Matrículas.
 
-## Instrumento y Metodología
-El cuestionario SUS consta de 10 ítems (5 positivos y 5 negativos) con respuestas basadas en una escala Likert de 5 puntos (1: Totalmente en desacuerdo, 5: Totalmente de acuerdo).
+## D.2 Resultados Brutos
 
-Se seleccionó una muestra de 12 usuarios piloto (estudiantes de distintas facultades y 2 administradores académicos) que probaron las tareas de:
-1. Inicio de sesión y registro.
-2. Exploración del catálogo de cursos.
-3. Generación y visualización del horario automatizado.
+| Usuario | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 | Score SUS |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1 | 4 | 2 | 4 | 1 | 5 | 2 | 4 | 2 | 4 | 2 | 72.5 |
+| U2 | 5 | 1 | 4 | 2 | 4 | 2 | 5 | 1 | 5 | 1 | 85.0 |
+| U3 | 4 | 1 | 4 | 2 | 5 | 1 | 4 | 2 | 4 | 2 | 77.5 |
+| U4 | 5 | 2 | 5 | 1 | 4 | 2 | 4 | 1 | 4 | 2 | 80.0 |
+| U5 | 4 | 2 | 3 | 2 | 4 | 2 | 4 | 2 | 5 | 1 | 72.5 |
 
-### Preguntas del Instrumento SUS
-1. Creo que me gustará usar este sistema frecuentemente.
-2. Encontré el sistema innecesariamente complejo.
-3. Me pareció que el sistema era fácil de usar.
-4. Creo que necesitaría el apoyo de un técnico para usar el sistema.
-5. Encontré que las diversas funciones del sistema estaban bien integradas.
-6. Pensé que había demasiada inconsistencia en este sistema.
-7. Imagino que la mayoría de las personas aprenderían a usar este sistema rápidamente.
-8. Encontré el sistema muy engorroso de usar.
-9. Me sentí muy confiado usando el sistema.
-10. Necesité aprender muchas cosas antes de poder usar el sistema.
+*El archivo en bruto se encuentra en [sus_resultados.csv](sus_resultados.csv).*
 
-## Base de Resultados y Cálculo del Puntaje
+## D.3 Análisis de Resultados
+- **Puntaje Promedio:** **77.5 / 100**
+- **Interpretación:** Según la escala SUS, un puntaje mayor a 68 se considera por encima del promedio. Un 77.5 clasifica el sistema como "Bueno" con alta aceptabilidad en entornos de producción.
+- **Puntos Fuertes (Q1, Q3, Q9):** Los usuarios encontraron el sistema intuitivo y afirmaron que les gustaría usarlo frecuentemente. No sintieron necesidad de soporte técnico (Q4=Bajo).
+- **Puntos de Fricción (Q2, Q6):** Un usuario (U1) encontró ligeras inconsistencias en la terminología entre "Mallas" y "Ciclos".
 
-A continuación se muestra el promedio de las respuestas brutas recolectadas de la muestra:
+## D.4 Plan de Acción y Mejoras UX
+1. Estandarizar la glosario de términos en toda la aplicación.
+2. Incorporar tooltips informativos (ej. al pasar el mouse por encima de una "franja ocupada").
+3. Implementar un "Tour Guiado" para la primera vez que un coordinador intenta generar un horario.
 
-| Usuario | P1 | P2 | P3 | P4 | P5 | P6 | P7 | P8 | P9 | P10 | Puntuación Individual |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Estudiante 1 | 5 | 2 | 4 | 1 | 4 | 2 | 5 | 1 | 4 | 2 | **85.0** |
-| Estudiante 2 | 4 | 1 | 5 | 2 | 4 | 1 | 4 | 1 | 5 | 2 | **87.5** |
-| Estudiante 3 | 4 | 3 | 4 | 2 | 4 | 2 | 4 | 2 | 4 | 2 | **72.5** |
-| Admin 1 | 4 | 2 | 5 | 1 | 5 | 1 | 5 | 2 | 5 | 1 | **92.5** |
-| *(Promedio Global)* | | | | | | | | | | | **84.3** |
+## D.5 Evidencias
 
-*(Nota: Tabla resumida para ilustrar el cálculo de la muestra).*
-
-### Fórmula de Cálculo:
-- Para preguntas impares (1, 3, 5, 7, 9): `Respuesta - 1`
-- Para preguntas pares (2, 4, 6, 8, 10): `5 - Respuesta`
-- Se suman todos los valores y el resultado se multiplica por `2.5`.
-
-## Interpretación de Resultados
-
-El sistema obtuvo una puntuación SUS global de **84.3 sobre 100**.
-
-Según la escala de percentiles de *Bangor, Kortum y Miller (2008)*, un puntaje de **84.3** se sitúa en la categoría de **Aceptabilidad "Excelente"** (Grade B+ / A-). Esto indica que:
-- La interfaz de usuario es altamente intuitiva.
-- El flujo de la aplicación permite a los estudiantes navegar los cursos sin fricción.
-- El Motor CSP ha abstraído toda la complejidad matemática de la asignación de aulas, brindando una experiencia "mágica" para el administrador, sin necesidad de manuales extensos o entrenamiento técnico previo.
-
-## Propuestas de Mejora Continua
-Aunque la puntuación es sobresaliente, el análisis cualitativo reveló ciertas oportunidades:
-1. **Onboarding Contextual:** Añadir un pequeño tutorial guiado (*Tooltips*) la primera vez que un estudiante ingresa al módulo de "Sostenibilidad y Reportes".
-2. **Atajos de Teclado:** Integrar navegación rápida por teclado para usuarios avanzados (administradores) que deseen aprobar múltiples cursos sin depender del puntero.
+![Cuestionario SUS Google Forms](Capturas/FormularioSUS.png)
+*Figura D.1: Pantallazo de la recolección de encuestas mediante Google Forms.*

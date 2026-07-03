@@ -1,0 +1,4 @@
+﻿Component,Bugs,Vulnerabilities,Security Hotspots,Code Smells,Coverage,Duplicated Lines (%)
+frontend,4,0,2,316,45.6,19.2
+backend,0,0,1,77,61.7,1.6
+solver,2,0,2,38,69.8,0.5
