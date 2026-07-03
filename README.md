@@ -97,7 +97,7 @@ UniHorarios automatiza la generación de horarios mediante un **motor basado en 
 
 Demostración en video de las funcionalidades principales de UniHorarios:
 
-**[▶ Ver video del sistema (YouTube) - 5 minutos](https://youtube.com/tu-enlace-aqui)**
+**[▶ Ver video del sistema (YouTube) - 5 minutos](https://drive.google.com/file/d/15UNUEYMV5DT9Vv_D7odlEchsD-tn2FRH/view?usp=sharing)**
 
 > Asegúrate de configurar la calidad en 1080p para visualizar la interfaz gráfica correctamente.
 
