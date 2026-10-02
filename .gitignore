@@ -55,3 +55,7 @@ tests/
 new/
 scripts/
 skills-lock.json
+temp/
+temp_reference2/
+temp_reference_repo/
+reference_readme.md
